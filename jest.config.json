@@ -1,0 +1,17 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "collectCoverage": true,
+  "collectCoverageFrom": [
+    "**/*.ts"
+  ],
+  "coverageDirectory": "../coverage",
+  "restoreMocks": true,
+  "rootDir": "src",
+  "testRegex": ".spec.ts$",
+  "globals": {
+    "ts-jest": {
+      "tsConfig": "./tsconfig.json"
+    }
+  }
+}
