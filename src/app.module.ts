@@ -1,3 +1,4 @@
+import * as Joi from "@hapi/joi";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
@@ -6,14 +7,24 @@ import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
-import config from "./config/configuration";
-import { UsersModule } from "./users/users.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [config],
+      validationSchema: Joi.object({
+        PORT: Joi.number().default(3000),
+        DB_HOST: Joi.string().default("localhost"),
+        DB_PORT: Joi.number().default(5432),
+        DB_USER: Joi.string().default("postgres"),
+        DB_PASS: Joi.string().default("postgres"),
+        DB_NAME: Joi.string().default("postgres"),
+        DB_SYNC: Joi.boolean().default(false),
+        GOOGLE_CLIENT_ID: Joi.string().required(),
+        GOOGLE_CLIENT_SECRET: Joi.string().required(),
+        JWT_SECRET: Joi.string().required(),
+      }),
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "client", "build"),
@@ -21,18 +32,18 @@ import { UsersModule } from "./users/users.module";
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: "postgres",
-        host: configService.get<string>("db.host"),
-        port: configService.get<number>("db.port"),
-        username: configService.get<string>("db.user"),
-        password: configService.get<string>("db.pass"),
-        database: configService.get<string>("db.name"),
-        entities: [__dirname + "/**/*.entity.ts"],
-        synchronize: configService.get<boolean>("db.sync"),
+        host: configService.get<string>("DB_HOST"),
+        port: configService.get<number>("DB_PORT"),
+        username: configService.get<string>("DB_USER"),
+        password: configService.get<string>("DB_PASS"),
+        database: configService.get<string>("DB_NAME"),
+        entities: [__dirname + "/**/*.entity{.ts,.js}"],
+        synchronize: configService.get<boolean>("DB_SYNC"),
       }),
       inject: [ConfigService],
     }),
     AuthModule,
-    UsersModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
