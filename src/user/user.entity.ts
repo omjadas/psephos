@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { threadId } from "worker_threads";
 
 export enum UserRole {
   USER = "user",
@@ -12,10 +11,11 @@ export class User {
   public id!: number;
 
   @Column({
+    type: "varchar",
     nullable: true,
     unique: true,
   })
-  public googleId?: string;
+  public googleId!: string | null;
 
   @Column({
     type: "enum",
@@ -33,7 +33,8 @@ export class User {
   public email!: string;
 
   @Column({
+    type: "varchar",
     nullable: true,
   })
-  public password?: string;
+  public password!: string | null;
 }
