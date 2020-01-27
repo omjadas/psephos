@@ -1,12 +1,8 @@
-import { Controller, Get, Post, Req, UseGuards, Redirect, HttpStatus } from "@nestjs/common";
+import { Controller, Get, HttpStatus, Post, Redirect, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { CookieSettings, SetCookies } from "@nestjsplus/cookies";
-import { Request } from "express";
+import { SetCookies } from "@nestjsplus/cookies";
+import { Request } from "../interfaces/Request";
 import { AuthService } from "./auth.service";
-
-interface MyRequest extends Request {
-  _cookies: CookieSettings[],
-}
 
 @Controller("auth")
 export class AuthController {
@@ -22,12 +18,12 @@ export class AuthController {
   @Get("google/callback")
   @SetCookies()
   @UseGuards(AuthGuard("google"))
-  public async googleLoginCallback(@Req() req: MyRequest): Promise<any> {
+  public async googleLoginCallback(@Req() req: Request): Promise<any> {
     const jwt = await this.authService.login(req.user);
     req._cookies = [
       {
         name: "jwt",
-        value: JSON.stringify(jwt),
+        value: jwt,
         options: {
           httpOnly: true,
         },
@@ -39,12 +35,12 @@ export class AuthController {
   @Post("local")
   @SetCookies()
   @UseGuards(AuthGuard("local"))
-  public async signIn(@Req() req: MyRequest): Promise<any> {
+  public async signIn(@Req() req: Request): Promise<any> {
     const jwt = await this.authService.login(req.user);
     req._cookies = [
       {
         name: "jwt",
-        value: JSON.stringify(jwt),
+        value: jwt,
         options: {
           httpOnly: true,
         },

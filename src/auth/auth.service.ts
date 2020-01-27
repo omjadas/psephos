@@ -9,9 +9,7 @@ export class AuthService {
   public constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
 
   public async login(user: any): Promise<any> {
-    return {
-      access_token: this.jwtService.sign({ name: user.name, sub: user.userID }),
-    };
+    return this.jwtService.sign({ name: user.name, sub: user.userID });
   }
 
   public async validateUser(email: string, password: string): Promise<User | null> {
