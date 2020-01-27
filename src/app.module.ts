@@ -8,6 +8,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
+import { Response } from "express";
 
 @Module({
   imports: [
@@ -28,6 +29,16 @@ import { UserModule } from "./user/user.module";
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "client", "build"),
+      serveStaticOptions: {
+        cacheControl: true,
+        immutable: true,
+        maxAge: 31536000000,
+        setHeaders: (res: Response, path: string, _stat: any) => {
+          if (!path.startsWith("/app/client/build/static/")) {
+            res.setHeader("Cache-Control", "public, max-age=0");
+          }
+        },
+      },
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
