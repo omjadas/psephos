@@ -1,10 +1,10 @@
-import { Injectable, UnauthorizedException, BadRequestException } from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
-import { Strategy, Profile, VerifyCallback } from "passport-google-oauth20";
+import { Strategy, Profile  } from "passport-google-oauth20";
 import { AuthService } from "../auth.service";
-import { UserService } from "src/user/user.service";
-import { User } from "src/user/user.entity";
+import { UserService } from "../../user/user.service";
+import { User } from "../../user/user.entity";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
@@ -23,8 +23,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
       throw new BadRequestException();
     }
 
-    const users = await this.userService.find({ where: { googleId: profile.id } });
-    let user = users[0];
+    let user = await this.userService.findByProp("googleId", profile.id);
 
     if (user === undefined) {
       user = new User();
