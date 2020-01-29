@@ -26,4 +26,4 @@ import { LocalStrategy } from "./strategies/local.strategy";
   providers: [AuthService, GoogleStrategy, JwtStrategy, LocalStrategy],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }

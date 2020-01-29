@@ -9,8 +9,8 @@ import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
-import { UserModule } from "./user/user.module";
 import { NODE_ENV } from "./constants";
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { NODE_ENV } from "./constants";
       isGlobal: true,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
-          .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST,)
+          .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST)
           .default(NODE_ENV.DEVELOPMENT),
         PORT: Joi.number().default(3000),
         DB_HOST: Joi.string().default("localhost"),
