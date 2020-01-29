@@ -11,10 +11,10 @@ RUN npm run ci:all
 
 COPY . .
 
+ENV NODE_ENV=production
 RUN npm run build:all
 
 # Remove dependencies not needed to run the app
-ENV NODE_ENV=production
 RUN npm run prune:all
 
 FROM node:12-alpine

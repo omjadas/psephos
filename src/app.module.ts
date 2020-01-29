@@ -1,20 +1,25 @@
 import * as Joi from "@hapi/joi";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { GraphQLModule } from "@nestjs/graphql";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { Response } from "express";
 import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
-import { Response } from "express";
+import { NODE_ENV } from "./constants";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST,)
+          .default(NODE_ENV.DEVELOPMENT),
         PORT: Joi.number().default(3000),
         DB_HOST: Joi.string().default("localhost"),
         DB_PORT: Joi.number().default(5432),
@@ -39,6 +44,14 @@ import { Response } from "express";
           }
         },
       },
+    }),
+    GraphQLModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        autoSchemaFile: "schema.gql",
+        debug: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
+        playground: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({

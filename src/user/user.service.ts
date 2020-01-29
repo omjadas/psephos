@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, FindManyOptions, ObjectID } from "typeorm";
+import { Repository } from "typeorm";
 import { User } from "./user.entity";
 
 @Injectable()
@@ -9,12 +9,16 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
 
-  public find(options?: FindManyOptions): Promise<User[]> {
-    return this.userRepository.find(options);
+  public findById(id: number): Promise<User | undefined> {
+    return this.userRepository.findOne(id);
   }
 
-  public findOne(options: string | number | Date | ObjectID): Promise<User | undefined> {
-    return this.userRepository.findOne(options);
+  public findByProp(key: string, value: any): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { [key]: value } });
+  }
+
+  public findAll(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
   public save(user: User): Promise<User> {

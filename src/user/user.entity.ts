@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Field, Int, ObjectType } from "type-graphql";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 export enum UserRole {
   USER = "user",
@@ -6,8 +7,10 @@ export enum UserRole {
 }
 
 @Entity()
+@ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
+  @Field(_type => Int)
   public id!: number;
 
   @Column({
@@ -25,11 +28,13 @@ export class User {
   public role!: UserRole;
 
   @Column()
+  @Field()
   public name!: string;
 
   @Column({
     unique: true,
   })
+  @Field()
   public email!: string;
 
   @Column({
