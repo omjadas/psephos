@@ -15,5 +15,7 @@ jobs:
         node-version: 12.x
     - name: npm ci
       run: npm ci
-    - name: npm test
+    - name: server tests
       run: npm test
+    - name: frontend tests
+      run: cd client && npm test -- --coverage
