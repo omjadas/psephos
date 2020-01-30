@@ -14,7 +14,7 @@ export class User {
   public id!: number;
 
   @Column({
-    type: "varchar",
+    type: "text",
     nullable: true,
     unique: true,
   })
@@ -38,7 +38,7 @@ export class User {
   public email!: string;
 
   @Column({
-    type: "varchar",
+    type: "text",
     nullable: true,
   })
   public password!: string | null;
