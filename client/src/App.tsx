@@ -1,18 +1,18 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { Component } from "react";
+import { BrowserRouter, Switch } from "react-router-dom";
 import "./App.css";
-import { SignIn } from "./signIn/SignIn";
+import { Header } from "./header/header";
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/signin" component={SignIn} />
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
-};
-
-export default App;
+export class App extends Component {
+  public render(): JSX.Element {
+    return (
+      <div className="App">
+        <Header />
+        <BrowserRouter>
+          <Switch>
+          </Switch>
+        </BrowserRouter>
+      </div>
+    );
+  }
+}
