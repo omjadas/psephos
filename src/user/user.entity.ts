@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Election } from "../election/election.entity";
 
 export enum UserRole {
   USER = "user",
@@ -42,4 +43,8 @@ export class User {
     nullable: true,
   })
   public password!: string | null;
+
+  @ManyToMany(_type => Election)
+  @JoinTable()
+  public elections!: Election[];
 }
