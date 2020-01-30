@@ -18,7 +18,6 @@ export class Header extends Component<any, State> {
   }
 
   private setModalShow(show: boolean): void {
-    console.log("set");
     this.setState({ modalShow: show });
   }
 
