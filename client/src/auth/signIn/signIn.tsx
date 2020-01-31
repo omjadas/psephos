@@ -1,5 +1,7 @@
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Button, Form, Modal, Tab, FormControl } from "react-bootstrap";
+import { Button, Form, Modal, Tab } from "react-bootstrap";
 
 export const SignIn = (_props: any): JSX.Element => {
   const [email, setEmail] = useState("");
@@ -46,7 +48,10 @@ export const SignIn = (_props: any): JSX.Element => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="submit">
+          <Button className="mr-auto" href="/auth/google">
+            <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
+          </Button>
+          <Button type="submit" variant="success">
             Sign In
           </Button>
         </Modal.Footer>
