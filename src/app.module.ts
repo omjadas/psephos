@@ -1,5 +1,5 @@
 import * as Joi from "@hapi/joi";
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ServeStaticModule } from "@nestjs/serve-static";
@@ -10,6 +10,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { NODE_ENV } from "./constants";
+import { CSRFMiddleware } from "./middleware/csrf.middleware";
 import { UserModule } from "./user/user.module";
 
 @Module({
@@ -72,4 +73,10 @@ import { UserModule } from "./user/user.module";
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  public configure(consumer: MiddlewareConsumer): void {
+    consumer
+      .apply(CSRFMiddleware)
+      .forRoutes("*");
+  }
+}
