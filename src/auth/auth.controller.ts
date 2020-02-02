@@ -1,8 +1,8 @@
 import { Body, Controller, Get, HttpStatus, Post, Redirect, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ClearCookies, SetCookies } from "@nestjsplus/cookies";
-import { RegisterUserDTO } from "src/user/dto/registerUser.dto";
 import { Request } from "../interfaces/Request";
+import { RegisterUserDTO } from "../user/dto/registerUser.dto";
 import { AuthService } from "./auth.service";
 
 @Controller("auth")
