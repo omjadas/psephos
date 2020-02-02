@@ -27,9 +27,9 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: server-cov
-        path: /coverage
+        path: coverage
     - name: upload frontend coverage
       uses: actions/upload-artifact@v1
       with:
         name: client-cov
-        path: /client/coverage
+        path: client/coverage
