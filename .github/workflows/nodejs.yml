@@ -22,4 +22,14 @@ jobs:
     - name: server tests
       run: npm test
     - name: frontend tests
-      run: cd client && npm test -- --coverage
+      run: cd client && npm test
+    - name: upload server coverage
+      uses: actions/upload-artifact@v1
+      with:
+        name: server-cov
+        path: /coverage
+    - name: upload frontend coverage
+      uses: actions/upload-artifact@v1
+      with:
+        name: client-cov
+        path: /client/coverage
