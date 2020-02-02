@@ -49,6 +49,7 @@ import { UserModule } from "./user/user.module";
     GraphQLModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         autoSchemaFile: "schema.gql",
+        context: ({ req }) => ({ req }),
         debug: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
         playground: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
       }),
