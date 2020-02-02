@@ -1,6 +1,8 @@
-FROM node:12 as build
+FROM node:12-alpine as build
 
 WORKDIR /app
+
+RUN apk --no-cache add --virtual builds-deps build-base python
 
 # Copy package*.json files to correct locations
 COPY /package*.json ./
@@ -8,6 +10,7 @@ COPY /client/package*.json ./client/
 
 # Install all dependencies needed for building
 RUN npm run ci:all
+RUN npm rebuild bcrypt --build-from-source
 
 COPY . .
 
