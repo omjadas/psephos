@@ -18,5 +18,6 @@ export class Candidate {
   public description!: string;
 
   @ManyToOne(_type => Election, election => election.candidates)
+  @Field(_type => Election)
   public election!: Election;
 }

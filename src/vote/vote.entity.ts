@@ -10,5 +10,6 @@ export class Vote {
   public id!: number;
 
   @ManyToOne(_type => Election, election => election.votes)
+  @Field(_type => Election)
   public election!: Election;
 }

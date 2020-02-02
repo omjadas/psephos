@@ -19,8 +19,10 @@ export class Election {
   public description!: string;
 
   @OneToMany(_type => Candidate, candidate => candidate.election)
+  @Field(_type => [Candidate])
   public candidates!: Candidate[];
 
   @OneToMany(_type => Vote, vote => vote.election)
+  @Field(_type => [Vote])
   public votes!: Vote[];
 }

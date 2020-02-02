@@ -46,6 +46,7 @@ export class User {
 
   @ManyToMany(_type => Election)
   @JoinTable()
+  @Field(_type => [Election])
   public elections!: Election[];
 
   @Column({
