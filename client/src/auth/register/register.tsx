@@ -2,12 +2,14 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 
 export const Register = (_props: any): JSX.Element => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [cookies, , ] = useCookies([]);
 
   const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
     set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
@@ -15,6 +17,23 @@ export const Register = (_props: any): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    if (password1 === password2) {
+      fetch("/auth/register", {
+        method: "post",
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password1,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "CSRF-TOKEN": cookies["CSRF-TOKEN"],
+        },
+      }).then()
+        .catch();
+    } else {
+      console.error("passwords do not match");
+    }
   };
 
   return (
