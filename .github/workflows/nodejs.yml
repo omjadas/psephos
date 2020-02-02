@@ -14,7 +14,7 @@ jobs:
       with:
         node-version: 12.x
     - name: npm ci
-      run: npm ci
+      run: npm run ci:all
     - name: server tests
       run: npm test
     - name: frontend tests
