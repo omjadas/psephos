@@ -47,4 +47,9 @@ export class User {
   @ManyToMany(_type => Election)
   @JoinTable()
   public elections!: Election[];
+
+  @Column({
+    default: false,
+  })
+  public confirmed!: boolean;
 }
