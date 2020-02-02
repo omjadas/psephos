@@ -1,6 +1,6 @@
-# electionSimulator
+# psephos
 
-[![Actions Status](https://github.com/omjadas/electionSimulator/workflows/Node%20CI/badge.svg)](https://github.com/omjadas/electionSimulator/actions)
+![Node CI](https://github.com/omjadas/psephos/workflows/Node%20CI/badge.svg?branch=master)
 
 ## Installation
 

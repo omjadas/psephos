@@ -2,6 +2,10 @@ name: Node CI
 
 on: [push]
 
+env:
+  CI: true
+  NODE_ENV: test
+
 jobs:
   build:
 
@@ -14,6 +18,18 @@ jobs:
       with:
         node-version: 12.x
     - name: npm ci
-      run: npm ci
-    - name: npm test
+      run: npm run ci:all
+    - name: server tests
       run: npm test
+    - name: frontend tests
+      run: cd client && npm test
+    - name: upload server coverage
+      uses: actions/upload-artifact@v1
+      with:
+        name: server-cov
+        path: coverage
+    - name: upload frontend coverage
+      uses: actions/upload-artifact@v1
+      with:
+        name: client-cov
+        path: client/coverage

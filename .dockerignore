@@ -1,0 +1,9 @@
+**/node_modules
+**/npm-debug.log*
+/dist
+/client/build
+/coverage
+**/.DS_Store
+.vscode
+.env
+.git
