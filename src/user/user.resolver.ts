@@ -33,7 +33,6 @@ export class UserResolver {
   }
 
   @ResolveProperty()
-  @UseGuards(GqlAuthGuard)
   public email(@CurrentUser() user: User, @Parent() parent: User): string {
     if (user.id === parent.id) {
       return parent.email;
