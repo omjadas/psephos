@@ -1,5 +1,5 @@
-import { NotFoundException, UseGuards } from "@nestjs/common";
-import { Args, Query, Resolver } from "@nestjs/graphql";
+import { NotFoundException, UnauthorizedException, UseGuards } from "@nestjs/common";
+import { Args, Parent, Query, ResolveProperty, Resolver } from "@nestjs/graphql";
 import { Int } from "type-graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { CurrentUser } from "./decorators/currentUser";
@@ -30,5 +30,15 @@ export class UserResolver {
       throw new NotFoundException();
     }
     return user2;
+  }
+
+  @ResolveProperty()
+  @UseGuards(GqlAuthGuard)
+  public email(@CurrentUser() user: User, @Parent() parent: User): string {
+    if (user.id === parent.id) {
+      return parent.email;
+    } else {
+      throw new UnauthorizedException();
+    }
   }
 }
