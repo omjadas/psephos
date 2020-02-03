@@ -1,8 +1,8 @@
 import { Field, Int, ObjectType } from "type-graphql";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
+import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
-import { User } from "src/user/user.entity";
 
 @Entity()
 @ObjectType()
