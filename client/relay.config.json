@@ -2,5 +2,6 @@
   "schema": "../schema.gql",
   "src": "./src",
   "exclude": ["**/node_modules/**", "**/__mocks__/**", "**/__generated__/**"],
-  "extensions": ["js", "jsx", "ts", "tsx"]
+  "extensions": ["js", "jsx", "ts", "tsx"],
+  "language": "typescript"
 }

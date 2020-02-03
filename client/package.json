@@ -20,6 +20,7 @@
     "@types/relay-runtime": "^8.0.3",
     "babel-plugin-relay": "^8.0.0",
     "bootstrap": "^4.4.1",
+    "eslint-plugin-relay": "^1.5.0",
     "graphql": "^14.6.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -29,11 +30,12 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.1",
     "relay-compiler": "^8.0.0",
+    "relay-compiler-language-typescript": "^10.1.4",
     "relay-config": "^8.0.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build": "react-scripts build",
+    "build": "npm run relay && react-scripts build",
     "eject": "react-scripts eject",
     "relay": "relay-compiler",
     "start": "react-scripts start",
