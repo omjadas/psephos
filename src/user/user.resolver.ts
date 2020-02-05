@@ -14,7 +14,7 @@ export class UserResolver {
 
   @Query(_returns => User, { name: "user" })
   @UseGuards(GqlAuthGuard)
-  public async getUser(@Args({ name: "id", type: () => Int }) id: number): Promise<User> {
+  public async getUser(@Args({ name: "id", type: () => Int }) id: string): Promise<User> {
     const user = await this.userService.findById(id);
     if (user === undefined) {
       throw new NotFoundException();

@@ -1,5 +1,5 @@
-import { Field, Int, ObjectType } from "type-graphql";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Field, ObjectType } from "type-graphql";
+import { Column, Entity, Generated, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
@@ -8,8 +8,12 @@ import { Vote } from "../vote/vote.entity";
 @ObjectType()
 export class Election {
   @PrimaryGeneratedColumn()
-  @Field(_type => Int)
-  public id!: number;
+  public pk!: number;
+
+  @Column()
+  @Generated("uuid")
+  @Field()
+  public id!: string;
 
   @Column()
   @Field()

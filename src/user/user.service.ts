@@ -9,8 +9,8 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
 
-  public findById(id: number): Promise<User | undefined> {
-    return this.userRepository.findOne(id);
+  public findById(id: string): Promise<User | undefined> {
+    return this.findByProp("id", id);
   }
 
   public findByProp(key: string, value: any): Promise<User | undefined> {
