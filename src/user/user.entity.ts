@@ -16,12 +16,8 @@ export class User {
 
   @Column()
   @Generated("uuid")
+  @Field(_type => String, { name: "id" })
   public uuid!: string;
-
-  @Field(_type => ID)
-  public get id(): string {
-    return toGlobalId(USER, this.uuid);
-  }
 
   @Column({
     type: "varchar",
