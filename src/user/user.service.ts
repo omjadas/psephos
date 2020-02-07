@@ -10,7 +10,7 @@ export class UserService {
   ) { }
 
   public findById(id: string): Promise<User | undefined> {
-    return this.findByProp("id", id);
+    return this.findByProp("uuid", id);
   }
 
   public findByProp(key: string, value: any): Promise<User | undefined> {

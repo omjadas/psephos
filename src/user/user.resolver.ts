@@ -25,7 +25,7 @@ export class UserResolver {
   @Query(_returns => User, { name: "me" })
   @UseGuards(GqlAuthGuard)
   public async getCurrentUser(@CurrentUser() user: User): Promise<User> {
-    const user2 = await this.userService.findById(user.id);
+    const user2 = await this.userService.findById(user.uuid);
     if (user2 === undefined) {
       throw new NotFoundException();
     }
@@ -34,7 +34,7 @@ export class UserResolver {
 
   @ResolveProperty()
   public email(@CurrentUser() user: User, @Parent() parent: User): string {
-    if (user.id === parent.id) {
+    if (user.uuid === parent.uuid) {
       return parent.email;
     } else {
       throw new UnauthorizedException();

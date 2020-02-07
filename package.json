@@ -45,7 +45,6 @@
     "cookie-parser": "^1.4.4",
     "csurf": "^1.11.0",
     "graphql": "^14.6.0",
-    "graphql-relay": "^0.6.0",
     "graphql-tag-pluck": "^0.8.7",
     "graphql-tools": "^4.0.6",
     "helmet": "^3.21.2",

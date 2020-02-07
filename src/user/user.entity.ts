@@ -1,5 +1,6 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { Column, Entity, Generated, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { USER } from "../constants";
 import { Election } from "../election/election.entity";
 
 export enum UserRole {
@@ -15,8 +16,12 @@ export class User {
 
   @Column()
   @Generated("uuid")
-  @Field()
-  public id!: string;
+  public uuid!: string;
+
+  @Field(_type => ID)
+  public get id(): string {
+    return toGlobalId(USER, this.uuid);
+  }
 
   @Column({
     type: "varchar",
