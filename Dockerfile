@@ -24,8 +24,8 @@ FROM node:12-alpine
 
 WORKDIR /app
 
-COPY --from=build /app/package*.json ./
-COPY --from=build /app/client/package*.json ./client/
+COPY --from=build /app/package.json ./
+COPY --from=build /app/client/package.json ./client/
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/client/build ./client/build
 COPY --from=build /app/node_modules ./node_modules

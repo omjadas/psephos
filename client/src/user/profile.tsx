@@ -1,33 +1,31 @@
-import { graphql } from "babel-plugin-relay/macro";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 import React from "react";
-import { QueryRenderer } from "react-relay";
-import { environment } from "../relay";
+
+const ME = gql`
+  {
+    me {
+      id
+      name
+      email
+    }
+  }
+`;
 
 export const Profile = (_props: any): JSX.Element => {
+  const { loading, error, data } = useQuery(ME);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error</div>;
+  }
+
   return (
-    <QueryRenderer
-      environment={environment}
-      query={graphql`
-        query profileQuery {
-          me {
-            id
-            name
-            email
-          }
-        }
-      `}
-      variables={{}}
-      render={({ error, props }) => {
-        console.log(error);
-        console.log(props);
-        if (error) {
-          return <div>Error!</div>;
-        }
-        if (!props) {
-          return <div>Loading...</div>;
-        }
-        return (<div>User ID: {(props as any).me.id}</div>);
-      }}
-    />
+    <div>
+      User ID: {data.me.id}
+    </div>
   );
 };
