@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, ObjectType, ID } from "type-graphql";
 import { Column, Entity, Generated, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
@@ -12,8 +12,8 @@ export class Election {
 
   @Column()
   @Generated("uuid")
-  @Field()
-  public id!: string;
+  @Field(_type => ID, { name: "id" })
+  public uuid!: string;
 
   @Column()
   @Field()
