@@ -20,7 +20,7 @@ import { UserModule } from "./user/user.module";
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST)
-          .default(NODE_ENV.DEVELOPMENT),
+          .default(NODE_ENV.PRODUCTION),
         PORT: Joi.number().default(3000),
         DB_HOST: Joi.string().default("localhost"),
         DB_PORT: Joi.number().default(5432),
