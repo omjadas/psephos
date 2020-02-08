@@ -9,6 +9,7 @@
 .env
 .env.example
 .git
+.github
 docker-compose.yml
 Dockerfile
 LICENSE
