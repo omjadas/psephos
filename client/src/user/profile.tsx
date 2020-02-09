@@ -3,7 +3,7 @@ import { gql } from "apollo-boost";
 import React from "react";
 
 const ME = gql`
-  {
+  query ME {
     me {
       id
       name
