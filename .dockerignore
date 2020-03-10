@@ -2,8 +2,15 @@
 **/npm-debug.log*
 /dist
 /client/build
-/coverage
+**/coverage
 **/.DS_Store
+**/.gitignore
 .vscode
 .env
+.env.example
 .git
+.github
+docker-compose.yml
+Dockerfile
+LICENSE
+**/README.md

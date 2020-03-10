@@ -36,9 +36,7 @@ export class AuthController {
   @Post("register")
   @SetCookies()
   public async register(@Req() req: Request, @Body() body: RegisterUserDTO): Promise<any> {
-    console.log(body);
     const jwt = await this.authService.register(body.name, body.email, body.password);
-    console.log(jwt);
     req._cookies = [
       {
         name: "jwt",
