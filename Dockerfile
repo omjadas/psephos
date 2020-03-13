@@ -14,7 +14,7 @@ RUN npm rebuild bcrypt --build-from-source
 
 COPY . .
 
-ENV NODE_ENV=production
+ENV NODE_ENV production
 RUN npm run build:all
 
 # Remove dependencies not needed to run the app
@@ -29,7 +29,7 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/client/build ./client/build
 COPY --from=build /app/node_modules ./node_modules
 
-ENV NODE_ENV=production
+ENV NODE_ENV production
 ENV PORT 80
 EXPOSE 80
 
