@@ -1,5 +1,8 @@
-import { createParamDecorator } from "@nestjs/common";
+import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { Request } from "../../interfaces/Request";
 
 export const CurrentUser = createParamDecorator(
-  (_data, [_root, _args, ctx, _info]) => ctx?.req?.user,
+  (_data: unknown, ctx: ExecutionContext) => {
+    return ctx.getArgByIndex(2).req?.user;
+  },
 );

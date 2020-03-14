@@ -1,7 +1,9 @@
 version: "3.7"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     image: psephos:latest
     ports:
       - "8000:80"
@@ -14,6 +16,8 @@ services:
       DB_PASS: postgres
     depends_on:
       - postgres
+    volumes:
+      - ./src:/app/src
     restart: unless-stopped
   postgres:
     image: postgres:12-alpine

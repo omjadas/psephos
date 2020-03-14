@@ -1,0 +1,23 @@
+FROM node:12-alpine
+
+WORKDIR /app
+
+RUN apk --no-cache add --virtual builds-deps build-base python
+
+# Copy package*.json files to correct locations
+COPY /package*.json ./
+COPY /client/package*.json ./client/
+
+# Install all dependencies needed for building
+RUN npm run ci:all
+RUN npm rebuild bcrypt --build-from-source
+
+COPY . .
+
+ENV NODE_ENV production
+RUN npm run build:client
+
+ENV PORT 80
+EXPOSE 80
+
+CMD [ "npm", "run", "start:dev" ]
