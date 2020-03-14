@@ -29,7 +29,7 @@
     "test:e2e": "jest --config ./test/jest.e2e.config.json"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.0",
+    "@hapi/joi": "^17.1.1",
     "@nestjs/common": "^7.0.1",
     "@nestjs/config": "^0.3.0",
     "@nestjs/core": "^7.0.1",
