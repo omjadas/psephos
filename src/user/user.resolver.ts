@@ -32,7 +32,12 @@ export class UserResolver {
   }
 
   @ResolveField()
-  public email(@CurrentUser() user: User, @Parent() parent: User): string {
+  public id(@Parent() parent: User): string {
+    return parent.uuid;
+  }
+
+  @ResolveField()
+  public email(@CurrentUser() user: User, @Parent() parent: User): string | null {
     if (user.uuid === parent.uuid) {
       return parent.email;
     } else {
