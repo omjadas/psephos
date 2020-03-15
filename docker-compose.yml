@@ -1,10 +1,10 @@
 version: "3.7"
 services:
-  web:
+  server:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    image: psephos:latest
+      dockerfile: Dockerfile.dev-server
+    image: psephos:lateshhht
     ports:
       - "8000:80"
     env_file:
@@ -16,11 +16,26 @@ services:
       DB_PASS: postgres
     depends_on:
       - postgres
+      - client
     volumes:
       - ./src:/app/src
+      - ./schema.gql:/app/schema.gql
+      - client:/app/client/build
     restart: unless-stopped
+  
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev-client
+    volumes:
+      - ./client/src:/app/src
+      - client:/app/build
+
   postgres:
     image: postgres:12-alpine
     environment:
       POSTGRES_PASSWORD: postgres
     restart: unless-stopped
+
+volumes:
+  client:
