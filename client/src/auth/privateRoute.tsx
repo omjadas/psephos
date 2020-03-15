@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, RouteProps } from "react-router-dom";
 
 const ME = gql`
   query ME {
@@ -11,7 +11,7 @@ const ME = gql`
   }
 `;
 
-export const PrivateRoute = ({ children, ...rest }: { children: any }): JSX.Element => {
+export const PrivateRoute = ({ children, ...rest }: RouteProps): JSX.Element => {
   const { loading, error, data } = useQuery(ME);
 
   if (loading) {
