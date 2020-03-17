@@ -3,8 +3,8 @@ import { gql } from "apollo-boost";
 import React from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 
-const ME = gql`
-  query ME {
+const ME_ROUTE = gql`
+  query ME_ROUTE {
     me {
       id
     }
@@ -12,7 +12,7 @@ const ME = gql`
 `;
 
 export const PrivateRoute = ({ children, ...rest }: RouteProps): JSX.Element => {
-  const { loading, error, data } = useQuery(ME);
+  const { loading, error, data } = useQuery(ME_ROUTE);
 
   if (loading) {
     return <></>;
