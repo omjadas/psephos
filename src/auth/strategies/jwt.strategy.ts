@@ -17,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
 
   private static cookieExtractor(req: Request): string | null {
     let token: string | null = null;
-    if (req?.cookies) {
+    if (req.cookies) {
       token = req.cookies["jwt"];
     }
     return token;
