@@ -12,24 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - name: npm ci
-      run: npm run ci:all
-    - name: server tests
-      run: npm test
-    - name: frontend tests
-      run: cd client && npm test
-    - name: upload server coverage
-      uses: actions/upload-artifact@v1
-      with:
-        name: server-cov
-        path: coverage
-    - name: upload frontend coverage
-      uses: actions/upload-artifact@v1
-      with:
-        name: client-cov
-        path: client/coverage
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: npm ci
+        run: npm run ci:all
+      - name: npm build
+        run: npm run build:all
+      - name: server tests
+        run: npm test
+      - name: frontend tests
+        run: cd client && npm test
+      - name: upload server coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: server-cov
+          path: coverage
+      - name: upload frontend coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: client-cov
+          path: client/coverage
