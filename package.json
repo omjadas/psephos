@@ -13,6 +13,7 @@
     "build": "nest build",
     "build:all": "npm run build && cd client && npm run build",
     "build:client": "cd client && npm run build",
+    "build:schema": "ts-node-script ./scripts/schema.ts",
     "ci:all": "npm ci && cd client && npm ci",
     "ci:client": "cd client && npm ci",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
