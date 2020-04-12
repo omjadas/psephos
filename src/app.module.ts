@@ -47,25 +47,29 @@ import { UserModule } from "./user/user.module";
       },
     }),
     GraphQLModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        autoSchemaFile: "schema.gql",
-        context: ({ req }) => ({ req }),
-        debug: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
-        playground: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
-      }),
+      useFactory: (configService: ConfigService) => {
+        return {
+          autoSchemaFile: "schema.gql",
+          context: ({ req }) => ({ req }),
+          debug: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
+          playground: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
+        };
+      },
       inject: [ConfigService],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        type: "postgres",
-        host: configService.get<string>("DB_HOST"),
-        port: configService.get<number>("DB_PORT"),
-        username: configService.get<string>("DB_USER"),
-        password: configService.get<string>("DB_PASS"),
-        database: configService.get<string>("DB_NAME"),
-        entities: [__dirname + "/**/*.entity{.ts,.js}"],
-        synchronize: configService.get<boolean>("DB_SYNC"),
-      }),
+      useFactory: (configService: ConfigService) => {
+        return {
+          type: "postgres",
+          host: configService.get<string>("DB_HOST"),
+          port: configService.get<number>("DB_PORT"),
+          username: configService.get<string>("DB_USER"),
+          password: configService.get<string>("DB_PASS"),
+          database: configService.get<string>("DB_NAME"),
+          entities: [__dirname + "/**/*.entity{.ts,.js}"],
+          synchronize: configService.get<boolean>("DB_SYNC"),
+        };
+      },
       inject: [ConfigService],
     }),
     AuthModule,
