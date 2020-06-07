@@ -2,7 +2,7 @@ FROM node:12-alpine as build
 
 WORKDIR /app
 
-RUN apk --no-cache add --virtual builds-deps build-base python
+RUN apk --no-cache add --virtual builds-deps build-base python git
 
 # Copy package*.json files to correct locations
 COPY /package*.json ./
