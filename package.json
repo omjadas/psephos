@@ -50,7 +50,7 @@
     "csurf": "^1.11.0",
     "graphql": "^14.6.0",
     "graphql-tag-pluck": "^0.8.7",
-    "graphql-tools": "^6.0.7",
+    "graphql-tools": "^6.0.8",
     "helmet": "^3.22.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
