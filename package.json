@@ -48,7 +48,7 @@
     "class-validator": "^0.12.2",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
-    "graphql": "^14.6.0",
+    "graphql": "^14.7.0",
     "graphql-tag-pluck": "^0.8.7",
     "graphql-tools": "^6.0.12",
     "helmet": "^3.23.3",
