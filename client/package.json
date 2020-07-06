@@ -22,7 +22,7 @@
     "cra-build-watch": "github:Nargonath/cra-build-watch#cc18f98f74571d321227c8d8351f3fa37d09362b",
     "graphql": "^14.7.0",
     "react": "^16.13.1",
-    "react-bootstrap": "^1.0.1",
+    "react-bootstrap": "^1.1.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
