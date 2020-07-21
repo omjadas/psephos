@@ -16,7 +16,7 @@ export const App = (_props: any): JSX.Element => {
           <Switch>
             <PrivateRoute exact path="/profile">
               <Profile />
-            </PrivateRoute> 
+            </PrivateRoute>
           </Switch>
         </BrowserRouter>
       </div>

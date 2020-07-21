@@ -1,7 +1,7 @@
 import React from "react";
-import { Modal, Tab, Nav } from "react-bootstrap";
-import { SignIn } from "./signIn/signIn";
+import { Modal, Nav, Tab } from "react-bootstrap";
 import { Register } from "./register/register";
+import { SignIn } from "./signIn/signIn";
 
 export interface AuthProps {
   show: boolean,
