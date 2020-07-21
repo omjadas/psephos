@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev-server
+    ports:
+      - "8000:80"
+    depends_on:
+      - client
+    env_file:
+      - ".env"
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_NAME: postgres
+      DB_PASS: postgres
+    volumes:
+      - ./src:/app/src
+      - ./schema.gql:/app/schema.gql
+      - client:/app/client/build
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev-client
+    volumes:
+      - ./client/src:/app/src
+      - client:/app/build
+
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: postgres
+
+volumes:
+  client:
