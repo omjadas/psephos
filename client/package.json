@@ -11,7 +11,7 @@
     "@testing-library/react": "^10.4.7",
     "@testing-library/user-event": "^12.0.14",
     "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.52",
+    "@types/node": "^12.12.53",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "@types/react-relay": "^7.0.8",
