@@ -81,7 +81,7 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-jest": "^23.20.0",
     "jest": "^26.2.2",
     "prettier": "^2.0.5",
