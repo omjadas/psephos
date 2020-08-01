@@ -83,7 +83,7 @@
     "@typescript-eslint/parser": "^2.34.0",
     "eslint": "^7.5.0",
     "eslint-plugin-jest": "^23.20.0",
-    "jest": "^26.2.1",
+    "jest": "^26.2.2",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",
     "ts-jest": "^26.1.4",
