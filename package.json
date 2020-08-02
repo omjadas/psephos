@@ -51,7 +51,7 @@
     "graphql": "^14.7.0",
     "graphql-tag-pluck": "^0.8.7",
     "graphql-tools": "^6.0.15",
-    "helmet": "^3.23.3",
+    "helmet": "^4.0.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.0",
