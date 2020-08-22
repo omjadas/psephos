@@ -10,6 +10,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { NODE_ENV } from "./constants";
+import { ElectionModule } from "./election/election.module";
 import { CSRFMiddleware } from "./middleware/csrf.middleware";
 import { UserModule } from "./user/user.module";
 
@@ -73,6 +74,7 @@ import { UserModule } from "./user/user.module";
       inject: [ConfigService],
     }),
     AuthModule,
+    ElectionModule,
     UserModule,
   ],
   controllers: [AppController],
