@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, Generated, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Election } from "../election/election.entity";
 
 export enum UserRole {
@@ -10,13 +10,9 @@ export enum UserRole {
 @Entity()
 @ObjectType()
 export class User {
-  @PrimaryGeneratedColumn()
-  public pk!: number;
-
-  @Column()
-  @Generated("uuid")
-  @Field(_type => ID, { name: "id" })
-  public uuid!: string;
+  @PrimaryGeneratedColumn("uuid")
+  @Field(_type => ID)
+  public id!: string;
 
   @Column({
     type: "varchar",

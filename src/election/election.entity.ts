@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, Generated, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
@@ -7,17 +7,17 @@ import { Vote } from "../vote/vote.entity";
 @Entity()
 @ObjectType()
 export class Election {
-  @PrimaryGeneratedColumn()
-  public pk!: number;
-
-  @Column()
-  @Generated("uuid")
-  @Field(_type => ID, { name: "id" })
-  public uuid!: string;
+  @PrimaryGeneratedColumn("uuid")
+  @Field(_type => ID)
+  public id!: string;
 
   @Column()
   @Field()
   public name!: string;
+
+  @Column()
+  @Field()
+  public slug!: string;
 
   @ManyToOne(_type => User)
   @Field(_type => User)

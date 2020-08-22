@@ -1,17 +1,13 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, Generated, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Election } from "../election/election.entity";
 
 @Entity()
 @ObjectType()
 export class Candidate {
-  @PrimaryGeneratedColumn()
-  public pk!: number;
-
-  @Column()
-  @Generated("uuid")
-  @Field(_type => ID, { name: "id" })
-  public uuid!: string;
+  @PrimaryGeneratedColumn("uuid")
+  @Field(_type => ID)
+  public id!: string;
 
   @Column()
   @Field()

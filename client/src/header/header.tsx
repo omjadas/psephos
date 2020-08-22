@@ -19,7 +19,7 @@ export const Header = (_props: any): JSX.Element => {
         fetch("/auth/signout", {
           method: "post"
         }).then(() => {
-          client.resetStore()
+          client.resetStore();
         }).catch();
       }}
     >Sign Out</Button>
