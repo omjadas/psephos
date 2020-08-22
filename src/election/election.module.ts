@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
-import { ElectionService } from "./election.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Election } from "./election.entity";
-import { UserResolver } from "src/user/user.resolver";
+import { ElectionResolver } from "./election.resolver";
+import { ElectionService } from "./election.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Election])],
-  providers: [ElectionService, UserResolver],
+  providers: [ElectionService, ElectionResolver],
 })
-export class ElectionModule {}
+export class ElectionModule { }

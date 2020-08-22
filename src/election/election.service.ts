@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Election } from "./election.entity";
 import { Repository } from "typeorm";
+import { Election } from "./election.entity";
 
 @Injectable()
 export class ElectionService {
