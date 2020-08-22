@@ -2,9 +2,9 @@
 
 import { NestFactory } from "@nestjs/core";
 import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from "@nestjs/graphql";
+import fs from "fs";
 import { printSchema } from "graphql";
 import { UserResolver } from "../src/user/user.resolver";
-import fs from "fs";
 
 const OUTPUT = "schema.gql";
 

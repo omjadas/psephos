@@ -3,8 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { client } from "../../apollo";
 
-export const Register = (_props: any): JSX.Element => {
+interface Props {
+  onHide: () => any,
+}
+
+export const Register = (props: Props): JSX.Element => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
@@ -29,8 +34,12 @@ export const Register = (_props: any): JSX.Element => {
           "Content-Type": "application/json",
           "CSRF-TOKEN": cookies["CSRF-TOKEN"],
         },
-      }).then()
-        .catch();
+      }).then(res => {
+        if (res.status === 200) {
+          props.onHide();
+          return client.resetStore();
+        }
+      }).catch();
     } else {
       console.error("passwords do not match");
     }

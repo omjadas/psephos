@@ -24,8 +24,8 @@ export const Auth = (props: AuthProps): JSX.Element => {
             </Nav>
           </Modal.Header>
           <Tab.Content>
-            <SignIn />
-            <Register />
+            <SignIn onHide={props.onHide} />
+            <Register onHide={props.onHide} />
           </Tab.Content>
         </Tab.Container>
       </Modal>

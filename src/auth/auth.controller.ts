@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Redirect, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Redirect, Req, UseGuards, HttpCode } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ClearCookies, SetCookies } from "@nestjsplus/cookies";
 import { Request } from "../interfaces/Request";
@@ -32,8 +32,8 @@ export class AuthController {
     ];
   }
 
-  @Redirect("/", HttpStatus.FOUND)
   @Post("register")
+  @HttpCode(200)
   @SetCookies()
   public async register(@Req() req: Request, @Body() body: RegisterUserDTO): Promise<any> {
     const jwt = await this.authService.register(body.name, body.email, body.password);
@@ -48,8 +48,8 @@ export class AuthController {
     ];
   }
 
-  @Redirect("/", HttpStatus.FOUND)
   @Post("local")
+  @HttpCode(200)
   @SetCookies()
   @UseGuards(AuthGuard("local"))
   public async signIn(@Req() req: Request): Promise<any> {
@@ -66,6 +66,7 @@ export class AuthController {
   }
 
   @ClearCookies("jwt")
-  @Get("signout")
+  @HttpCode(200)
+  @Post("signout")
   public async signOut(): Promise<void> { }
 }

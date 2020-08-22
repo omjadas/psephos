@@ -1,5 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
+import { gql, useQuery } from "@apollo/client";
 import React from "react";
 
 const ME = gql`
