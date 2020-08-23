@@ -3,9 +3,9 @@ import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { client } from "./apollo";
 import "./App.css";
-import { PrivateRoute } from "./auth/privateRoute";
-import { Header } from "./header/header";
-import { Profile } from "./user/profile";
+import { PrivateRoute } from "./components/auth/privateRoute";
+import { Header } from "./components/header/header";
+import { Profile } from "./components/user/profile";
 
 export const App = (_props: any): JSX.Element => {
   return (

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
-import { client } from "../../apollo";
+import { client } from "../../../apollo";
 
 interface Props {
   onHide: () => any,

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form, Navbar } from "react-bootstrap";
+import { client } from "../../apollo";
+import { useLoginStatus } from "../../hooks/loggedIn";
 import { Auth } from "../auth/auth";
-import { useLoginStatus } from "../hooks/loggedIn";
-import { client } from "../apollo";
 
 export const Header = (_props: any): JSX.Element => {
   const [modalShow, setModalShow] = useState(false);

@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { useLoginStatus } from "../hooks/loggedIn";
+import { useLoginStatus } from "../../hooks/loggedIn";
 
 export const PrivateRoute = ({ children, ...rest }: RouteProps): JSX.Element => {
   const loggedIn = useLoginStatus();
