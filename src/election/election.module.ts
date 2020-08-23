@@ -12,5 +12,6 @@ import { ElectionService } from "./election.service";
     ElectionService,
     ElectionResolver,
   ],
+  exports: [ElectionService],
 })
 export class ElectionModule { }

@@ -19,6 +19,9 @@ export class Election {
   @Field()
   public slug!: string;
 
+  @Column()
+  public creatorId!: string;
+
   @ManyToOne(_type => User)
   @Field(_type => User)
   public creator!: User;

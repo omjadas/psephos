@@ -18,7 +18,11 @@ export class ElectionResolver {
   public async getElection(
     @Args("slug") slug: string
   ): Promise<Election> {
-    const election = await this.electionService.findByProp("slug", slug);
+    const election = await this.electionService.findByProp(
+      "slug",
+      slug,
+      ["creator"]
+    );
     if (election === undefined) {
       throw new NotFoundException();
     }

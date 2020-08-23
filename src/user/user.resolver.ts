@@ -1,5 +1,7 @@
 import { NotFoundException, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { Args, ID, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { Election } from "src/election/election.entity";
+import { ElectionService } from "src/election/election.service";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { CurrentUser } from "./decorators/currentUser";
 import { User } from "./user.entity";
@@ -8,7 +10,8 @@ import { UserService } from "./user.service";
 @Resolver(User)
 export class UserResolver {
   public constructor(
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly electionService: ElectionService
   ) { }
 
   @Query(_returns => User, { name: "user" })
@@ -26,19 +29,23 @@ export class UserResolver {
   @Query(_returns => User, { name: "me" })
   @UseGuards(GqlAuthGuard)
   public async getCurrentUser(@CurrentUser() user: User): Promise<User> {
-    const user2 = await this.userService.findById(user.id);
-    if (user2 === undefined) {
-      throw new NotFoundException();
-    }
-    return user2;
+    return user;
   }
 
   @ResolveField()
-  public email(@CurrentUser() user: User, @Parent() parent: User): string | null {
+  public email(
+    @CurrentUser() user: User,
+      @Parent() parent: User
+  ): string | null {
     if (user.id === parent.id) {
       return parent.email;
     } else {
       throw new UnauthorizedException();
     }
+  }
+
+  @ResolveField()
+  public createdElections(@Parent() user: User): Promise<Election[]> {
+    return this.electionService.findAllByProp("creatorId", user.id);
   }
 }
