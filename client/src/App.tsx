@@ -9,12 +9,12 @@ import { Elections } from "./components/election/elections";
 import { Header } from "./components/header/header";
 import { Profile } from "./components/user/profile";
 
-export const App = (_props: any): JSX.Element => {
+export const App = (): JSX.Element => {
   return (
     <ApolloProvider client={client}>
       <div className="App">
-        <Header />
         <BrowserRouter>
+          <Header />
           <Switch>
             <PrivateRoute exact path="/profile">
               <Profile />

@@ -12,5 +12,13 @@ export const Election = (): JSX.Element => {
     }
   });
 
-  return <></>;
+  if (loading) {
+    return <></>;
+  }
+
+  if (error) {
+    return <></>;
+  }
+
+  return <>{data?.election.name}</>;
 };

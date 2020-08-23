@@ -5,7 +5,12 @@ import { ElectionResolver } from "./election.resolver";
 import { ElectionService } from "./election.service";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Election])],
-  providers: [ElectionService, ElectionResolver],
+  imports: [
+    TypeOrmModule.forFeature([Election]),
+  ],
+  providers: [
+    ElectionService,
+    ElectionResolver,
+  ],
 })
 export class ElectionModule { }

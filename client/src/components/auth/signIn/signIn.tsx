@@ -12,7 +12,7 @@ interface Props {
 export const SignIn = (props: Props): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, , ] = useCookies([]);
+  const [cookies, ,] = useCookies([]);
 
   const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
     set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
@@ -57,7 +57,7 @@ export const SignIn = (props: Props): JSX.Element => {
               placeholder="Enter email"
               onChange={(e: any) => onChange(e, setEmail)}
               required
-            />
+              />
           </Form.Group>
           <Form.Group>
             <Form.Label>Password</Form.Label>
