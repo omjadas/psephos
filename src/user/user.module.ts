@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ElectionModule } from "src/election/election.module";
+import { ElectionModule } from "../election/election.module";
 import { User } from "./user.entity";
 import { UserResolver } from "./user.resolver";
 import { UserService } from "./user.service";

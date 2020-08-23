@@ -1,8 +1,8 @@
 import { NotFoundException, UnauthorizedException, UseGuards } from "@nestjs/common";
 import { Args, ID, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
-import { Election } from "src/election/election.entity";
-import { ElectionService } from "src/election/election.service";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
+import { Election } from "../election/election.entity";
+import { ElectionService } from "../election/election.service";
 import { CurrentUser } from "./decorators/currentUser";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
