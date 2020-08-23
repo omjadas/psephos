@@ -14,7 +14,6 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [createElection, { loading, data }] = useMutation<CreateElection, CreateElectionVariables>(CreateElectionMutation);
-  const history = useHistory();
 
   const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
     set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
@@ -59,9 +58,9 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button type="submit" variant="success">
+          <Button type="submit" variant="success" disabled={loading}>
             Create Election
-            </Button>
+          </Button>
         </Modal.Footer>
       </Form>
     </Modal>

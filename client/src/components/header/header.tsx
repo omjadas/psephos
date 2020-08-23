@@ -10,36 +10,34 @@ export const Header = (_props: any): JSX.Element => {
   const [electionModalShow, setElectionModalShow] = useState(false);
   const loggedIn = useLoginStatus();
 
-  let buttons: JSX.Element[];
+  let buttons: JSX.Element;
 
   if (loggedIn === null) {
-    buttons = [];
+    buttons = <></>;
   } else if (loggedIn) {
-    buttons = [
-      <Button
-        key="createElection"
-        onClick={() => setElectionModalShow(true)}
-      >+ Election</Button>,
-      <Button
-        key="signOut"
-        variant="outline-info"
-        onClick={() => {
-          fetch("/auth/signout", {
-            method: "post"
-          }).then(() => {
-            client.resetStore();
-          }).catch();
-        }}
-      >Sign Out</Button>,
-    ];
+    buttons =
+      <>
+        <Button
+          onClick={() => setElectionModalShow(true)}
+          className="mr-2"
+        >+ Election</Button>
+        <Button
+          variant="outline-info"
+          onClick={() => {
+            fetch("/auth/signout", {
+              method: "post"
+            }).then(() => {
+              client.resetStore();
+            }).catch();
+          }}
+        >Sign Out</Button>
+      </>;
   } else {
-    buttons = [
+    buttons =
       <Button
-        key="signIn"
         variant="outline-info"
         onClick={() => setAuthModalShow(true)}
-      >Sign In / Register</Button>
-    ];
+      >Sign In / Register</Button>;
   }
 
   return (
