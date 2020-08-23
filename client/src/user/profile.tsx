@@ -1,18 +1,10 @@
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import React from "react";
-
-const ME = gql`
-  query ME {
-    me {
-      id
-      name
-      email
-    }
-  }
-`;
+import { ME_QUERY } from "../queries/ME";
+import { ME } from "../queries/types/ME";
 
 export const Profile = (_props: any): JSX.Element => {
-  const { loading, error, data } = useQuery(ME);
+  const { loading, error, data } = useQuery<ME>(ME_QUERY);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -24,7 +16,7 @@ export const Profile = (_props: any): JSX.Element => {
 
   return (
     <div>
-      User ID: {data.me.id}
+      User ID: {data?.me.id}
     </div>
   );
 };
