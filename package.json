@@ -11,6 +11,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "postbuild": "npm run build:schema",
     "build:all": "npm run build && cd client && npm run build",
     "build:client": "cd client && npm run build",
     "build:schema": "ts-node-script ./scripts/schema.ts",
