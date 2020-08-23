@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useHistory, Redirect } from "react-router";
+import { Redirect } from "react-router";
 import { CreateElectionMutation } from "../../queries/CreateElection";
 import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
 
