@@ -1,10 +1,10 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { ME_QUERY } from "../../queries/ME";
-import { ME } from "../../queries/types/ME";
+import { MeQuery } from "../../queries/Me";
+import { Me } from "../../queries/types/Me";
 
 export const Profile = (_props: any): JSX.Element => {
-  const { loading, error, data } = useQuery<ME>(ME_QUERY);
+  const { loading, error, data } = useQuery<Me>(MeQuery);
 
   if (loading) {
     return <div>Loading...</div>;

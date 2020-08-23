@@ -1,9 +1,9 @@
 import { useQuery } from "@apollo/client";
-import { LOGGED_IN_QUERY } from "../queries/LOGGED_IN";
-import { LOGGED_IN } from "../queries/types/LOGGED_IN";
+import { LoggedInQuery } from "../queries/LoggedIn";
+import { LoggedIn } from "../queries/types/LoggedIn";
 
 export function useLoginStatus(): boolean | null {
-  const { loading, data, error } = useQuery<LOGGED_IN>(LOGGED_IN_QUERY);
+  const { loading, data, error } = useQuery<LoggedIn>(LoggedInQuery);
 
   if (loading) {
     return null;

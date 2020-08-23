@@ -1,11 +1,9 @@
 import { gql } from "@apollo/client";
 
-export const ME_QUERY = gql`
-  query ME {
+export const LoggedInQuery = gql`
+  query LoggedIn {
     me {
       id
-      name
-      email
     }
   }
 `;
