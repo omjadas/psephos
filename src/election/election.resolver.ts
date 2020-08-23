@@ -1,9 +1,9 @@
 import { NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import slugify from "slugify";
-import { CurrentUser } from "src/user/decorators/currentUser";
-import { User } from "src/user/user.entity";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
+import { CurrentUser } from "../user/decorators/currentUser";
+import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
 import { ElectionService } from "./election.service";
 
