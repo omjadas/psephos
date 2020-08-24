@@ -1,9 +1,11 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Redirect } from "react-router";
+import { useHistory } from "react-router";
 import { CreateElectionMutation } from "../../queries/CreateElection";
+import { GetElectionsQuery } from "../../queries/GetElections";
 import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
+import { GetElections } from "../../queries/types/GetElections";
 
 export interface ElectionModalProps {
   show: boolean,
@@ -13,13 +15,20 @@ export interface ElectionModalProps {
 export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [createElection, { loading, data }] = useMutation<CreateElection, CreateElectionVariables>(
+  const history = useHistory();
+  const [createElection, { loading }] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
     { errorPolicy: "all" }
   );
 
-  const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
-    set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
+  const onChange = (
+    e: any,
+    set: React.Dispatch<React.SetStateAction<string>>
+  ): void => {
+    set.call(
+      undefined,
+      (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? ""
+    );
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -29,12 +38,29 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         name: name,
         description: description,
       },
+      update: (cache, { data }) => {
+        try {
+          const elections = cache.readQuery<GetElections>({
+            query: GetElectionsQuery,
+          });
+
+          if (data?.createElection !== undefined && elections?.elections !== undefined) {
+            cache.writeQuery({
+              query: GetElectionsQuery,
+              data: {
+                elections: [...elections.elections, data.createElection],
+              },
+            });
+          }
+        } catch (e: unknown) {
+          // do nothing
+        }
+      },
+    }).then(({ data }) => {
+      props.onHide();
+      history.push(`/elections/${data?.createElection.slug}`);
     });
   };
-
-  if (data?.createElection.slug !== undefined) {
-    return <Redirect to={`/elections/${data.createElection.slug}`} />;
-  }
 
   return (
     <Modal show={props.show} onHide={props.onHide} centered>
