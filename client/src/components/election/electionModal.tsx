@@ -13,7 +13,10 @@ export interface ElectionModalProps {
 export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [createElection, { loading, data }] = useMutation<CreateElection, CreateElectionVariables>(CreateElectionMutation);
+  const [createElection, { loading, data }] = useMutation<CreateElection, CreateElectionVariables>(
+    CreateElectionMutation,
+    { errorPolicy: "all" }
+  );
 
   const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
     set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");

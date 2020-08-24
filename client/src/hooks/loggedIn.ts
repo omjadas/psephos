@@ -3,7 +3,10 @@ import { LoggedInQuery } from "../queries/LoggedIn";
 import { LoggedIn } from "../queries/types/LoggedIn";
 
 export function useLoginStatus(): boolean | null {
-  const { loading, data, error } = useQuery<LoggedIn>(LoggedInQuery);
+  const { loading, data, error } = useQuery<LoggedIn>(
+    LoggedInQuery,
+    { errorPolicy: "all" }
+  );
 
   if (loading) {
     return null;

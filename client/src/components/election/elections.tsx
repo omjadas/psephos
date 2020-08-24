@@ -6,7 +6,10 @@ import { ElectionPanel } from "./electionPanel";
 import { Container } from "react-bootstrap";
 
 export const Elections = (): JSX.Element => {
-  const { loading, error, data } = useQuery<GetElections>(GetElectionsQuery);
+  const { loading, error, data } = useQuery<GetElections>(
+    GetElectionsQuery,
+    { errorPolicy: "all" }
+  );
 
   if (loading) {
     return <></>;

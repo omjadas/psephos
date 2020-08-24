@@ -6,11 +6,15 @@ import { GetElection, GetElectionVariables } from "../../queries/types/GetElecti
 
 export const Election = (): JSX.Element => {
   const { slug } = useParams<{ slug: string }>();
-  const { loading, error, data } = useQuery<GetElection, GetElectionVariables>(GetElectionQuery, {
-    variables: {
-      slug: slug,
+  const { loading, error, data } = useQuery<GetElection, GetElectionVariables>(
+    GetElectionQuery,
+    {
+      errorPolicy: "all",
+      variables: {
+        slug: slug,
+      },
     }
-  });
+  );
 
   if (loading) {
     return <></>;

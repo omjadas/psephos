@@ -3,8 +3,11 @@ import React from "react";
 import { MeQuery } from "../../queries/Me";
 import { Me } from "../../queries/types/Me";
 
-export const Profile = (_props: any): JSX.Element => {
-  const { loading, error, data } = useQuery<Me>(MeQuery);
+export const Profile = (): JSX.Element => {
+  const { loading, error, data } = useQuery<Me>(
+    MeQuery,
+    { errorPolicy: "all" }
+  );
 
   if (loading) {
     return <div>Loading...</div>;

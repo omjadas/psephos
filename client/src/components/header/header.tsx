@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, Form, Navbar } from "react-bootstrap";
+import { Button, Form, Nav, Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { client } from "../../apollo";
 import { useLoginStatus } from "../../hooks/loggedIn";
 import { Auth } from "../auth/auth";
 import { ElectionModal } from "../election/electionModal";
 
-export const Header = (_props: any): JSX.Element => {
+export const Header = (): JSX.Element => {
   const [authModalShow, setAuthModalShow] = useState(false);
   const [electionModalShow, setElectionModalShow] = useState(false);
   const loggedIn = useLoginStatus();
@@ -42,8 +43,14 @@ export const Header = (_props: any): JSX.Element => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand className="mr-auto" href="/">Psephos</Navbar.Brand>
-      <Form inline>
+      <Link className="navbar-brand" to="/">Psephos</Link>
+        {
+          loggedIn &&
+          <Nav>
+            <Link className="nav-link" to="/elections">Elections</Link>
+          </Nav>
+        }
+      <Form className="ml-auto" inline>
         {buttons}
       </Form>
       <ElectionModal
