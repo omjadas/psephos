@@ -14,7 +14,10 @@ async function generateSchema(): Promise<void> {
   await app.init();
 
   const gqlSchemaFactory = app.get(GraphQLSchemaFactory);
-  const schema = await gqlSchemaFactory.create([UserResolver, ElectionResolver]);
+  const schema = await gqlSchemaFactory.create([
+    UserResolver,
+    ElectionResolver,
+  ]);
   fs.writeFileSync(OUTPUT, printSchema(schema), "utf-8");
 }
 

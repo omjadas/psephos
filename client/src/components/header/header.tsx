@@ -20,8 +20,9 @@ export const Header = (): JSX.Element => {
       <>
         <Button
           onClick={() => setElectionModalShow(true)}
-          className="mr-2"
-        >+ Election</Button>
+          className="mr-2">
+          + Election
+        </Button>
         <Button
           variant="outline-info"
           onClick={() => {
@@ -30,15 +31,17 @@ export const Header = (): JSX.Element => {
             }).then(() => {
               client.resetStore();
             }).catch();
-          }}
-        >Sign Out</Button>
+          }}>
+          Sign Out
+        </Button>
       </>;
   } else {
     buttons =
       <Button
         variant="outline-info"
-        onClick={() => setAuthModalShow(true)}
-      >Sign In / Register</Button>;
+        onClick={() => setAuthModalShow(true)}>
+        Sign In / Register
+      </Button>;
   }
 
   return (
@@ -55,8 +58,7 @@ export const Header = (): JSX.Element => {
       </Form>
       <ElectionModal
         show={electionModalShow}
-        onHide={() => setElectionModalShow(false)}
-      />
+        onHide={() => setElectionModalShow(false)} />
       <Auth show={authModalShow} onHide={() => setAuthModalShow(false)} />
     </Navbar>
   );

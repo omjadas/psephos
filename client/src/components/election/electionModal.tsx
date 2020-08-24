@@ -48,16 +48,14 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
             <Form.Control
               type="text"
               name="name"
-              onChange={(e: any) => onChange(e, setName)}
-            />
+              onChange={(e: any) => onChange(e, setName)} />
           </Form.Group>
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               name="description"
-              onChange={(e: any) => onChange(e, setDescription)}
-            />
+              onChange={(e: any) => onChange(e, setDescription)} />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
