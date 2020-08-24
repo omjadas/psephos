@@ -7,7 +7,10 @@ import { UserService } from "../../user/user.service";
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
-  public constructor(private readonly configService: ConfigService, private readonly userService: UserService) {
+  public constructor(
+    private readonly configService: ConfigService,
+    private readonly userService: UserService
+  ) {
     super({
       clientID: configService.get<string>("GOOGLE_CLIENT_ID"),
       clientSecret: configService.get<string>("GOOGLE_CLIENT_SECRET"),
@@ -17,7 +20,12 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
     });
   }
 
-  public async validate(_request: any, _accessToken: string, _refreshToken: string, profile: Profile): Promise<any> {
+  public async validate(
+    _request: any,
+    _accessToken: string,
+    _refreshToken: string,
+    profile: Profile
+  ): Promise<any> {
     if (!profile) {
       throw new BadRequestException();
     }

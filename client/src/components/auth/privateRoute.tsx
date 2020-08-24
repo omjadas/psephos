@@ -10,7 +10,11 @@ export const PrivateRoute = ({ children, ...rest }: RouteProps): JSX.Element => 
   }
 
   if (loggedIn) {
-    return <Route {...rest} render={() => children} />;
+    return (
+      <Route {...rest}>
+        {children}
+      </Route>
+    );
   } else {
     return <Redirect to="/" />;
   }

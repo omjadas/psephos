@@ -1,41 +1,65 @@
 import React, { useState } from "react";
-import { Button, Form, Navbar } from "react-bootstrap";
+import { Button, Form, Nav, Navbar } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { client } from "../../apollo";
 import { useLoginStatus } from "../../hooks/loggedIn";
 import { Auth } from "../auth/auth";
+import { ElectionModal } from "../election/electionModal";
 
-export const Header = (_props: any): JSX.Element => {
-  const [modalShow, setModalShow] = useState(false);
+export const Header = (): JSX.Element => {
+  const [authModalShow, setAuthModalShow] = useState(false);
+  const [electionModalShow, setElectionModalShow] = useState(false);
   const loggedIn = useLoginStatus();
 
-  let button: JSX.Element;
+  let buttons: JSX.Element;
 
   if (loggedIn === null) {
-    button = <></>
+    buttons = <></>;
   } else if (loggedIn) {
-    button = <Button
-      variant="outline-info"
-      onClick={() => {
-        fetch("/auth/signout", {
-          method: "post"
-        }).then(() => {
-          client.resetStore();
-        }).catch();
-      }}
-    >Sign Out</Button>
+    buttons =
+      <>
+        <Button
+          onClick={() => setElectionModalShow(true)}
+          className="mr-2">
+          + Election
+        </Button>
+        <Button
+          variant="outline-info"
+          onClick={() => {
+            fetch("/auth/signout", {
+              method: "post",
+            }).then(() => {
+              client.resetStore();
+            }).catch();
+          }}>
+          Sign Out
+        </Button>
+      </>;
   } else {
-    button = <Button
-      variant="outline-info"
-      onClick={() => setModalShow(true)}>Sign In / Register</Button>
+    buttons =
+      <Button
+        variant="outline-info"
+        onClick={() => setAuthModalShow(true)}>
+        Sign In / Register
+      </Button>;
   }
 
   return (
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand className="mr-auto" href="/">Psephos</Navbar.Brand>
-      <Form inline>
-        {button}
+      <Link className="navbar-brand" to="/">Psephos</Link>
+      {
+        loggedIn &&
+        <Nav>
+          <Link className="nav-link" to="/elections">Elections</Link>
+        </Nav>
+      }
+      <Form className="ml-auto" inline>
+        {buttons}
       </Form>
-      <Auth show={modalShow} onHide={() => setModalShow(false)} />
+      <ElectionModal
+        show={electionModalShow}
+        onHide={() => setElectionModalShow(false)} />
+      <Auth show={authModalShow} onHide={() => setAuthModalShow(false)} />
     </Navbar>
   );
 };

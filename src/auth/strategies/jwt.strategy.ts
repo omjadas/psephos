@@ -7,7 +7,10 @@ import { UserService } from "../../user/user.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
-  public constructor(private readonly configService: ConfigService, private readonly userService: UserService) {
+  public constructor(
+    private readonly configService: ConfigService,
+    private readonly userService: UserService
+  ) {
     super({
       jwtFromRequest: JwtStrategy.cookieExtractor,
       ignoreExpiration: false,

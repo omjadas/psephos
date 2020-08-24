@@ -1,17 +1,14 @@
 {
   "extends": [
     "../.eslintrc.json",
-    "plugin:react/recommended",
-    "plugin:relay/recommended"
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint",
-    "react",
-    "relay"
+    "@typescript-eslint"
   ],
   "settings": {
     "react": {

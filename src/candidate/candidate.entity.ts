@@ -17,6 +17,9 @@ export class Candidate {
   @Field()
   public description!: string;
 
+  @Column()
+  public electionId!: string;
+
   @ManyToOne(_type => Election, election => election.candidates)
   @Field(_type => Election)
   public election!: Election;

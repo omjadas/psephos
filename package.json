@@ -11,6 +11,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
+    "postbuild": "npm run build:schema",
     "build:all": "npm run build && cd client && npm run build",
     "build:client": "cd client && npm run build",
     "build:schema": "ts-node-script ./scripts/schema.ts",
@@ -60,6 +61,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.2",
+    "slugify": "^1.4.5",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {

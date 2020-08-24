@@ -9,12 +9,22 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) { }
 
-  public findById(id: string): Promise<User | undefined> {
-    return this.findByProp("id", id);
+  public findById(
+    id: string,
+    relations: string[] = []
+  ): Promise<User | undefined> {
+    return this.findByProp("id", id, relations);
   }
 
-  public findByProp(key: string, value: any): Promise<User | undefined> {
-    return this.userRepository.findOne({ where: { [key]: value } });
+  public findByProp(
+    key: string,
+    value: any,
+    relations: string[] = []
+  ): Promise<User | undefined> {
+    return this.userRepository.findOne({
+      where: { [key]: value },
+      relations: relations,
+    });
   }
 
   public findAll(): Promise<User[]> {
