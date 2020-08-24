@@ -26,7 +26,7 @@ export const Header = (): JSX.Element => {
           variant="outline-info"
           onClick={() => {
             fetch("/auth/signout", {
-              method: "post"
+              method: "post",
             }).then(() => {
               client.resetStore();
             }).catch();
@@ -44,12 +44,12 @@ export const Header = (): JSX.Element => {
   return (
     <Navbar bg="dark" variant="dark">
       <Link className="navbar-brand" to="/">Psephos</Link>
-        {
-          loggedIn &&
-          <Nav>
-            <Link className="nav-link" to="/elections">Elections</Link>
-          </Nav>
-        }
+      {
+        loggedIn &&
+        <Nav>
+          <Link className="nav-link" to="/elections">Elections</Link>
+        </Nav>
+      }
       <Form className="ml-auto" inline>
         {buttons}
       </Form>
