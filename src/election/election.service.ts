@@ -9,11 +9,18 @@ export class ElectionService {
     @InjectRepository(Election) private readonly electionRepository: Repository<Election>
   ) { }
 
-  public findById(id: string, relations: string[] = []): Promise<Election | undefined> {
+  public findById(
+    id: string,
+    relations: string[] = []
+  ): Promise<Election | undefined> {
     return this.findByProp("id", id, relations);
   }
 
-  public findByProp(key: string, value: any, relations: string[] = []): Promise<Election | undefined> {
+  public findByProp(
+    key: string,
+    value: any,
+    relations: string[] = []
+  ): Promise<Election | undefined> {
     return this.electionRepository.findOne({
       where: { [key]: value },
       relations: relations,

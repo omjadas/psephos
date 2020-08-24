@@ -6,13 +6,20 @@ import { UserService } from "../user/user.service";
 
 @Injectable()
 export class AuthService {
-  public constructor(private readonly userService: UserService, private readonly jwtService: JwtService) { }
+  public constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService
+  ) { }
 
   public async login(user: User): Promise<string> {
     return this.jwtService.sign({ name: user.name, sub: user.id });
   }
 
-  public async register(name: string, email: string, password: string): Promise<string> {
+  public async register(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<string> {
     if (await this.userService.findByProp("email", email) !== undefined) {
       throw new Error();
     }
@@ -24,7 +31,10 @@ export class AuthService {
     return this.jwtService.sign({ name: user.name, sub: user.id });
   }
 
-  public async validateUser(email: string, password: string): Promise<User | null> {
+  public async validateUser(
+    email: string,
+    password: string
+  ): Promise<User | null> {
     const user = await this.userService.findByProp("email", email);
     if (user === undefined || user.password === null) {
       return null;
