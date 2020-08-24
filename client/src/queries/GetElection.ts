@@ -7,6 +7,7 @@ export const GetElectionQuery = gql`
       name
       description
       creator {
+        id
         name
       }
     }
