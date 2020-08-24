@@ -6,6 +6,7 @@ export const GetElectionsQuery = gql`
       id
       name
       description
+      slug
     }
   }
 `;

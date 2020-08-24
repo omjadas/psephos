@@ -2,7 +2,6 @@ import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { client } from "./apollo";
-import "./App.css";
 import { PrivateRoute } from "./components/auth/privateRoute";
 import { Election } from "./components/election/election";
 import { Elections } from "./components/election/elections";
