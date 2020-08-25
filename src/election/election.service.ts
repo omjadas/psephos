@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import crypto from "crypto";
+import slugify from "slugify";
+import { User } from "src/user/user.entity";
+import { QueryFailedError, Repository } from "typeorm";
 import { Election } from "./election.entity";
 
 @Injectable()
@@ -39,5 +42,27 @@ export class ElectionService {
 
   public save(election: Election): Promise<Election> {
     return this.electionRepository.save(election);
+  }
+
+  public async create(
+    name: string,
+    description: string,
+    creator: User
+  ): Promise<Election> {
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      try {
+        const election = new Election();
+        election.name = name;
+        election.description = description;
+        election.slug = `${slugify(name)}-${crypto.randomBytes(8).toString("hex")}`;
+        election.creator = creator;
+        return await this.save(election);
+      } catch (e: unknown) {
+        if (!(e instanceof QueryFailedError)) {
+          throw e;
+        }
+      }
+    }
   }
 }
