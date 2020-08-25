@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import crypto from "crypto";
 import slugify from "slugify";
-import { User } from "src/user/user.entity";
 import { QueryFailedError, Repository } from "typeorm";
+import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
 
 @Injectable()

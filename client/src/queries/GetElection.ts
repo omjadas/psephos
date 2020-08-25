@@ -6,6 +6,11 @@ export const GetElectionQuery = gql`
       id
       name
       description
+      candidates {
+        id
+        name
+        description
+      }
       creator {
         id
         name
