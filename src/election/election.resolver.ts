@@ -6,6 +6,7 @@ import { CurrentUser } from "../user/decorators/currentUser";
 import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
 import { ElectionService } from "./election.service";
+import crypto from "crypto";
 
 @Resolver(Election)
 export class ElectionResolver {
@@ -45,7 +46,7 @@ export class ElectionResolver {
     const election = new Election();
     election.name = name;
     election.description = description;
-    election.slug = slugify(name);
+    election.slug = `${slugify(name)}-${crypto.randomBytes(8).toString("hex")}`;
     election.creator = user;
     return this.electionService.save(election);
   }
