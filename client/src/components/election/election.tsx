@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { Button, CardColumns, Container, Jumbotron, Spinner } from "react-bootstrap";
+import { Button, Container, Jumbotron, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
+import { EasyGrid } from "../cards/easyGrid";
 
 export const Election = (): JSX.Element => {
   const { slug } = useParams<{ slug: string }>();
@@ -49,7 +50,7 @@ export const Election = (): JSX.Element => {
         electionSlug={slug}
         show={candidateModalShow}
         onHide={() => setCandidateModalShow(false)} />
-      <CardColumns>
+      <EasyGrid cols={3}>
         {
           data?.election.candidates.map(candidate => {
             return <CandidatePanel
@@ -58,7 +59,7 @@ export const Election = (): JSX.Element => {
               description={candidate.description} />;
           })
         }
-      </CardColumns>
+      </EasyGrid>
     </Container>
   );
 };
