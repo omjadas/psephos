@@ -2,7 +2,9 @@ import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { CreateCandidateMutation } from "../../queries/CreateCandidate";
+import { GetElectionQuery } from "../../queries/GetElection";
 import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/CreateCandidate";
+import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 
 export interface CandidateModalProps {
   electionId: string,
@@ -38,7 +40,40 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
         election: props.electionId,
       },
       update: (cache, { data }) => {
+        try {
+          const election = cache.readQuery<GetElection, GetElectionVariables>({
+            query: GetElectionQuery,
+            variables: {
+              slug: props.electionSlug,
+            },
+          });
+
+          if (
+            data?.createCandidate !== undefined &&
+            election?.election !== undefined
+          ) {
+            cache.writeQuery<GetElection, GetElectionVariables>({
+              query: GetElectionQuery,
+              variables: {
+                slug: props.electionSlug,
+              },
+              data: {
+                election: {
+                  ...election.election,
+                  candidates: [
+                    ...election.election.candidates,
+                    data.createCandidate,
+                  ],
+                },
+              },
+            });
+          }
+        } catch (e: unknown) {
+          // do nothing
+        }
       },
+    }).then(() => {
+      props.onHide();
     });
   };
 

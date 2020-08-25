@@ -44,8 +44,11 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
             query: GetElectionsQuery,
           });
 
-          if (data?.createElection !== undefined && elections?.elections !== undefined) {
-            cache.writeQuery({
+          if (
+            data?.createElection !== undefined &&
+            elections?.elections !== undefined
+          ) {
+            cache.writeQuery<GetElections>({
               query: GetElectionsQuery,
               data: {
                 elections: [...elections.elections, data.createElection],
