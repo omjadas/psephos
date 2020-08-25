@@ -38,9 +38,12 @@ export const Register = (props: Props): JSX.Element => {
         if (res.status === 200) {
           props.onHide();
           return client.resetStore();
+        } else {
+          // TODO: handle error codes
         }
       }).catch();
     } else {
+      // TODO: display error
       console.error("passwords do not match");
     }
   };

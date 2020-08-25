@@ -34,6 +34,8 @@ export const SignIn = (props: Props): JSX.Element => {
       if (res.status === 200) {
         props.onHide();
         return client.resetStore();
+      } else {
+        // TODO: handle error codes
       }
     }).catch();
   };

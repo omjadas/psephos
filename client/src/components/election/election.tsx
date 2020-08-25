@@ -34,7 +34,11 @@ export const Election = (): JSX.Element => {
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>
         <p>{data?.election.description}</p>
-        <Button onClick={() => setCandidateModalShow(true)}>+ Candidate</Button>
+        <Button
+          className="float-right"
+          onClick={() => setCandidateModalShow(true)}>
+          + Candidate
+        </Button>
       </Jumbotron>
       <CandidateModal
         electionId={data?.election.id as string}
