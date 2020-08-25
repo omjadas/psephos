@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter, Switch } from "react-router-dom";
 import { client } from "./apollo";
 import { PrivateRoute } from "./components/auth/privateRoute";
+import { Candidate } from "./components/candidate/candidate";
 import { Election } from "./components/election/election";
 import { Elections } from "./components/election/elections";
 import { Header } from "./components/header/header";
@@ -23,6 +24,9 @@ export const App = (): JSX.Element => {
             </PrivateRoute>
             <PrivateRoute exact path="/elections/:slug">
               <Election />
+            </PrivateRoute>
+            <PrivateRoute exact path="/candidates/:slug">
+              <Candidate />
             </PrivateRoute>
           </Switch>
         </BrowserRouter>
