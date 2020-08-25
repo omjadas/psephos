@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React, { useState } from "react";
-import { Button, CardColumns, Container, Jumbotron } from "react-bootstrap";
+import { Button, CardColumns, Container, Jumbotron, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
@@ -21,7 +21,11 @@ export const Election = (): JSX.Element => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <Container>
+        <Spinner className="d-flex mx-auto spinner" animation="border" />
+      </Container>
+    );
   }
 
   if (error) {

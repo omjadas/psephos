@@ -8,6 +8,7 @@ import { Election } from "./components/election/election";
 import { Elections } from "./components/election/elections";
 import { Header } from "./components/header/header";
 import { Profile } from "./components/user/profile";
+import "./App.scss";
 
 export const App = (): JSX.Element => {
   return (

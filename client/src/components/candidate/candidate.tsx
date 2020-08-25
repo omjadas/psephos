@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { Container, Jumbotron } from "react-bootstrap";
+import { Container, Jumbotron, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 import { GetCandidateQuery } from "../../queries/GetCandidate";
 import { GetCandidate, GetCandidateVariables } from "../../queries/types/GetCandidate";
@@ -17,7 +17,11 @@ export const Candidate = (): JSX.Element => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <Container>
+        <Spinner className="d-flex mx-auto spinner" animation="border" />
+      </Container>
+    );
   }
 
   if (error) {

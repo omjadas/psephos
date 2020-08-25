@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
+import { Container, Spinner } from "react-bootstrap";
 import { MeQuery } from "../../queries/Me";
 import { Me } from "../../queries/types/Me";
 
@@ -10,7 +11,11 @@ export const Profile = (): JSX.Element => {
   );
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Container>
+        <Spinner className="d-flex mx-auto spinner" animation="border" />
+      </Container>
+    );
   }
 
   if (error) {
