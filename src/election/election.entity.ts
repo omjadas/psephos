@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
@@ -15,7 +15,7 @@ export class Election {
   @Field()
   public name!: string;
 
-  @Column()
+  @Column({ unique: true })
   @Field()
   public slug!: string;
 

@@ -13,6 +13,10 @@ export class Candidate {
   @Field()
   public name!: string;
 
+  @Column({ unique: true })
+  @Field()
+  public slug!: string;
+
   @Column()
   @Field()
   public description!: string;
