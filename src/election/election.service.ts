@@ -30,13 +30,18 @@ export class ElectionService {
     });
   }
 
-  public findAll(): Promise<Election[]> {
-    return this.electionRepository.find();
+  public findAll(relations: string[] = []): Promise<Election[]> {
+    return this.electionRepository.find({ relations: relations });
   }
 
-  public findAllByProp(key: string, value: any): Promise<Election []> {
+  public findAllByProp(
+    key: string,
+    value: any,
+    relations: string[] = []
+  ): Promise<Election[]> {
     return this.electionRepository.find({
       where: { [key]: value },
+      relations: relations,
     });
   }
 

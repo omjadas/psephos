@@ -8,7 +8,10 @@ import { CandidateService } from "./candidate.service";
   imports: [
     TypeOrmModule.forFeature([Candidate]),
   ],
-  providers: [CandidateService, CandidateResolver],
-  exports: [],
+  providers: [
+    CandidateService,
+    CandidateResolver,
+  ],
+  exports: [CandidateService],
 })
 export class CandidateModule { }

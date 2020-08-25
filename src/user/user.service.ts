@@ -27,8 +27,8 @@ export class UserService {
     });
   }
 
-  public findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  public findAll(relations: string[] = []): Promise<User[]> {
+    return this.userRepository.find({ relations: relations });
   }
 
   public save(user: User): Promise<User> {
