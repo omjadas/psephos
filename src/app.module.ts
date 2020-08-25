@@ -9,6 +9,7 @@ import { join } from "path";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
+import { CandidateModule } from "./candidate/candidate.module";
 import { NODE_ENV } from "./constants";
 import { ElectionModule } from "./election/election.module";
 import { CSRFMiddleware } from "./middleware/csrf.middleware";
@@ -76,6 +77,7 @@ import { UserModule } from "./user/user.module";
     AuthModule,
     ElectionModule,
     UserModule,
+    CandidateModule,
   ],
   controllers: [AppController],
   providers: [AppService],
