@@ -1,5 +1,5 @@
 import { NotFoundException, UseGuards } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { Candidate } from "./candidate.entity";
 import { CandidateService } from "./candidate.service";
@@ -39,8 +39,17 @@ export class CandidateResolver {
   public createCandidate(
     @Args("name") name: string,
       @Args("description") description: string,
-      @Args("election") electionId: string
+      @Args("election", {}) electionId: string
   ): Promise<Candidate> {
     return this.candidateService.create(name, description, electionId);
+  }
+
+  @Mutation(_returns => Boolean)
+  @UseGuards(GqlAuthGuard)
+  public async deleteCandidate(
+    @Args("id", { type: () => ID }) id: string
+  ): Promise<boolean> {
+    await this.candidateService.deleteById(id);
+    return true;
   }
 }

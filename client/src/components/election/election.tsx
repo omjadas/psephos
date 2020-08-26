@@ -50,13 +50,15 @@ export const Election = (): JSX.Element => {
         electionSlug={slug}
         show={candidateModalShow}
         onHide={() => setCandidateModalShow(false)} />
-      <EasyGrid cols={3}>
+      <EasyGrid>
         {
           data?.election.candidates.map(candidate => {
             return <CandidatePanel
               key={candidate.id}
+              id={candidate.id}
               name={candidate.name}
-              description={candidate.description} />;
+              description={candidate.description}
+              electionSlug={slug} />;
           })
         }
       </EasyGrid>
