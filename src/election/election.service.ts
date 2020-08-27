@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import crypto from "crypto";
 import slugify from "slugify";
@@ -15,19 +15,25 @@ export class ElectionService {
   public findById(
     id: string,
     relations: string[] = []
-  ): Promise<Election | undefined> {
+  ): Promise<Election> {
     return this.findByProp("id", id, relations);
   }
 
-  public findByProp(
+  public async findByProp(
     key: string,
     value: any,
     relations: string[] = []
-  ): Promise<Election | undefined> {
-    return this.electionRepository.findOne({
+  ): Promise<Election> {
+    const election = await this.electionRepository.findOne({
       where: { [key]: value },
       relations: relations,
     });
+
+    if (election === undefined) {
+      throw new NotFoundException();
+    }
+
+    return election;
   }
 
   public findAll(relations: string[] = []): Promise<Election[]> {

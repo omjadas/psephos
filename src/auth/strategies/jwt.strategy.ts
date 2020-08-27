@@ -12,6 +12,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     private readonly userService: UserService
   ) {
     super({
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       jwtFromRequest: JwtStrategy.cookieExtractor,
       ignoreExpiration: false,
       secretOrKey: configService.get<string>("JWT_SECRET"),
