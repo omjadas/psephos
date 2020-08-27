@@ -29,7 +29,7 @@ export class CandidateResolver {
   @Query(_returns => [Candidate], { name: "candidates" })
   @UseGuards(GqlAuthGuard)
   public getCandidatesForElection(
-    @Args("election") electionId: string,
+    @Args("election", { type: () => ID }) electionId: string,
   ): Promise<Candidate[]> {
     return this.candidateService.findAllByProp("electionId", electionId);
   }
@@ -39,7 +39,7 @@ export class CandidateResolver {
   public createCandidate(
     @Args("name") name: string,
       @Args("description") description: string,
-      @Args("election", {}) electionId: string
+      @Args("election", { type: () => ID }) electionId: string
   ): Promise<Candidate> {
     return this.candidateService.create(name, description, electionId);
   }
