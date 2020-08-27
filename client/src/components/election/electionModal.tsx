@@ -21,16 +21,6 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
     { errorPolicy: "all" }
   );
 
-  const onChange = (
-    e: any,
-    set: React.Dispatch<React.SetStateAction<string>>
-  ): void => {
-    set.call(
-      undefined,
-      (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? ""
-    );
-  };
-
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     createElection({
@@ -77,14 +67,14 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
             <Form.Control
               type="text"
               name="name"
-              onChange={(e: any) => onChange(e, setName)} />
+              onChange={e => setName(e.currentTarget.value ?? "")} />
           </Form.Group>
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               name="description"
-              onChange={(e: any) => onChange(e, setDescription)} />
+              onChange={e => setDescription(e.currentTarget.value ?? "")} />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

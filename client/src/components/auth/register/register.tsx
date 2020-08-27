@@ -14,14 +14,12 @@ export const Register = (props: Props): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const [cookies, , ] = useCookies([]);
-
-  const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
-    set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
-  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    setDisabled(true);
     if (password1 === password2) {
       fetch("/auth/register", {
         method: "post",
@@ -65,7 +63,7 @@ export const Register = (props: Props): JSX.Element => {
               type="name"
               name="name"
               placeholder="Enter name"
-              onChange={(e: any) => onChange(e, setName)}
+              onChange={e => setName(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -75,7 +73,7 @@ export const Register = (props: Props): JSX.Element => {
               type="email"
               name="email"
               placeholder="Enter email"
-              onChange={(e: any) => onChange(e, setEmail)}
+              onChange={e => setEmail(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -85,7 +83,7 @@ export const Register = (props: Props): JSX.Element => {
               type="password"
               name="password1"
               placeholder="Enter password"
-              onChange={(e: any) => onChange(e, setPassword1)}
+              onChange={e => setPassword1(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -95,7 +93,7 @@ export const Register = (props: Props): JSX.Element => {
               type="password"
               name="password2"
               placeholder="Enter password"
-              onChange={(e: any) => onChange(e, setPassword2)}
+              onChange={e => setPassword2(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -104,7 +102,7 @@ export const Register = (props: Props): JSX.Element => {
           <Button className="mr-auto" href="/auth/google">
             <FontAwesomeIcon icon={faGoogle} /> Register with Google
           </Button>
-          <Button type="submit" variant="success">
+          <Button type="submit" variant="success" disabled={disabled}>
             Register
           </Button>
         </Modal.Footer>

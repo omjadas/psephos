@@ -12,14 +12,12 @@ interface Props {
 export const SignIn = (props: Props): JSX.Element => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const [cookies, , ] = useCookies([]);
-
-  const onChange = (e: any, set: React.Dispatch<React.SetStateAction<string>>): void => {
-    set.call(undefined, (e as React.ChangeEvent<HTMLInputElement>).currentTarget.value ?? "");
-  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+    setDisabled(true);
     fetch("/auth/local", {
       method: "post",
       body: JSON.stringify({
@@ -57,7 +55,7 @@ export const SignIn = (props: Props): JSX.Element => {
               type="email"
               name="email"
               placeholder="Enter email"
-              onChange={(e: any) => onChange(e, setEmail)}
+              onChange={e => setEmail(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -67,7 +65,7 @@ export const SignIn = (props: Props): JSX.Element => {
               type="password"
               name="password"
               placeholder="Enter password"
-              onChange={(e: any) => onChange(e, setPassword)}
+              onChange={e => setPassword(e.currentTarget.value ?? "")}
               required
             />
           </Form.Group>
@@ -76,7 +74,7 @@ export const SignIn = (props: Props): JSX.Element => {
           <Button className="mr-auto" href="/auth/google">
             <FontAwesomeIcon icon={faGoogle} /> Sign in with Google
           </Button>
-          <Button type="submit" variant="success">
+          <Button type="submit" variant="success" disabled={disabled}>
             Sign In
           </Button>
         </Modal.Footer>
