@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import crypto from "crypto";
 import slugify from "slugify";
-import { QueryFailedError, Repository } from "typeorm";
+import { DeleteResult, QueryFailedError, Repository } from "typeorm";
 import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
 
@@ -43,6 +43,10 @@ export class ElectionService {
       where: { [key]: value },
       relations: relations,
     });
+  }
+
+  public deleteById(id: string): Promise<DeleteResult> {
+    return this.electionRepository.delete(id);
   }
 
   public save(election: Election): Promise<Election> {

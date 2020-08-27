@@ -31,6 +31,7 @@ export const Elections = (): JSX.Element => {
           data?.elections.map(election => {
             return <ElectionPanel
               key={election.id}
+              id={election.id}
               name={election.name}
               description={election.description}
               slug={election.slug} />;

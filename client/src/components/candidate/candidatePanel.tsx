@@ -51,7 +51,6 @@ export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
             });
           }
         } catch (e: unknown) {
-          console.error(e);
           // do nothing
         }
       },
