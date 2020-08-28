@@ -60,7 +60,7 @@ export class ElectionResolver {
   @Mutation(_returns => Election)
   @UseGuards(GqlAuthGuard)
   public async updateElection(
-    @Args("id") id: string,
+    @Args("id", { type: () => ID }) id: string,
       @Args("name") name?: string,
       @Args("description") description?: string
   ): Promise<Election> {

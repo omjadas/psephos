@@ -52,7 +52,7 @@ export class CandidateResolver {
   @Mutation(_returns => Candidate)
   @UseGuards(GqlAuthGuard)
   public async updateCandidate(
-    @Args("id") id: string,
+    @Args("id", { type: () => ID }) id: string,
       @Args("name") name?: string,
       @Args("description") description?: string
   ): Promise<Candidate> {
