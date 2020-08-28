@@ -7,6 +7,9 @@ import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/C
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 
 export interface CandidateModalProps {
+  id?: string,
+  name?: string,
+  description?: string,
   electionId: string,
   electionSlug: string,
   show: boolean,
@@ -14,8 +17,8 @@ export interface CandidateModalProps {
 }
 
 export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(props.name ?? "");
+  const [description, setDescription] = useState(props.description ?? "");
   const [createCandidate, { loading }] = useMutation<CreateCandidate, CreateCandidateVariables>(
     CreateCandidateMutation,
     { errorPolicy: "all" }
@@ -23,48 +26,53 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    createCandidate({
-      variables: {
-        name: name,
-        description: description,
-        election: props.electionId,
-      },
-      update: (cache, { data }) => {
-        try {
-          const election = cache.readQuery<GetElection, GetElectionVariables>({
-            query: GetElectionQuery,
-            variables: {
-              slug: props.electionSlug,
-            },
-          });
 
-          if (
-            data?.createCandidate !== undefined &&
-            election?.election !== undefined
-          ) {
-            cache.writeQuery<GetElection, GetElectionVariables>({
+    if (props.id === undefined) {
+      createCandidate({
+        variables: {
+          name: name,
+          description: description,
+          election: props.electionId,
+        },
+        update: (cache, { data }) => {
+          try {
+            const election = cache.readQuery<GetElection, GetElectionVariables>({
               query: GetElectionQuery,
               variables: {
                 slug: props.electionSlug,
               },
-              data: {
-                election: {
-                  ...election.election,
-                  candidates: [
-                    ...election.election.candidates,
-                    data.createCandidate,
-                  ],
-                },
-              },
             });
+
+            if (
+              data?.createCandidate !== undefined &&
+              election?.election !== undefined
+            ) {
+              cache.writeQuery<GetElection, GetElectionVariables>({
+                query: GetElectionQuery,
+                variables: {
+                  slug: props.electionSlug,
+                },
+                data: {
+                  election: {
+                    ...election.election,
+                    candidates: [
+                      ...election.election.candidates,
+                      data.createCandidate,
+                    ],
+                  },
+                },
+              });
+            }
+          } catch (e: unknown) {
+            // do nothing
           }
-        } catch (e: unknown) {
-          // do nothing
-        }
-      },
-    }).then(() => {
-      props.onHide();
-    });
+        },
+      }).then(() => {
+        props.onHide();
+      });
+    } else {
+      // update
+    }
   };
 
   return (

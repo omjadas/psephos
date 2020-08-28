@@ -8,13 +8,16 @@ import { CreateElection, CreateElectionVariables } from "../../queries/types/Cre
 import { GetElections } from "../../queries/types/GetElections";
 
 export interface ElectionModalProps {
+  id?: string,
+  name?: string,
+  description?: string,
   show: boolean,
   onHide: () => any,
 }
 
 export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState(props.name ?? "");
+  const [description, setDescription] = useState(props.description ?? "");
   const history = useHistory();
   const [createElection, { loading }] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
@@ -23,36 +26,41 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    createElection({
-      variables: {
-        name: name,
-        description: description,
-      },
-      update: (cache, { data }) => {
-        try {
-          const elections = cache.readQuery<GetElections>({
-            query: GetElectionsQuery,
-          });
 
-          if (
-            data?.createElection !== undefined &&
-            elections?.elections !== undefined
-          ) {
-            cache.writeQuery<GetElections>({
+    if (props.id === undefined) {
+      createElection({
+        variables: {
+          name: name,
+          description: description,
+        },
+        update: (cache, { data }) => {
+          try {
+            const elections = cache.readQuery<GetElections>({
               query: GetElectionsQuery,
-              data: {
-                elections: [...elections.elections, data.createElection],
-              },
             });
+
+            if (
+              data?.createElection !== undefined &&
+              elections?.elections !== undefined
+            ) {
+              cache.writeQuery<GetElections>({
+                query: GetElectionsQuery,
+                data: {
+                  elections: [...elections.elections, data.createElection],
+                },
+              });
+            }
+          } catch (e: unknown) {
+            // do nothing
           }
-        } catch (e: unknown) {
-          // do nothing
-        }
-      },
-    }).then(({ data }) => {
-      props.onHide();
-      history.push(`/elections/${data?.createElection.slug}`);
-    });
+        },
+      }).then(({ data }) => {
+        props.onHide();
+        history.push(`/elections/${data?.createElection.slug}`);
+      });
+    } else {
+      // update
+    }
   };
 
   return (
