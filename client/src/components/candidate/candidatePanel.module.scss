@@ -1,0 +1,17 @@
+@mixin line-clamp {
+  -webkit-line-clamp: 1;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.name {
+  @include line-clamp;
+}
+
+.description {
+  @include line-clamp;
+  -webkit-line-clamp: 3;
+  height: 4.5em;
+}

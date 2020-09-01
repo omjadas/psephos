@@ -1,26 +1,26 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useHistory } from "react-router";
-import { CreateElectionMutation } from "../../queries/CreateElection";
-import { GetElectionsQuery } from "../../queries/GetElections";
-import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
-import { GetElections } from "../../queries/types/GetElections";
+import { CreateCandidateMutation } from "../../queries/CreateCandidate";
+import { GetElectionQuery } from "../../queries/GetElection";
+import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/CreateCandidate";
+import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 
-export interface ElectionModalProps {
+export interface CandidateModalProps {
   id?: string,
   name?: string,
   description?: string,
+  electionId: string,
+  electionSlug: string,
   show: boolean,
   onHide: () => any,
 }
 
-export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
+export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
   const [name, setName] = useState(props.name ?? "");
   const [description, setDescription] = useState(props.description ?? "");
-  const history = useHistory();
-  const [createElection, { loading }] = useMutation<CreateElection, CreateElectionVariables>(
-    CreateElectionMutation,
+  const [createCandidate, { loading }] = useMutation<CreateCandidate, CreateCandidateVariables>(
+    CreateCandidateMutation,
     { errorPolicy: "all" }
   );
 
@@ -28,25 +28,38 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
     e.preventDefault();
 
     if (props.id === undefined) {
-      createElection({
+      createCandidate({
         variables: {
           name: name,
           description: description,
+          election: props.electionId,
         },
         update: (cache, { data }) => {
           try {
-            const elections = cache.readQuery<GetElections>({
-              query: GetElectionsQuery,
+            const election = cache.readQuery<GetElection, GetElectionVariables>({
+              query: GetElectionQuery,
+              variables: {
+                slug: props.electionSlug,
+              },
             });
 
             if (
-              data?.createElection !== undefined &&
-              elections?.elections !== undefined
+              data?.createCandidate !== undefined &&
+              election?.election !== undefined
             ) {
-              cache.writeQuery<GetElections>({
-                query: GetElectionsQuery,
+              cache.writeQuery<GetElection, GetElectionVariables>({
+                query: GetElectionQuery,
+                variables: {
+                  slug: props.electionSlug,
+                },
                 data: {
-                  elections: [...elections.elections, data.createElection],
+                  election: {
+                    ...election.election,
+                    candidates: [
+                      ...election.election.candidates,
+                      data.createCandidate,
+                    ],
+                  },
                 },
               });
             }
@@ -54,9 +67,8 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
             // do nothing
           }
         },
-      }).then(({ data }) => {
+      }).then(() => {
         props.onHide();
-        history.push(`/elections/${data?.createElection.slug}`);
       });
     } else {
       // update
@@ -87,7 +99,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         </Modal.Body>
         <Modal.Footer>
           <Button type="submit" variant="success" disabled={loading}>
-            Create Election
+            Create Candidate
           </Button>
         </Modal.Footer>
       </Form>

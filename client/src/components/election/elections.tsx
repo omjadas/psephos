@@ -1,8 +1,9 @@
 import { useQuery } from "@apollo/client";
 import React from "react";
-import { CardColumns, Container } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import { GetElectionsQuery } from "../../queries/GetElections";
 import { GetElections } from "../../queries/types/GetElections";
+import { EasyGrid } from "../cards/easyGrid";
 import { ElectionPanel } from "./electionPanel";
 
 export const Elections = (): JSX.Element => {
@@ -12,7 +13,11 @@ export const Elections = (): JSX.Element => {
   );
 
   if (loading) {
-    return <></>;
+    return (
+      <Container>
+        <Spinner className="d-flex mx-auto spinner" animation="border" />
+      </Container>
+    );
   }
 
   if (error) {
@@ -20,18 +25,19 @@ export const Elections = (): JSX.Element => {
   }
 
   return (
-    <Container className="mt-3">
-      <CardColumns>
+    <Container className="mt-2">
+      <EasyGrid>
         {
           data?.elections.map(election => {
             return <ElectionPanel
               key={election.id}
+              id={election.id}
               name={election.name}
               description={election.description}
               slug={election.slug} />;
           })
         }
-      </CardColumns>
+      </EasyGrid>
     </Container>
   );
 };

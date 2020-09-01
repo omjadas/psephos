@@ -4,6 +4,7 @@ import { NestFactory } from "@nestjs/core";
 import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from "@nestjs/graphql";
 import fs from "fs";
 import { printSchema } from "graphql";
+import { CandidateResolver } from "../src/candidate/candidate.resolver";
 import { ElectionResolver } from "../src/election/election.resolver";
 import { UserResolver } from "../src/user/user.resolver";
 
@@ -17,6 +18,7 @@ async function generateSchema(): Promise<void> {
   const schema = await gqlSchemaFactory.create([
     UserResolver,
     ElectionResolver,
+    CandidateResolver,
   ]);
   fs.writeFileSync(OUTPUT, printSchema(schema), "utf-8");
 }
