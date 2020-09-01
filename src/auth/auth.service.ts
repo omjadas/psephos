@@ -11,8 +11,10 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) { }
 
-  public async login(user: User): Promise<string> {
-    return this.jwtService.sign({ name: user.name, sub: user.id });
+  public login(user: User): Promise<string> {
+    return Promise.resolve(
+      this.jwtService.sign({ name: user.name, sub: user.id })
+    );
   }
 
   public async register(

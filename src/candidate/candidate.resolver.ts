@@ -1,4 +1,4 @@
-import { UseGuards } from "@nestjs/common";
+import { NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { Candidate } from "./candidate.entity";
@@ -12,14 +12,18 @@ export class CandidateResolver {
 
   @Query(_returns => Candidate, { name: "candidate" })
   @UseGuards(GqlAuthGuard)
-  public getCandidate(
+  public async getCandidate(
     @Args("slug") slug: string
   ): Promise<Candidate> {
-    return this.candidateService.findByProp(
+    const candidate = await this.candidateService.findByProp(
       "slug",
       slug,
       ["election"]
     );
+    if (candidate === undefined) {
+      throw new NotFoundException();
+    }
+    return candidate;
   }
 
   @Query(_returns => [Candidate], { name: "candidates" })
@@ -57,6 +61,9 @@ export class CandidateResolver {
       @Args("description") description?: string
   ): Promise<Candidate> {
     const candidate = await this.candidateService.findById(id);
+    if (candidate === undefined) {
+      throw new NotFoundException();
+    }
     candidate.name = name ?? candidate.name;
     candidate.description = description ?? candidate.description;
     this.candidateService.save(candidate);

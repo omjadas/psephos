@@ -15,25 +15,19 @@ export class ElectionService {
   public findById(
     id: string,
     relations: string[] = []
-  ): Promise<Election> {
+  ): Promise<Election | undefined> {
     return this.findByProp("id", id, relations);
   }
 
-  public async findByProp(
+  public findByProp(
     key: string,
     value: any,
     relations: string[] = []
-  ): Promise<Election> {
-    const election = await this.electionRepository.findOne({
+  ): Promise<Election | undefined> {
+    return this.electionRepository.findOne({
       where: { [key]: value },
       relations: relations,
     });
-
-    if (election === undefined) {
-      throw new NotFoundException();
-    }
-
-    return election;
   }
 
   public findAll(relations: string[] = []): Promise<Election[]> {
