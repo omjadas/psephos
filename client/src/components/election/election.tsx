@@ -7,6 +7,7 @@ import { GetElection, GetElectionVariables } from "../../queries/types/GetElecti
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
 import { EasyGrid } from "../cards/easyGrid";
+import styles from "./election.module.scss";
 
 export const Election = (): JSX.Element => {
   const { slug } = useParams<{ slug: string }>();
@@ -35,15 +36,16 @@ export const Election = (): JSX.Element => {
 
   return (
     <Container className="mt-3">
+      <Button
+        className={`float-right ${styles["candidate-button"]}`}
+        onClick={() => setCandidateModalShow(true)}>
+        + Candidate
+      </Button>
       <Jumbotron>
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>
         <p>{data?.election.description}</p>
-        <Button
-          className="float-right"
-          onClick={() => setCandidateModalShow(true)}>
-          + Candidate
-        </Button>
+        <Button className="float-right">Vote</Button>
       </Jumbotron>
       <CandidateModal
         electionId={data?.election.id as string}
