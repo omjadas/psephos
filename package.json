@@ -76,7 +76,7 @@
     "@types/hapi__joi": "^17.1.4",
     "@types/helmet": "0.0.48",
     "@types/jest": "^26.0.13",
-    "@types/node": "^12.12.54",
+    "@types/node": "^12.12.55",
     "@types/passport-google-oauth20": "^2.0.3",
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
