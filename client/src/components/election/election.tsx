@@ -7,11 +7,13 @@ import { GetElection, GetElectionVariables } from "../../queries/types/GetElecti
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
 import { EasyGrid } from "../cards/easyGrid";
+import { VoteModal } from "../vote/voteModal";
 import styles from "./election.module.scss";
 
 export const Election = (): JSX.Element => {
   const { slug } = useParams<{ slug: string }>();
   const [candidateModalShow, setCandidateModalShow] = useState(false);
+  const [voteModalShow, setVoteModalShow] = useState(false);
   const { loading, error, data } = useQuery<GetElection, GetElectionVariables>(
     GetElectionQuery,
     {
@@ -45,13 +47,21 @@ export const Election = (): JSX.Element => {
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>
         <p>{data?.election.description}</p>
-        <Button className="float-right">Vote</Button>
+        <Button
+          className="float-right"
+          onClick={() => setVoteModalShow(true)}>
+          Vote
+        </Button>
       </Jumbotron>
       <CandidateModal
-        electionId={data?.election.id as string}
+        electionId={data!.election.id}
         electionSlug={slug}
         show={candidateModalShow}
         onHide={() => setCandidateModalShow(false)} />
+      <VoteModal
+        candidates={data!.election.candidates}
+        show={voteModalShow}
+        onHide={() => setVoteModalShow(false)} />
       <EasyGrid>
         {
           data?.election.candidates.map(candidate => {
