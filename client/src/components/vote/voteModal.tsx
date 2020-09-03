@@ -4,6 +4,7 @@ import React from "react";
 import { Button, Col, Form, Modal } from "react-bootstrap";
 import { CreateVoteMutation } from "../../queries/CreateVote";
 import { CreateVote, CreateVoteVariables } from "../../queries/types/CreateVote";
+import * as yup from "yup";
 
 interface Candidate {
   id: string,
@@ -18,6 +19,14 @@ export interface VoteModalProps {
 }
 
 type FormValues = Record<string, string>;
+
+const FormSchema = yup.lazy((obj: any) =>
+  yup.object(
+    Object.fromEntries(
+      Object.entries(obj).map(([key]) => [key, yup.number()])
+    )
+  )
+);
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
   const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
@@ -50,7 +59,9 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
               },
               {}
             ) as Record<string, string>}
-        onSubmit={onSubmit}>
+        onSubmit={onSubmit}
+        validationSchema={FormSchema}
+      >
         {
           ({
             values,
