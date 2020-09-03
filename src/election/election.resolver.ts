@@ -44,7 +44,7 @@ export class ElectionResolver {
 
   @Mutation(_returns => Election)
   @UseGuards(GqlAuthGuard)
-  public async createElection(
+  public createElection(
     @Args("name") name: string,
       @Args("description") description: string,
       @CurrentUser() user: User
