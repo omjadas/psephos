@@ -1,7 +1,7 @@
 import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
-import { Candidate } from "src/candidate/candidate.entity";
-import { Election } from "src/election/election.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Candidate } from "../candidate/candidate.entity";
+import { Election } from "../election/election.entity";
 
 @Entity()
 @ObjectType()
@@ -11,7 +11,10 @@ export class Winner {
   public id!: string;
 
   @Column()
-  @Field()
+  public candidateId!: string;
+
+  @ManyToOne(_type => Candidate)
+  @Field(_type => Candidate)
   public candidate!: Candidate;
 
   @Column({ type: "tinyint" })

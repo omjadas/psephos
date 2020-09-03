@@ -1,9 +1,9 @@
 import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
-import { Winner } from "src/winner/winner.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
+import { Winner } from "../winner/winner.entity";
 
 @Entity()
 @ObjectType()
