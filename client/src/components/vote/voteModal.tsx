@@ -1,6 +1,9 @@
+import { useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import React from "react";
 import { Button, Col, Form, Modal } from "react-bootstrap";
+import { CreateVoteMutation } from "../../queries/CreateVote";
+import { CreateVote, CreateVoteVariables } from "../../queries/types/CreateVote";
 
 interface Candidate {
   id: string,
@@ -8,6 +11,7 @@ interface Candidate {
 }
 
 export interface VoteModalProps {
+  electionId: string,
   show: boolean,
   onHide: () => any,
   candidates: Candidate[],
@@ -16,9 +20,19 @@ export interface VoteModalProps {
 type VoteValues = Record<string, string>;
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
+  const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
+
   const handleSubmit = (values: VoteValues): Promise<any> => {
-    console.log(JSON.stringify(values));
-    return Promise.resolve();
+    return createVote({
+      variables: {
+        electionId: props.electionId,
+        preferences: Object
+          .entries(values)
+          .map(entry => ({ candidateId: entry[0], preference: parseInt(entry[1]) })),
+      },
+    }).then(() => {
+      props.onHide();
+    });
   };
 
   return (

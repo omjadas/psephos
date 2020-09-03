@@ -59,6 +59,7 @@ export const Election = (): JSX.Element => {
         show={candidateModalShow}
         onHide={() => setCandidateModalShow(false)} />
       <VoteModal
+        electionId={data!.election.id}
         candidates={data!.election.candidates}
         show={voteModalShow}
         onHide={() => setVoteModalShow(false)} />

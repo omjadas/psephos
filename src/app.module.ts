@@ -13,6 +13,7 @@ import { CandidateModule } from "./candidate/candidate.module";
 import { NODE_ENV } from "./constants";
 import { ElectionModule } from "./election/election.module";
 import { CSRFMiddleware } from "./middleware/csrf.middleware";
+import { PreferenceModule } from "./preference/preference.module";
 import { UserModule } from "./user/user.module";
 import { VoteModule } from "./vote/vote.module";
 
@@ -76,9 +77,10 @@ import { VoteModule } from "./vote/vote.module";
       inject: [ConfigService],
     }),
     AuthModule,
-    ElectionModule,
-    UserModule,
     CandidateModule,
+    ElectionModule,
+    PreferenceModule,
+    UserModule,
     VoteModule,
   ],
   controllers: [AppController],
