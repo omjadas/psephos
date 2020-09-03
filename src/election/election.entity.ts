@@ -1,4 +1,5 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
+import { Winner } from "src/winner/winner.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
@@ -22,13 +23,17 @@ export class Election {
   @Column()
   public creatorId!: string;
 
-  @ManyToOne(_type => User)
+  @ManyToOne(_type => User, user => user.createdElections)
   @Field(_type => User)
   public creator!: User;
 
   @Column()
   @Field()
   public description!: string;
+
+  @Column({ type: "tinyint" })
+  @Field(_type => Int)
+  public seats!: number;
 
   @OneToMany(_type => Candidate, candidate => candidate.election)
   @Field(_type => [Candidate])
@@ -37,4 +42,8 @@ export class Election {
   @OneToMany(_type => Vote, vote => vote.election)
   @Field(_type => [Vote])
   public votes!: Vote[];
+
+  @OneToMany(_type => Winner, winner => winner.election)
+  @Field(_type => [Winner])
+  public winners!: Winner[];
 }
