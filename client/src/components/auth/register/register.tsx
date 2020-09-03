@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import * as yup from "yup";
 import { client } from "../../../apollo";
 
 interface Props {
@@ -16,6 +17,18 @@ interface FormValues {
   password1: string,
   password2: string,
 }
+
+const RegisterSchema = yup.object().shape({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  password1: yup.string().required("password is a required field"),
+  password2: yup.string().test(
+    "equal",
+    "passwords do not match",
+    function(password2) {
+      return password2 === this.resolve(yup.ref("password1"));
+    }).required(""),
+});
 
 export const Register = (props: Props): JSX.Element => {
   const [cookies, , ] = useCookies([]);
@@ -53,12 +66,15 @@ export const Register = (props: Props): JSX.Element => {
       <Formik
         initialValues={{ name: "", email: "", password1: "", password2: "" }}
         onSubmit={onSubmit}
+        validationSchema={RegisterSchema}
       >
         {
           ({
             values,
             handleChange,
             handleSubmit,
+            touched,
+            errors,
             isSubmitting,
           }) => (
             <Form
@@ -75,8 +91,11 @@ export const Register = (props: Props): JSX.Element => {
                     placeholder="Enter name"
                     value={values.name}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.name && !!errors.name}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Email address</Form.Label>
@@ -86,8 +105,11 @@ export const Register = (props: Props): JSX.Element => {
                     placeholder="Enter email"
                     value={values.email}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.email && !!errors.email}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Password</Form.Label>
@@ -97,8 +119,11 @@ export const Register = (props: Props): JSX.Element => {
                     placeholder="Enter password"
                     value={values.password1}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.password1 && !!errors.password1}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password1}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Confirm password</Form.Label>
@@ -108,8 +133,11 @@ export const Register = (props: Props): JSX.Element => {
                     placeholder="Enter password"
                     value={values.password2}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.password2 && !!errors.password2}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password2}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>

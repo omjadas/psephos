@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import * as yup from "yup";
 import { client } from "../../../apollo";
 
 interface Props {
@@ -14,6 +15,11 @@ interface FormValues {
   email: string,
   password: string,
 }
+
+const SignInSchema = yup.object().shape({
+  email: yup.string().required(),
+  password: yup.string().required(),
+});
 
 export const SignIn = (props: Props): JSX.Element => {
   const [cookies, , ] = useCookies([]);
@@ -44,12 +50,15 @@ export const SignIn = (props: Props): JSX.Element => {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={onSubmit}
+        validationSchema={SignInSchema}
       >
         {
           ({
             values,
             handleChange,
             handleSubmit,
+            touched,
+            errors,
             isSubmitting,
           }) => (
             <Form
@@ -65,8 +74,11 @@ export const SignIn = (props: Props): JSX.Element => {
                     placeholder="Enter email"
                     value={values.email}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.email && !!errors.email}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Password</Form.Label>
@@ -76,8 +88,11 @@ export const SignIn = (props: Props): JSX.Element => {
                     placeholder="Enter password"
                     value={values.password}
                     onChange={handleChange}
-                    required
+                    isInvalid={!!touched.password && !!errors.password}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Modal.Body>
               <Modal.Footer>
