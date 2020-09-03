@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { FormikControl } from "formik-react-bootstrap";
 import * as yup from "yup";
 import { client } from "../../../apollo";
 
@@ -31,7 +32,7 @@ const RegisterSchema = yup.object().shape({
 });
 
 export const Register = (props: Props): JSX.Element => {
-  const [cookies, , ] = useCookies([]);
+  const [cookies] = useCookies([]);
 
   const onSubmit = (values: FormValues): Promise<any> => {
     if (values.password1 === values.password2) {
@@ -70,11 +71,7 @@ export const Register = (props: Props): JSX.Element => {
       >
         {
           ({
-            values,
-            handleChange,
             handleSubmit,
-            touched,
-            errors,
             isSubmitting,
           }) => (
             <Form
@@ -83,62 +80,25 @@ export const Register = (props: Props): JSX.Element => {
               onSubmit={handleSubmit as any}
             >
               <Modal.Body>
-                <Form.Group>
-                  <Form.Label>Full name</Form.Label>
-                  <Form.Control
-                    type="name"
-                    name="name"
-                    placeholder="Enter name"
-                    value={values.name}
-                    onChange={handleChange}
-                    isInvalid={!!touched.name && !!errors.name}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.name}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    value={values.email}
-                    onChange={handleChange}
-                    isInvalid={!!touched.email && !!errors.email}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.email}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password1"
-                    placeholder="Enter password"
-                    value={values.password1}
-                    onChange={handleChange}
-                    isInvalid={!!touched.password1 && !!errors.password1}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.password1}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Confirm password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password2"
-                    placeholder="Enter password"
-                    value={values.password2}
-                    onChange={handleChange}
-                    isInvalid={!!touched.password2 && !!errors.password2}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.password2}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                <FormikControl
+                  label="Full name"
+                  placeholder="Enter name"
+                  name="name" />
+                <FormikControl
+                  label="Email address"
+                  type="email"
+                  name="email"
+                  placeholder="Enter email" />
+                <FormikControl
+                  label="Password"
+                  type="password"
+                  name="password1"
+                  placeholder="Enter password" />
+                <FormikControl
+                  label="Confirm password"
+                  type="password"
+                  name="password2"
+                  placeholder="Enter password" />
               </Modal.Body>
               <Modal.Footer>
                 <Button className="mr-auto" href="/auth/google">

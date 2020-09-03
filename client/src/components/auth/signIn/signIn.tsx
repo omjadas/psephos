@@ -1,6 +1,7 @@
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Formik } from "formik";
+import { FormikControl } from "formik-react-bootstrap";
 import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
@@ -22,7 +23,7 @@ const SignInSchema = yup.object().shape({
 });
 
 export const SignIn = (props: Props): JSX.Element => {
-  const [cookies, , ] = useCookies([]);
+  const [cookies] = useCookies([]);
 
   const onSubmit = (values: FormValues): Promise<any> => {
     return fetch("/auth/local", {
@@ -54,11 +55,7 @@ export const SignIn = (props: Props): JSX.Element => {
       >
         {
           ({
-            values,
-            handleChange,
             handleSubmit,
-            touched,
-            errors,
             isSubmitting,
           }) => (
             <Form
@@ -66,34 +63,17 @@ export const SignIn = (props: Props): JSX.Element => {
               className="align-self-center"
               onSubmit={handleSubmit as any}>
               <Modal.Body>
-                <Form.Group>
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    value={values.email}
-                    onChange={handleChange}
-                    isInvalid={!!touched.email && !!errors.email}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.email}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group>
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="password"
-                    placeholder="Enter password"
-                    value={values.password}
-                    onChange={handleChange}
-                    isInvalid={!!touched.password && !!errors.password}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.password}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                <FormikControl
+                  label="Email"
+                  name="email"
+                  placeholder="Enter email"
+                />
+                <FormikControl
+                  label="Password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter password"
+                />
               </Modal.Body>
               <Modal.Footer>
                 <Button className="mr-auto" href="/auth/google">

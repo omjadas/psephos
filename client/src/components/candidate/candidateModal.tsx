@@ -1,10 +1,13 @@
 import { useMutation } from "@apollo/client";
+import { Formik } from "formik";
 import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { CreateCandidateMutation } from "../../queries/CreateCandidate";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/CreateCandidate";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
+import * as yup from "yup";
+import { FormikControl } from "formik-react-bootstrap";
 
 export interface CandidateModalProps {
   id?: string,
@@ -16,22 +19,28 @@ export interface CandidateModalProps {
   onHide: () => any,
 }
 
+interface CandidateValues {
+  name: string,
+  description: string,
+}
+
+const CandidateSchema = yup.object().shape({
+  name: yup.string().required(),
+  description: yup.string(),
+});
+
 export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
-  const [name, setName] = useState(props.name ?? "");
-  const [description, setDescription] = useState(props.description ?? "");
-  const [createCandidate, { loading }] = useMutation<CreateCandidate, CreateCandidateVariables>(
+  const [createCandidate] = useMutation<CreateCandidate, CreateCandidateVariables>(
     CreateCandidateMutation,
     { errorPolicy: "all" }
   );
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
+  const onSubmit = (values: CandidateValues): Promise<any> => {
     if (props.id === undefined) {
-      createCandidate({
+      return createCandidate({
         variables: {
-          name: name,
-          description: description,
+          name: values.name,
+          description: values.description,
           election: props.electionId,
         },
         update: (cache, { data }) => {
@@ -72,6 +81,7 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
       });
     } else {
       // update
+      return Promise.resolve();
     }
   };
 
@@ -80,29 +90,39 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
       <Modal.Header closeButton>
         <Modal.Title>Create Election</Modal.Title>
       </Modal.Header>
-      <Form id="createElection" onSubmit={onSubmit}>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              onChange={e => setName(e.currentTarget.value ?? "")} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="description"
-              onChange={e => setDescription(e.currentTarget.value ?? "")} />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit" variant="success" disabled={loading}>
-            Create Candidate
-          </Button>
-        </Modal.Footer>
-      </Form>
+      <Formik
+        initialValues={{
+          name: props.name ?? "",
+          description: props.description ?? "",
+        }}
+        validationSchema={CandidateSchema}
+        onSubmit={onSubmit}
+      >
+        {
+          ({
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form id="createElection" onSubmit={handleSubmit as any}>
+              <Modal.Body>
+                <FormikControl
+                  label="Name"
+                  type="text"
+                  name="name" />
+                <FormikControl
+                  label="Description"
+                  as="textarea"
+                  name="description" />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="success" disabled={isSubmitting}>
+                  Create Candidate
+                </Button>
+              </Modal.Footer>
+            </Form>
+          )
+        }
+      </Formik>
     </Modal>
   );
 };
