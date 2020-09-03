@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Preference } from "src/preference/preference.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Election } from "../election/election.entity";
 
 @Entity()
@@ -12,7 +13,15 @@ export class Vote {
   @Column()
   public electionId!: string;
 
-  @ManyToOne(_type => Election, election => election.votes)
+  @ManyToOne(
+    _type => Election,
+    election => election.votes,
+    { onDelete: "CASCADE" }
+  )
   @Field(_type => Election)
   public election!: Election;
+
+  @OneToMany(_type => Preference, preference => preference.vote)
+  @Field(_type => [Preference])
+  public preferences!: Preference[];
 }
