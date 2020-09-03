@@ -14,6 +14,7 @@ import { NODE_ENV } from "./constants";
 import { ElectionModule } from "./election/election.module";
 import { CSRFMiddleware } from "./middleware/csrf.middleware";
 import { UserModule } from "./user/user.module";
+import { VoteModule } from "./vote/vote.module";
 
 @Module({
   imports: [
@@ -78,6 +79,7 @@ import { UserModule } from "./user/user.module";
     ElectionModule,
     UserModule,
     CandidateModule,
+    VoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
