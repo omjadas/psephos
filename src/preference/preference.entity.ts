@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "@nestjs/graphql";
+import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
 import { Check, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { Election } from "../election/election.entity";
@@ -15,7 +15,7 @@ export class Preference {
     type: "smallint",
   })
   @Check("preference >= 0")
-  @Field(_type => Number)
+  @Field(_type => Int)
   public preference!: number;
 
   @Column()
@@ -26,7 +26,7 @@ export class Preference {
   public vote!: Election;
 
   @Column()
-  public candidateId!: number;
+  public candidateId!: string;
 
   @ManyToOne(_type => Candidate, { onDelete: "RESTRICT" })
   @Field(_type => Candidate)
