@@ -1,32 +1,47 @@
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { Formik } from "formik";
+import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
+import { FormikControl } from "formik-react-bootstrap";
+import * as yup from "yup";
 import { client } from "../../../apollo";
 
 interface Props {
   onHide: () => any,
 }
 
-export const Register = (props: Props): JSX.Element => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [disabled, setDisabled] = useState(false);
-  const [cookies, , ] = useCookies([]);
+interface FormValues {
+  name: string,
+  email: string,
+  password1: string,
+  password2: string,
+}
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    setDisabled(true);
-    if (password1 === password2) {
-      fetch("/auth/register", {
+const FormSchema = yup.object().shape({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  password1: yup.string().required("password is a required field"),
+  password2: yup.string().test(
+    "equal",
+    "passwords do not match",
+    function(password2) {
+      return password2 === this.resolve(yup.ref("password1"));
+    }).required(""),
+});
+
+export const Register = (props: Props): JSX.Element => {
+  const [cookies] = useCookies([]);
+
+  const onSubmit = (values: FormValues): Promise<any> => {
+    if (values.password1 === values.password2) {
+      return fetch("/auth/register", {
         method: "post",
         body: JSON.stringify({
-          name: name,
-          email: email,
-          password: password1,
+          name: values.name,
+          email: values.email,
+          password: values.password1,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -43,70 +58,59 @@ export const Register = (props: Props): JSX.Element => {
     } else {
       // TODO: display error
       console.error("passwords do not match");
+      return Promise.reject();
     }
   };
 
   return (
     <Tab.Pane eventKey="register">
-      <Form
-        id="register"
-        className="align-self-center"
-        action="auth/register"
-        method="post"
-        encType="x-www-form-urlencoded"
+      <Formik
+        initialValues={{ name: "", email: "", password1: "", password2: "" }}
         onSubmit={onSubmit}
+        validationSchema={FormSchema}
       >
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>Full name</Form.Label>
-            <Form.Control
-              type="name"
-              name="name"
-              placeholder="Enter name"
-              onChange={e => setName(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              onChange={e => setEmail(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password1"
-              placeholder="Enter password"
-              onChange={e => setPassword1(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Confirm password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password2"
-              placeholder="Enter password"
-              onChange={e => setPassword2(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="mr-auto" href="/auth/google">
-            <FontAwesomeIcon icon={faGoogle} /> Register with Google
-          </Button>
-          <Button type="submit" variant="success" disabled={disabled}>
-            Register
-          </Button>
-        </Modal.Footer>
-      </Form>
+        {
+          ({
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form
+              id="register"
+              onSubmit={handleSubmit as any}
+            >
+              <Modal.Body>
+                <FormikControl
+                  label="Full name"
+                  placeholder="Enter name"
+                  name="name" />
+                <FormikControl
+                  label="Email address"
+                  type="email"
+                  name="email"
+                  placeholder="Enter email" />
+                <FormikControl
+                  label="Password"
+                  type="password"
+                  name="password1"
+                  placeholder="Enter password" />
+                <FormikControl
+                  label="Confirm password"
+                  type="password"
+                  name="password2"
+                  placeholder="Enter password" />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button className="mr-auto" href="/auth/google">
+                  <FontAwesomeIcon icon={faGoogle} /> Register with Google
+                </Button>
+                <Button type="submit" variant="success" disabled={isSubmitting}>
+                  Register
+                </Button>
+              </Modal.Footer>
+            </Form>
+          )
+        }
+      </Formik>
     </Tab.Pane>
   );
 };

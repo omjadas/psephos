@@ -1,7 +1,10 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import { Formik } from "formik";
+import { FormikControl } from "formik-react-bootstrap";
+import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
+import * as yup from "yup";
 import { CreateElectionMutation } from "../../queries/CreateElection";
 import { GetElectionsQuery } from "../../queries/GetElections";
 import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
@@ -15,23 +18,29 @@ export interface ElectionModalProps {
   onHide: () => any,
 }
 
+interface FormValues {
+  name: string,
+  description: string,
+}
+
+const FormSchema = yup.object().shape({
+  name: yup.string().required(),
+  description: yup.string(),
+});
+
 export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
-  const [name, setName] = useState(props.name ?? "");
-  const [description, setDescription] = useState(props.description ?? "");
   const history = useHistory();
-  const [createElection, { loading }] = useMutation<CreateElection, CreateElectionVariables>(
+  const [createElection] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
     { errorPolicy: "all" }
   );
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
+  const onSubmit = (values: FormValues): Promise<any> => {
     if (props.id === undefined) {
-      createElection({
+      return createElection({
         variables: {
-          name: name,
-          description: description,
+          name: values.name,
+          description: values.description,
         },
         update: (cache, { data }) => {
           try {
@@ -59,6 +68,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         history.push(`/elections/${data?.createElection.slug}`);
       });
     } else {
+      return Promise.resolve();
       // update
     }
   };
@@ -68,29 +78,39 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
       <Modal.Header closeButton>
         <Modal.Title>Create Election</Modal.Title>
       </Modal.Header>
-      <Form id="createElection" onSubmit={onSubmit}>
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              onChange={e => setName(e.currentTarget.value ?? "")} />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="description"
-              onChange={e => setDescription(e.currentTarget.value ?? "")} />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button type="submit" variant="success" disabled={loading}>
-            Create Election
-          </Button>
-        </Modal.Footer>
-      </Form>
+      <Formik
+        initialValues={{
+          name: props.name ?? "",
+          description: props.description ?? "",
+        }}
+        validationSchema={FormSchema}
+        onSubmit={onSubmit}
+      >
+        {
+          ({
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form id="createElection" onSubmit={handleSubmit as any}>
+              <Modal.Body>
+                <FormikControl
+                  type="text"
+                  label="Name"
+                  name="name" />
+                <FormikControl
+                  as="textarea"
+                  label="Description"
+                  name="description" />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button type="submit" variant="success" disabled={isSubmitting}>
+                  Create Election
+                </Button>
+              </Modal.Footer>
+            </Form>
+          )
+        }
+      </Formik>
     </Modal>
   );
 };

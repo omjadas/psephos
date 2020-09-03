@@ -24,7 +24,11 @@ export class Candidate {
   @Column()
   public electionId!: string;
 
-  @ManyToOne(_type => Election, election => election.candidates)
+  @ManyToOne(
+    _type => Election,
+    election => election.candidates,
+    { onDelete: "CASCADE" }
+  )
   @Field(_type => Election)
   public election!: Election;
 }

@@ -12,6 +12,8 @@ import { CandidateService } from "./candidate.service";
     CandidateService,
     CandidateResolver,
   ],
-  exports: [CandidateService],
+  exports: [
+    CandidateService,
+  ],
 })
 export class CandidateModule { }
