@@ -19,7 +19,7 @@ interface FormValues {
   password2: string,
 }
 
-const RegisterSchema = yup.object().shape({
+const FormSchema = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().email().required(),
   password1: yup.string().required("password is a required field"),
@@ -67,7 +67,7 @@ export const Register = (props: Props): JSX.Element => {
       <Formik
         initialValues={{ name: "", email: "", password1: "", password2: "" }}
         onSubmit={onSubmit}
-        validationSchema={RegisterSchema}
+        validationSchema={FormSchema}
       >
         {
           ({

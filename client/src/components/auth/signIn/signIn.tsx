@@ -17,7 +17,7 @@ interface FormValues {
   password: string,
 }
 
-const SignInSchema = yup.object().shape({
+const FormSchema = yup.object().shape({
   email: yup.string().required(),
   password: yup.string().required(),
 });
@@ -51,7 +51,7 @@ export const SignIn = (props: Props): JSX.Element => {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={onSubmit}
-        validationSchema={SignInSchema}
+        validationSchema={FormSchema}
       >
         {
           ({

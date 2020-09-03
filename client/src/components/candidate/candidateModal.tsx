@@ -19,12 +19,12 @@ export interface CandidateModalProps {
   onHide: () => any,
 }
 
-interface CandidateValues {
+interface FormValues {
   name: string,
   description: string,
 }
 
-const CandidateSchema = yup.object().shape({
+const FormSchema = yup.object().shape({
   name: yup.string().required(),
   description: yup.string(),
 });
@@ -35,7 +35,7 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
     { errorPolicy: "all" }
   );
 
-  const onSubmit = (values: CandidateValues): Promise<any> => {
+  const onSubmit = (values: FormValues): Promise<any> => {
     if (props.id === undefined) {
       return createCandidate({
         variables: {
@@ -95,7 +95,7 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
           name: props.name ?? "",
           description: props.description ?? "",
         }}
-        validationSchema={CandidateSchema}
+        validationSchema={FormSchema}
         onSubmit={onSubmit}
       >
         {

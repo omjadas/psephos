@@ -17,12 +17,12 @@ export interface VoteModalProps {
   candidates: Candidate[],
 }
 
-type VoteValues = Record<string, string>;
+type FormValues = Record<string, string>;
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
   const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
 
-  const handleSubmit = (values: VoteValues): Promise<any> => {
+  const handleSubmit = (values: FormValues): Promise<any> => {
     return createVote({
       variables: {
         electionId: props.electionId,
