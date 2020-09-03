@@ -1,6 +1,7 @@
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { Formik } from "formik";
+import React from "react";
 import { Button, Form, Modal, Tab } from "react-bootstrap";
 import { useCookies } from "react-cookie";
 import { client } from "../../../apollo";
@@ -9,24 +10,24 @@ interface Props {
   onHide: () => any,
 }
 
+interface FormValues {
+  name: string,
+  email: string,
+  password1: string,
+  password2: string,
+}
+
 export const Register = (props: Props): JSX.Element => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password1, setPassword1] = useState("");
-  const [password2, setPassword2] = useState("");
-  const [disabled, setDisabled] = useState(false);
   const [cookies, , ] = useCookies([]);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    setDisabled(true);
-    if (password1 === password2) {
-      fetch("/auth/register", {
+  const onSubmit = (values: FormValues): Promise<any> => {
+    if (values.password1 === values.password2) {
+      return fetch("/auth/register", {
         method: "post",
         body: JSON.stringify({
-          name: name,
-          email: email,
-          password: password1,
+          name: values.name,
+          email: values.email,
+          password: values.password1,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -43,70 +44,86 @@ export const Register = (props: Props): JSX.Element => {
     } else {
       // TODO: display error
       console.error("passwords do not match");
+      return Promise.reject();
     }
   };
 
   return (
     <Tab.Pane eventKey="register">
-      <Form
-        id="register"
-        className="align-self-center"
-        action="auth/register"
-        method="post"
-        encType="x-www-form-urlencoded"
+      <Formik
+        initialValues={{ name: "", email: "", password1: "", password2: "" }}
         onSubmit={onSubmit}
       >
-        <Modal.Body>
-          <Form.Group>
-            <Form.Label>Full name</Form.Label>
-            <Form.Control
-              type="name"
-              name="name"
-              placeholder="Enter name"
-              onChange={e => setName(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              onChange={e => setEmail(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password1"
-              placeholder="Enter password"
-              onChange={e => setPassword1(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Confirm password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password2"
-              placeholder="Enter password"
-              onChange={e => setPassword2(e.currentTarget.value ?? "")}
-              required
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="mr-auto" href="/auth/google">
-            <FontAwesomeIcon icon={faGoogle} /> Register with Google
-          </Button>
-          <Button type="submit" variant="success" disabled={disabled}>
-            Register
-          </Button>
-        </Modal.Footer>
-      </Form>
+        {
+          ({
+            values,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+          }) => (
+            <Form
+              id="register"
+              className="align-self-center"
+              onSubmit={handleSubmit as any}
+            >
+              <Modal.Body>
+                <Form.Group>
+                  <Form.Label>Full name</Form.Label>
+                  <Form.Control
+                    type="name"
+                    name="name"
+                    placeholder="Enter name"
+                    value={values.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    value={values.email}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password1"
+                    placeholder="Enter password"
+                    value={values.password1}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Confirm password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password2"
+                    placeholder="Enter password"
+                    value={values.password2}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button className="mr-auto" href="/auth/google">
+                  <FontAwesomeIcon icon={faGoogle} /> Register with Google
+                </Button>
+                <Button type="submit" variant="success" disabled={isSubmitting}>
+                  Register
+                </Button>
+              </Modal.Footer>
+            </Form>
+          )
+        }
+      </Formik>
     </Tab.Pane>
   );
 };
