@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import { FormikControl } from "formik-react-bootstrap";
+import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import * as yup from "yup";
 import { CreateCandidateMutation } from "../../queries/CreateCandidate";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/CreateCandidate";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
-import * as yup from "yup";
-import { FormikControl } from "formik-react-bootstrap";
 
 export interface CandidateModalProps {
   id?: string,

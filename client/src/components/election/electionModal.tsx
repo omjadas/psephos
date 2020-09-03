@@ -1,14 +1,14 @@
 import { useMutation } from "@apollo/client";
 import { Formik } from "formik";
+import { FormikControl } from "formik-react-bootstrap";
 import React from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useHistory } from "react-router";
+import * as yup from "yup";
 import { CreateElectionMutation } from "../../queries/CreateElection";
 import { GetElectionsQuery } from "../../queries/GetElections";
 import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
 import { GetElections } from "../../queries/types/GetElections";
-import * as yup from "yup";
-import { FormikControl } from "formik-react-bootstrap";
 
 export interface ElectionModalProps {
   id?: string,
