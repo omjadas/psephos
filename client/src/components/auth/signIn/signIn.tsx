@@ -60,7 +60,6 @@ export const SignIn = (props: Props): JSX.Element => {
           }) => (
             <Form
               id="signIn"
-              className="align-self-center"
               onSubmit={handleSubmit as any}>
               <Modal.Body>
                 <FormikControl

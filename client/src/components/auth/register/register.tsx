@@ -76,7 +76,6 @@ export const Register = (props: Props): JSX.Element => {
           }) => (
             <Form
               id="register"
-              className="align-self-center"
               onSubmit={handleSubmit as any}
             >
               <Modal.Body>
