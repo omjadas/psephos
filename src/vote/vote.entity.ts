@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from "@nestjs/graphql";
-import { Preference } from "src/preference/preference.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Election } from "../election/election.entity";
+import { Preference } from "../preference/preference.entity";
 
 @Entity()
 @ObjectType()

@@ -4,6 +4,7 @@ import { NestFactory } from "@nestjs/core";
 import { GraphQLSchemaBuilderModule, GraphQLSchemaFactory } from "@nestjs/graphql";
 import fs from "fs";
 import { printSchema } from "graphql";
+import { VoteResolver } from "../src/vote/vote.resolver";
 import { CandidateResolver } from "../src/candidate/candidate.resolver";
 import { ElectionResolver } from "../src/election/election.resolver";
 import { UserResolver } from "../src/user/user.resolver";
@@ -19,6 +20,7 @@ async function generateSchema(): Promise<void> {
     UserResolver,
     ElectionResolver,
     CandidateResolver,
+    VoteResolver,
   ]);
   fs.writeFileSync(OUTPUT, printSchema(schema), "utf-8");
 }
