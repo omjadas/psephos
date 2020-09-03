@@ -22,7 +22,7 @@ type FormValues = Record<string, string>;
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
   const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
 
-  const handleSubmit = (values: FormValues): Promise<any> => {
+  const onSubmit = (values: FormValues): Promise<any> => {
     return createVote({
       variables: {
         electionId: props.electionId,
@@ -50,7 +50,7 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
               },
               {}
             ) as Record<string, string>}
-        onSubmit={handleSubmit}>
+        onSubmit={onSubmit}>
         {
           ({
             values,
