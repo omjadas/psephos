@@ -44,7 +44,7 @@ export class User {
   })
   public password!: string | null;
 
-  @ManyToMany(_type => Election)
+  @ManyToMany(_type => Election, { cascade: true })
   @JoinTable()
   @Field(_type => [Election])
   public votedElections!: Election[];
