@@ -30,8 +30,8 @@ const FormSchema = yup.lazy((obj: any) =>
             .number()
             .integer()
             .positive()
-            .moreThan(0)
-            .lessThan(entries.length + 1)
+            .min(1)
+            .max(entries.length)
             .required(),
         ];
       })
