@@ -71,7 +71,7 @@ export class ElectionService {
       myElection.addBallot(prefs);
     });
 
-    const winners = stv.meek(myElection);
+    const winners = stv.meek(myElection, { seats: election.seats });
 
     const candidatePromises = [];
 

@@ -13,6 +13,6 @@ declare module "caritat" {
   }
 
   export const stv = {
-    meek: (election: Election): string[] => {},
+    meek: (election: Election, options: { seats: number }): string[] => {},
   };
 }
