@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/class-name-casing */
 declare module "caritat" {
   interface ElectionOptions {
     candidates?: string[],
