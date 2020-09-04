@@ -20,10 +20,12 @@ export interface VoteModalProps {
 
 type FormValues = Record<string, string>;
 
-const FormSchema = yup.lazy((obj: any) =>
-  yup.object(
+const FormSchema = yup.lazy((obj: any) => {
+  const entries = Object.entries(obj);
+  const values = entries.map(entry => entry[1]);
+  return yup.object(
     Object.fromEntries(
-      Object.entries(obj).map(([key], i, entries) => {
+      entries.map(([key], i, entries) => {
         return [
           key,
           yup
@@ -32,12 +34,13 @@ const FormSchema = yup.lazy((obj: any) =>
             .positive()
             .min(1)
             .max(entries.length)
+            .notOneOf(values.slice(0, i))
             .required(),
         ];
       })
     )
-  )
-);
+  );
+});
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
   const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
