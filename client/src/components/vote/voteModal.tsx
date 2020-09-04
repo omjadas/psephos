@@ -2,9 +2,10 @@ import { useMutation } from "@apollo/client";
 import { Formik } from "formik";
 import React from "react";
 import { Button, Col, Form, Modal } from "react-bootstrap";
+import * as yup from "yup";
 import { CreateVoteMutation } from "../../queries/CreateVote";
 import { CreateVote, CreateVoteVariables } from "../../queries/types/CreateVote";
-import * as yup from "yup";
+import styles from "./voteModal.module.scss";
 
 interface Candidate {
   id: string,
@@ -30,12 +31,17 @@ const FormSchema = yup.lazy((obj: any) => {
           key,
           yup
             .number()
-            .integer()
-            .positive()
-            .min(1)
-            .max(entries.length)
-            .notOneOf(values.slice(0, i))
-            .required(),
+            .integer("preferences must be integers")
+            .min(
+              1,
+              "preferences must be greater than or equal to 1"
+            )
+            .max(
+              entries.length,
+              `preferences must be less than or equal to ${entries.length}`
+            )
+            .notOneOf(values.slice(0, i), "preferences must be unique")
+            .required("all preferences are required"),
         ];
       })
     )
@@ -93,13 +99,15 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
                       <Form.Row className="mb-2" key={candidate.id}>
                         <Col sm="2">
                           <Form.Control
+                            className={styles.preference}
                             type="number"
-                            min={1}
-                            max={props.candidates.length}
                             value={values[candidate.id]}
                             onChange={handleChange}
                             name={candidate.id}
                             isInvalid={!!touched[candidate.id] && !!errors[candidate.id]} />
+                          <Form.Control.Feedback className="text-nowrap" type="invalid">
+                            {errors[candidate.id]}
+                          </Form.Control.Feedback>
                         </Col>
                         <Form.Label column>
                           {candidate.name}
