@@ -84,7 +84,14 @@ export class ElectionResolver {
   public async countVotes(
     @Args("id", { type: () => ID }) id: string,
   ): Promise<Candidate[]> {
-    const election = await this.electionService.findById(id, ["candidates"]);
+    const election = await this.electionService.findById(
+      id,
+      [
+        "candidates",
+        "votes",
+        "votes.preferences",
+      ]
+    );
     if (election === undefined) {
       throw new NotFoundException();
     }

@@ -1,8 +1,10 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { Button, Container, Jumbotron, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
+import { CountVotesMutation } from "../../queries/CountVotes";
 import { GetElectionQuery } from "../../queries/GetElection";
+import { CountVotes, CountVotesVariables } from "../../queries/types/CountVotes";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
@@ -23,6 +25,9 @@ export const Election = (): JSX.Element => {
       },
     }
   );
+  const [countVotes, { loading: mutationLoading }] = useMutation<CountVotes, CountVotesVariables>(
+    CountVotesMutation
+  );
 
   if (loading) {
     return (
@@ -36,6 +41,14 @@ export const Election = (): JSX.Element => {
     return <></>;
   }
 
+  const onCountVotes = (): void => {
+    countVotes({
+      variables: {
+        id: data!.election.id,
+      },
+    });
+  };
+
   return (
     <Container className="mt-3">
       <Button
@@ -47,6 +60,12 @@ export const Election = (): JSX.Element => {
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>
         <p>{data?.election.description}</p>
+        <Button
+          className="float-right mr-2"
+          onClick={onCountVotes}
+          disabled={mutationLoading}>
+          Count Votes
+        </Button>
         <Button
           className="float-right"
           onClick={() => setVoteModalShow(true)}>
