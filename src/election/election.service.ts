@@ -4,13 +4,15 @@ import { Election as ElectionCounter, stv } from "caritat";
 import crypto from "crypto";
 import slugify from "slugify";
 import { DeleteResult, QueryFailedError, Repository } from "typeorm";
+import { CandidateService } from "../candidate/candidate.service";
 import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
 
 @Injectable()
 export class ElectionService {
   public constructor(
-    @InjectRepository(Election) private readonly electionRepository: Repository<Election>
+    @InjectRepository(Election) private readonly electionRepository: Repository<Election>,
+    private readonly candidateService: CandidateService
   ) { }
 
   public findById(
@@ -54,7 +56,7 @@ export class ElectionService {
     return this.electionRepository.save(election);
   }
 
-  public countVotes(election: Election): void {
+  public async countVotes(election: Election): Promise<void> {
     const myElection = new ElectionCounter({
       candidates: election.candidates.map(c => c.id),
     });
@@ -71,11 +73,14 @@ export class ElectionService {
 
     const winners = stv.meek(myElection);
 
-    election.candidates.forEach(candidate => {
-      if (winners.includes(candidate.id)) {
-        candidate.elected = true;
-      }
-    });
+    const candidatePromises = [];
+
+    for (const candidate of election.candidates) {
+      candidate.elected = winners.includes(candidate.id);
+      candidatePromises.push(this.candidateService.save(candidate));
+    }
+
+    await Promise.all(candidatePromises);
   }
 
   public async create(

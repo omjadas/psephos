@@ -78,4 +78,17 @@ export class ElectionResolver {
     this.electionService.save(election);
     return election;
   }
+
+  @Mutation(_returns => [Candidate])
+  @UseGuards(GqlAuthGuard)
+  public async countVotes(
+    @Args("id", { type: () => ID }) id: string,
+  ): Promise<Candidate[]> {
+    const election = await this.electionService.findById(id, ["candidates"]);
+    if (election === undefined) {
+      throw new NotFoundException();
+    }
+    await this.electionService.countVotes(election);
+    return election.candidates.filter(candidate => candidate.elected === true);
+  }
 }
