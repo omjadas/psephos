@@ -65,7 +65,7 @@ export class ElectionService {
       const prefs: string[] = [];
 
       vote.preferences.forEach(pref => {
-        prefs[pref.preference] = pref.candidateId;
+        prefs[pref.preference - 1] = pref.candidateId;
       });
 
       myElection.addBallot(prefs);
