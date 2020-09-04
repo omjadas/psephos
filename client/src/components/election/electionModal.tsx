@@ -14,6 +14,7 @@ export interface ElectionModalProps {
   id?: string,
   name?: string,
   description?: string,
+  seats?: number,
   show: boolean,
   onHide: () => any,
 }
@@ -21,10 +22,12 @@ export interface ElectionModalProps {
 interface FormValues {
   name: string,
   description: string,
+  seats: number,
 }
 
 const FormSchema = yup.object().shape({
   name: yup.string().required(),
+  seats: yup.number().required(),
   description: yup.string(),
 });
 
@@ -40,6 +43,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
       return createElection({
         variables: {
           name: values.name,
+          seats: values.seats,
           description: values.description,
         },
         update: (cache, { data }) => {
@@ -82,6 +86,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         initialValues={{
           name: props.name ?? "",
           description: props.description ?? "",
+          seats: props.seats ?? 1,
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}
@@ -97,6 +102,10 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
                   type="text"
                   label="Name"
                   name="name" />
+                <FormikControl
+                  type="number"
+                  label="Seats"
+                  name="seats" />
                 <FormikControl
                   as="textarea"
                   label="Description"

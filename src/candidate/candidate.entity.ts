@@ -31,4 +31,11 @@ export class Candidate {
   )
   @Field(_type => Election)
   public election!: Election;
+
+  @Column({
+    type: "boolean",
+    nullable: true,
+  })
+  @Field(_type => Boolean, { nullable: true })
+  public winner!: boolean | null;
 }

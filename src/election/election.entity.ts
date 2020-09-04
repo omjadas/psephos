@@ -3,7 +3,6 @@ import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "ty
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
 import { Vote } from "../vote/vote.entity";
-import { Winner } from "../winner/winner.entity";
 
 @Entity()
 @ObjectType()
@@ -31,7 +30,7 @@ export class Election {
   @Field()
   public description!: string;
 
-  @Column({ type: "tinyint" })
+  @Column({ type: "smallint" })
   @Field(_type => Int)
   public seats!: number;
 
@@ -42,8 +41,4 @@ export class Election {
   @OneToMany(_type => Vote, vote => vote.election)
   @Field(_type => [Vote])
   public votes!: Vote[];
-
-  @OneToMany(_type => Winner, winner => winner.election)
-  @Field(_type => [Winner])
-  public winners!: Winner[];
 }

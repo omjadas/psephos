@@ -53,8 +53,12 @@ export class ElectionService {
     return this.electionRepository.save(election);
   }
 
+  public countVotes(election: Election): void {
+  }
+
   public async create(
     name: string,
+    seats: number,
     description: string,
     creator: User
   ): Promise<Election> {
@@ -63,6 +67,7 @@ export class ElectionService {
       try {
         const election = new Election();
         election.name = name;
+        election.seats = seats;
         election.description = description;
         election.slug = `${slugify(name)}-${crypto.randomBytes(8).toString("hex")}`;
         election.creator = creator;

@@ -23,7 +23,18 @@ type FormValues = Record<string, string>;
 const FormSchema = yup.lazy((obj: any) =>
   yup.object(
     Object.fromEntries(
-      Object.entries(obj).map(([key]) => [key, yup.number()])
+      Object.entries(obj).map(([key], i, entries) => {
+        return [
+          key,
+          yup
+            .number()
+            .integer()
+            .positive()
+            .moreThan(0)
+            .lessThan(entries.length + 1)
+            .required(),
+        ];
+      })
     )
   )
 );
@@ -65,6 +76,8 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
         {
           ({
             values,
+            errors,
+            touched,
             handleChange,
             isSubmitting,
             handleSubmit,
@@ -82,7 +95,8 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
                             max={props.candidates.length}
                             value={values[candidate.id]}
                             onChange={handleChange}
-                            name={candidate.id} />
+                            name={candidate.id}
+                            isInvalid={!!touched[candidate.id] && !!errors[candidate.id]} />
                         </Col>
                         <Form.Label column>
                           {candidate.name}
