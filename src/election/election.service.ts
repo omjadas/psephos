@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { Election as ElectionCounter, stv } from "caritat";
 import crypto from "crypto";
 import slugify from "slugify";
 import { DeleteResult, QueryFailedError, Repository } from "typeorm";
@@ -54,6 +55,27 @@ export class ElectionService {
   }
 
   public countVotes(election: Election): void {
+    const myElection = new ElectionCounter({
+      candidates: election.candidates.map(c => c.id),
+    });
+
+    election.votes.forEach(vote => {
+      const prefs: string[] = [];
+
+      vote.preferences.forEach(pref => {
+        prefs[pref.preference] = pref.candidateId;
+      });
+
+      myElection.addBallot(prefs);
+    });
+
+    const winners = stv.meek(myElection);
+
+    election.candidates.forEach(candidate => {
+      if (winners.includes(candidate.id)) {
+        candidate.elected = true;
+      }
+    });
   }
 
   public async create(

@@ -37,5 +37,5 @@ export class Candidate {
     nullable: true,
   })
   @Field(_type => Boolean, { nullable: true })
-  public winner!: boolean | null;
+  public elected!: boolean | null;
 }
