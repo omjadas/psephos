@@ -81,14 +81,32 @@ export class ElectionResolver {
   @UseGuards(GqlAuthGuard)
   public async updateElection(
     @Args("id", { type: () => ID }) id: string,
-      @Args("name") name?: string,
-      @Args("description") description?: string
+      @Args("name", { nullable: true }) name?: string,
+      @Args("seats", { nullable: true }) seats?: number,
+      @Args(
+        "startTime",
+        {
+          type: () => GraphQLISODateTime,
+          nullable: true,
+        }
+      ) startTime?: Date,
+      @Args(
+        "finishTime",
+        {
+          type: () => GraphQLISODateTime,
+          nullable: true,
+        }
+      ) finishTime?: Date | null,
+      @Args("description", { nullable: true }) description?: string
   ): Promise<Election> {
     const election = await this.electionService.findById(id);
     if (election === undefined) {
       throw new NotFoundException();
     }
     election.name = name ?? election.name;
+    election.seats = seats ?? election.seats;
+    election.startTime = startTime ?? election.startTime;
+    election.finishTime = finishTime ?? election.finishTime;
     election.description = description ?? election.description;
     this.electionService.save(election);
     return election;
