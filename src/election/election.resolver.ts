@@ -1,5 +1,5 @@
 import { NotFoundException, UseGuards } from "@nestjs/common";
-import { Args, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { Args, GraphQLISODateTime, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { Candidate } from "../candidate/candidate.entity";
 import { CandidateService } from "../candidate/candidate.service";
@@ -47,10 +47,25 @@ export class ElectionResolver {
   public createElection(
     @Args("name") name: string,
       @Args("seats", { type: () => Int }) seats: number,
+      @Args("startTime", { type: () => GraphQLISODateTime }) startTime: Date,
+      @Args(
+        "finishTime",
+        {
+          type: () => GraphQLISODateTime,
+          nullable: true,
+        }
+      ) finishTime: Date | null,
       @Args("description") description: string,
       @CurrentUser() user: User
   ): Promise<Election> {
-    return this.electionService.create(name, seats, description, user);
+    return this.electionService.create(
+      name,
+      seats,
+      startTime,
+      finishTime,
+      description,
+      user
+    );
   }
 
   @Mutation(_returns => Boolean)

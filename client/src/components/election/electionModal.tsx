@@ -13,21 +13,27 @@ import { GetElections } from "../../queries/types/GetElections";
 export interface ElectionModalProps {
   id?: string,
   name?: string,
-  description?: string,
   seats?: number,
+  startTime?: string,
+  finishTime?: string,
+  description?: string,
   show: boolean,
   onHide: () => any,
 }
 
 interface FormValues {
   name: string,
-  description: string,
   seats: number,
+  startTime: string,
+  finishTime: string,
+  description: string,
 }
 
 const FormSchema = yup.object().shape({
   name: yup.string().required(),
   seats: yup.number().required(),
+  startTime: yup.date().required(),
+  finishTime: yup.date().min(yup.ref("startTime")),
   description: yup.string(),
 });
 
@@ -44,6 +50,8 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         variables: {
           name: values.name,
           seats: values.seats,
+          startTime: values.startTime + "Z",
+          finishTime: values.finishTime || null,
           description: values.description,
         },
         update: (cache, { data }) => {
@@ -85,8 +93,10 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
       <Formik
         initialValues={{
           name: props.name ?? "",
-          description: props.description ?? "",
           seats: props.seats ?? 1,
+          startTime: props.startTime ?? new Date().toISOString().slice(0, -5),
+          finishTime: props.finishTime ?? "",
+          description: props.description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}
@@ -106,6 +116,14 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
                   type="number"
                   label="Seats"
                   name="seats" />
+                <FormikControl
+                  type="datetime-local"
+                  label="Start Time"
+                  name="startTime" />
+                <FormikControl
+                  type="datetime-local"
+                  label="Finish Time"
+                  name="finishTime" />
                 <FormikControl
                   as="textarea"
                   label="Description"

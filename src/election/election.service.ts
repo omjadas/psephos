@@ -86,24 +86,32 @@ export class ElectionService {
   public async create(
     name: string,
     seats: number,
+    startTime: Date,
+    finishTime: Date | null,
     description: string,
     creator: User
   ): Promise<Election> {
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    let attempts = 10;
+
+    while (attempts > 0) {
       try {
         const election = new Election();
         election.name = name;
         election.seats = seats;
+        election.startTime = startTime;
+        election.finishTime = finishTime;
         election.description = description;
         election.slug = `${slugify(name)}-${crypto.randomBytes(8).toString("hex")}`;
         election.creator = creator;
         return await this.save(election);
       } catch (e: unknown) {
+        attempts--;
         if (!(e instanceof QueryFailedError)) {
           throw e;
         }
       }
     }
+
+    throw new Error();
   }
 }
