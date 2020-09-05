@@ -1,6 +1,5 @@
 import { ForbiddenException, NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, ID, Mutation, Resolver } from "@nestjs/graphql";
-import { UserService } from "src/user/user.service";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { ElectionService } from "../election/election.service";
 import { Preference } from "../preference/preference.entity";
@@ -8,6 +7,7 @@ import { PreferenceInput } from "../preference/preference.input";
 import { PreferenceService } from "../preference/preference.service";
 import { CurrentUser } from "../user/decorators/currentUser";
 import { User } from "../user/user.entity";
+import { UserService } from "../user/user.service";
 import { Vote } from "./vote.entity";
 import { VoteService } from "./vote.service";
 
