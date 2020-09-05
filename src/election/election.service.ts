@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Election as ElectionCounter, stv } from "caritat";
 import crypto from "crypto";
 import slugify from "slugify";
-import { DeleteResult, QueryFailedError, Repository } from "typeorm";
+import { DeleteResult, LessThan, QueryFailedError, Repository } from "typeorm";
 import { CandidateService } from "../candidate/candidate.service";
 import { User } from "../user/user.entity";
 import { Election } from "./election.entity";
@@ -35,6 +35,16 @@ export class ElectionService {
 
   public findAll(relations: string[] = []): Promise<Election[]> {
     return this.electionRepository.find({ relations: relations });
+  }
+
+  public findVisible(user: User, relations: string[] = []): Promise<Election[]> {
+    return this.electionRepository.find({
+      where: [
+        { creatorId: user.id },
+        { startTime: LessThan(new Date().toISOString()) },
+      ],
+      relations: relations,
+    });
   }
 
   public findAllByProp(

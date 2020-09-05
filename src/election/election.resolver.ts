@@ -33,8 +33,8 @@ export class ElectionResolver {
 
   @Query(_returns => [Election], { name: "elections" })
   @UseGuards(GqlAuthGuard)
-  public getElections(): Promise<Election[]> {
-    return this.electionService.findAll();
+  public getElections(@CurrentUser() user: User): Promise<Election[]> {
+    return this.electionService.findVisible(user);
   }
 
   @ResolveField()
