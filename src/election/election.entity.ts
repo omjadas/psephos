@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
+import { Field, GraphQLISODateTime, ID, Int, ObjectType } from "@nestjs/graphql";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Candidate } from "../candidate/candidate.entity";
 import { User } from "../user/user.entity";
@@ -18,6 +18,14 @@ export class Election {
   @Column({ unique: true })
   @Field()
   public slug!: string;
+
+  @Column({ type: "timestamp" })
+  @Field(_type => GraphQLISODateTime)
+  public startTime!: Date;
+
+  @Column({ type: "timestamp", nullable: true })
+  @Field(_type => GraphQLISODateTime, { nullable: true })
+  public finishTime!: Date | null;
 
   @Column()
   public creatorId!: string;
