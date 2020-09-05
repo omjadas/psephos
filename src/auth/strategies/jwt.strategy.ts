@@ -28,6 +28,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
   }
 
   public async validate(payload: Record<string, any>): Promise<any> {
-    return this.userService.findById(payload.sub);
+    return this.userService.findById(payload.sub, ["votedElections"]);
   }
 }

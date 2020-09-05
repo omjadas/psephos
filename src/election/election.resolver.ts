@@ -73,7 +73,7 @@ export class ElectionResolver {
   public async deleteElection(
     @Args("id", { type: () => ID }) id: string
   ): Promise<boolean> {
-    await this.candidateService.deleteById(id);
+    await this.electionService.deleteById(id);
     return true;
   }
 

@@ -19,11 +19,11 @@ export class Election {
   @Field()
   public slug!: string;
 
-  @Column({ type: "timestamp" })
+  @Column({ type: "timestamptz" })
   @Field(_type => GraphQLISODateTime)
   public startTime!: Date;
 
-  @Column({ type: "timestamp", nullable: true })
+  @Column({ type: "timestamptz", nullable: true })
   @Field(_type => GraphQLISODateTime, { nullable: true })
   public finishTime!: Date | null;
 

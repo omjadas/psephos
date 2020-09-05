@@ -50,7 +50,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         variables: {
           name: values.name,
           seats: values.seats,
-          startTime: values.startTime + "Z",
+          startTime: new Date(values.startTime).toISOString(),
           finishTime: values.finishTime || null,
           description: values.description,
         },
@@ -94,7 +94,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         initialValues={{
           name: props.name ?? "",
           seats: props.seats ?? 1,
-          startTime: props.startTime ?? new Date().toISOString().slice(0, -5),
+          startTime: props.startTime ?? new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19),
           finishTime: props.finishTime ?? "",
           description: props.description ?? "",
         }}

@@ -49,6 +49,29 @@ export const Election = (): JSX.Element => {
     });
   };
 
+  let button;
+
+  const now = new Date();
+
+  if (data?.election.finishTime !== null && new Date(data?.election.finishTime) < now) {
+    button = (
+      <Button
+        className="float-right mr-2"
+        onClick={onCountVotes}
+        disabled={mutationLoading}>
+        Count Votes
+      </Button>
+    );
+  } else if (new Date(data?.election.startTime) < now) {
+    button = (
+      <Button
+        className="float-right"
+        onClick={() => setVoteModalShow(true)}>
+        Vote
+      </Button>
+    );
+  }
+
   return (
     <Container className="mt-3">
       <Button
@@ -60,17 +83,7 @@ export const Election = (): JSX.Element => {
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>
         <p>{data?.election.description}</p>
-        <Button
-          className="float-right mr-2"
-          onClick={onCountVotes}
-          disabled={mutationLoading}>
-          Count Votes
-        </Button>
-        <Button
-          className="float-right"
-          onClick={() => setVoteModalShow(true)}>
-          Vote
-        </Button>
+        {button}
       </Jumbotron>
       <CandidateModal
         electionId={data!.election.id}
