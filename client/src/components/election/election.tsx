@@ -72,11 +72,13 @@ export const Election = (): JSX.Element => {
   let button = <></>;
 
   const now = new Date();
+  let state = "new";
 
   if (
     new Date(election?.election.finishTime) < now &&
     election!.election.creator.id === me!.me.id
   ) {
+    state = "closed";
     button = (
       <Button
         className="float-right"
@@ -89,6 +91,7 @@ export const Election = (): JSX.Element => {
     new Date(election?.election.startTime) < now &&
     !me?.me.votedElections.some(el => el.id === election?.election.id)
   ) {
+    state = "open";
     button = (
       <Button
         className="float-right"
@@ -101,7 +104,7 @@ export const Election = (): JSX.Element => {
   return (
     <Container className="mt-3">
       {
-        new Date(election!.election.startTime) > now && election!.election.creator.id === me!.me.id &&
+        state === "new" && election!.election.creator.id === me!.me.id &&
           <>
             <Button
               className={`float-right ${styles["candidate-button"]}`}
@@ -116,7 +119,7 @@ export const Election = (): JSX.Element => {
           </>
       }
       {
-        new Date(election!.election.finishTime) < now &&
+        state === "closed" &&
           <Button
             className={`float-right ${styles["candidate-button"]}`}
             onClick={() => setWinnerModalShow(true)}>
@@ -161,7 +164,7 @@ export const Election = (): JSX.Element => {
               name={candidate.name}
               description={candidate.description}
               electionSlug={slug}
-              showButtons={election.election.creator.id === me!.me.id} />;
+              showButtons={election.election.creator.id === me!.me.id && state === "new"} />;
           })
         }
       </EasyGrid>
