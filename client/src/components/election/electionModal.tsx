@@ -33,7 +33,7 @@ const FormSchema = yup.object().shape({
   name: yup.string().required(),
   seats: yup.number().required(),
   startTime: yup.date().required(),
-  finishTime: yup.date().min(yup.ref("startTime")),
+  finishTime: yup.date().min(yup.ref("startTime")).required(),
   description: yup.string(),
 });
 
@@ -51,7 +51,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
           name: values.name,
           seats: values.seats,
           startTime: new Date(values.startTime).toISOString(),
-          finishTime: values.finishTime || null,
+          finishTime: new Date(values.finishTime).toISOString(),
           description: values.description,
         },
         update: (cache, { data }) => {
@@ -94,7 +94,7 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         initialValues={{
           name: props.name ?? "",
           seats: props.seats ?? 1,
-          startTime: props.startTime ?? new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19),
+          startTime: props.startTime ?? new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
           finishTime: props.finishTime ?? "",
           description: props.description ?? "",
         }}

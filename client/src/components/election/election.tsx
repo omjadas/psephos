@@ -53,7 +53,7 @@ export const Election = (): JSX.Element => {
 
   const now = new Date();
 
-  if (data?.election.finishTime !== null && new Date(data?.election.finishTime) < now) {
+  if (new Date(data?.election.finishTime) < now) {
     button = (
       <Button
         className="float-right mr-2"
@@ -74,11 +74,21 @@ export const Election = (): JSX.Element => {
 
   return (
     <Container className="mt-3">
-      <Button
-        className={`float-right ${styles["candidate-button"]}`}
-        onClick={() => setCandidateModalShow(true)}>
-        + Candidate
-      </Button>
+      {
+        new Date(data!.election.startTime) > now &&
+          <Button
+            className={`float-right ${styles["candidate-button"]}`}
+            onClick={() => setCandidateModalShow(true)}>
+            + Candidate
+          </Button>
+      }
+      {
+        new Date(data!.election.finishTime) < now &&
+          <Button
+            className={`float-right ${styles["candidate-button"]}`}>
+            View Winners
+          </Button>
+      }
       <Jumbotron>
         <h1>{data?.election.name}</h1>
         <p className="text-muted">Created by {data?.election.creator.name}</p>

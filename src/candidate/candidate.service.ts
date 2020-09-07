@@ -1,14 +1,16 @@
-import { Injectable } from "@nestjs/common";
+import { ForbiddenException, forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import crypto from "crypto";
 import slugify from "slugify";
 import { DeleteResult, QueryFailedError, Repository } from "typeorm";
+import { ElectionService } from "../election/election.service";
 import { Candidate } from "./candidate.entity";
 
 @Injectable()
 export class CandidateService {
   public constructor(
-    @InjectRepository(Candidate) private readonly candidateRepository: Repository<Candidate>
+    @InjectRepository(Candidate) private readonly candidateRepository: Repository<Candidate>,
+    @Inject(forwardRef(() => ElectionService)) private readonly electionService: ElectionService
   ) { }
 
   public findById(
@@ -60,6 +62,16 @@ export class CandidateService {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       try {
+        const election = await this.electionService.findById(electionId);
+
+        if (election === undefined) {
+          throw new NotFoundException();
+        }
+
+        if (election.startTime < new Date()) {
+          throw new ForbiddenException();
+        }
+
         const candidate = new Candidate();
         candidate.name = name;
         candidate.description = description;

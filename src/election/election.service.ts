@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Election as ElectionCounter, stv } from "caritat";
 import crypto from "crypto";
@@ -12,7 +12,7 @@ import { Election } from "./election.entity";
 export class ElectionService {
   public constructor(
     @InjectRepository(Election) private readonly electionRepository: Repository<Election>,
-    private readonly candidateService: CandidateService
+    @Inject(forwardRef(() => CandidateService)) private readonly candidateService: CandidateService
   ) { }
 
   public findById(
