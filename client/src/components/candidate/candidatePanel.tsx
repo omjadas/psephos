@@ -1,12 +1,13 @@
 import { useMutation } from "@apollo/client";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Card } from "react-bootstrap";
 import { DeleteCandidateMutation } from "../../queries/DeleteCandidate";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { DeleteCandidate, DeleteCandidateVariables } from "../../queries/types/DeleteCandidate";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
+import { CandidateModal } from "./candidateModal";
 import styles from "./candidatePanel.module.scss";
 
 export interface CandidatePanelProps {
@@ -17,6 +18,7 @@ export interface CandidatePanelProps {
 }
 
 export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
+  const [candidateModalShow, setCandidateModalShow] = useState(false);
   const [deleteCandidate, { loading }] = useMutation<DeleteCandidate, DeleteCandidateVariables>(
     DeleteCandidateMutation
   );
@@ -58,22 +60,35 @@ export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
   };
 
   return (
-    <Card>
-      <Card.Body>
-        <Button
-          className="ml-auto float-right"
-          variant="danger"
-          onClick={onClick}
-          disabled={loading}>
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>
-        <Card.Title className={styles.name}>
-          {props.name}
-        </Card.Title>
-        <Card.Text className={styles.description}>
-          {props.description}
-        </Card.Text>
-      </Card.Body>
-    </Card>
+    <>
+      <Card>
+        <Card.Body>
+          <Button
+            className="ml-auto float-right"
+            variant="danger"
+            onClick={onClick}
+            disabled={loading}>
+            <FontAwesomeIcon icon={faTrash} />
+          </Button>
+          <Button
+            className="ml-auto mr-2 float-right"
+            onClick={() => setCandidateModalShow(true)}>
+            <FontAwesomeIcon icon={faEdit} />
+          </Button>
+          <Card.Title className={styles.name}>
+            {props.name}
+          </Card.Title>
+          <Card.Text className={styles.description}>
+            {props.description}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      <CandidateModal
+        id={props.id}
+        name={props.name}
+        description={props.description}
+        show={candidateModalShow}
+        onHide={() => setCandidateModalShow(false)} />
+    </>
   );
 };

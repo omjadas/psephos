@@ -8,15 +8,23 @@ import { CreateCandidateMutation } from "../../queries/CreateCandidate";
 import { GetElectionQuery } from "../../queries/GetElection";
 import { CreateCandidate, CreateCandidateVariables } from "../../queries/types/CreateCandidate";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
+import { UpdateCandidate, UpdateCandidateVariables } from "../../queries/types/UpdateCandidate";
+import { UpdateCandidateMutation } from "../../queries/UpdateCandidate";
 
-export interface CandidateModalProps {
-  id?: string,
-  name?: string,
-  description?: string,
-  electionId: string,
-  electionSlug: string,
+interface CandidateModalProps {
   show: boolean,
   onHide: () => any,
+}
+
+interface CreateCandidateModalProps extends CandidateModalProps {
+  electionId: string,
+  electionSlug: string,
+}
+
+interface UpdateCandidateModalProps extends CandidateModalProps {
+  id: string,
+  name: string,
+  description: string,
 }
 
 interface FormValues {
@@ -29,14 +37,30 @@ const FormSchema = yup.object().shape({
   description: yup.string(),
 });
 
-export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
+export const CandidateModal = (
+  props: CreateCandidateModalProps | UpdateCandidateModalProps
+): JSX.Element => {
   const [createCandidate] = useMutation<CreateCandidate, CreateCandidateVariables>(
     CreateCandidateMutation,
     { errorPolicy: "all" }
   );
+  const [updateCandidate] = useMutation<UpdateCandidate, UpdateCandidateVariables>(
+    UpdateCandidateMutation,
+    { errorPolicy: "all" }
+  );
 
   const onSubmit = (values: FormValues): Promise<any> => {
-    if (props.id === undefined) {
+    if ("id" in props) {
+      return updateCandidate({
+        variables: {
+          id: props.id,
+          name: values.name,
+          description: values.description,
+        },
+      }).then(() => {
+        props.onHide();
+      });
+    } else {
       return createCandidate({
         variables: {
           name: values.name,
@@ -82,9 +106,6 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
       }).then(() => {
         props.onHide();
       });
-    } else {
-      // update
-      return Promise.resolve();
     }
   };
 
@@ -95,8 +116,8 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
       </Modal.Header>
       <Formik
         initialValues={{
-          name: props.name ?? "",
-          description: props.description ?? "",
+          name: (props as any).name ?? "",
+          description: (props as any).description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}

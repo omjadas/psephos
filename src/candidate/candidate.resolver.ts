@@ -65,8 +65,8 @@ export class CandidateResolver {
   @UseGuards(GqlAuthGuard)
   public async updateCandidate(
     @Args("id", { type: () => ID }) id: string,
-      @Args("name") name?: string,
-      @Args("description") description?: string
+      @Args("name", { nullable: true }) name?: string,
+      @Args("description", { nullable: true }) description?: string
   ): Promise<Candidate> {
     const candidate = await this.candidateService.findById(id);
     if (candidate === undefined) {
