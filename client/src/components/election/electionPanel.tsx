@@ -15,6 +15,7 @@ export interface ElectionPanelProps {
   name: string,
   description: string,
   slug: string,
+  showButtons: boolean,
 }
 
 export const ElectionPanel = (props: ElectionPanelProps): JSX.Element => {
@@ -55,13 +56,16 @@ export const ElectionPanel = (props: ElectionPanelProps): JSX.Element => {
   return (
     <Card>
       <Card.Body>
-        <Button
-          className="ml-auto float-right"
-          variant="danger"
-          onClick={onClick}
-          disabled={loading}>
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>
+        {
+          props.showButtons &&
+            <Button
+              className="ml-auto float-right"
+              variant="danger"
+              onClick={onClick}
+              disabled={loading}>
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
+        }
         <Card.Title>
           <Link to={`/elections/${props.slug}`} className={styles.name}>
             {props.name}

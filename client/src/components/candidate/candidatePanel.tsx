@@ -15,6 +15,7 @@ export interface CandidatePanelProps {
   name: string,
   description: string,
   electionSlug: string,
+  showButtons: boolean,
 }
 
 export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
@@ -63,18 +64,23 @@ export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
     <>
       <Card>
         <Card.Body>
-          <Button
-            className="ml-auto float-right"
-            variant="danger"
-            onClick={onClick}
-            disabled={loading}>
-            <FontAwesomeIcon icon={faTrash} />
-          </Button>
-          <Button
-            className="ml-auto mr-2 float-right"
-            onClick={() => setCandidateModalShow(true)}>
-            <FontAwesomeIcon icon={faEdit} />
-          </Button>
+          {
+            props.showButtons &&
+              <>
+                <Button
+                  className="ml-auto float-right"
+                  variant="danger"
+                  onClick={onClick}
+                  disabled={loading}>
+                  <FontAwesomeIcon icon={faTrash} />
+                </Button>
+                <Button
+                  className="ml-auto mr-2 float-right"
+                  onClick={() => setCandidateModalShow(true)}>
+                  <FontAwesomeIcon icon={faEdit} />
+                </Button>
+              </>
+          }
           <Card.Title className={styles.name}>
             {props.name}
           </Card.Title>

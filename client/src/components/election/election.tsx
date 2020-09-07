@@ -6,8 +6,10 @@ import { Button, Container, Jumbotron, Spinner } from "react-bootstrap";
 import { useParams } from "react-router";
 import { CountVotesMutation } from "../../queries/CountVotes";
 import { GetElectionQuery } from "../../queries/GetElection";
+import { MeQuery } from "../../queries/Me";
 import { CountVotes, CountVotesVariables } from "../../queries/types/CountVotes";
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
+import { Me } from "../../queries/types/Me";
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
 import { WinnerModal } from "../candidate/winnerModal";
@@ -22,7 +24,11 @@ export const Election = (): JSX.Element => {
   const [candidateModalShow, setCandidateModalShow] = useState(false);
   const [voteModalShow, setVoteModalShow] = useState(false);
   const [winnerModalShow, setWinnerModalShow] = useState(false);
-  const { loading, error, data } = useQuery<GetElection, GetElectionVariables>(
+  const {
+    loading: loadingElection,
+    error: errorElection,
+    data: election,
+  } = useQuery<GetElection, GetElectionVariables>(
     GetElectionQuery,
     {
       errorPolicy: "all",
@@ -31,11 +37,19 @@ export const Election = (): JSX.Element => {
       },
     }
   );
-  const [countVotes, { loading: mutationLoading }] = useMutation<CountVotes, CountVotesVariables>(
+  const {
+    loading: loadingMe,
+    error: errorMe,
+    data: me,
+  } = useQuery<Me>(MeQuery);
+  const [
+    countVotes,
+    { loading: mutationLoading },
+  ] = useMutation<CountVotes, CountVotesVariables>(
     CountVotesMutation
   );
 
-  if (loading) {
+  if (loadingElection || loadingMe) {
     return (
       <Container>
         <Spinner className="d-flex mx-auto spinner" animation="border" />
@@ -43,23 +57,26 @@ export const Election = (): JSX.Element => {
     );
   }
 
-  if (error) {
-    return <></>;
+  if (errorElection || errorMe) {
+    return <>Failed to load election.</>;
   }
 
   const onCountVotes = (): void => {
     countVotes({
       variables: {
-        id: data!.election.id,
+        id: election!.election.id,
       },
     });
   };
 
-  let button;
+  let button = <></>;
 
   const now = new Date();
 
-  if (new Date(data?.election.finishTime) < now) {
+  if (
+    new Date(election?.election.finishTime) < now &&
+    election!.election.creator.id === me!.me.id
+  ) {
     button = (
       <Button
         className="float-right"
@@ -68,7 +85,7 @@ export const Election = (): JSX.Element => {
         Count Votes
       </Button>
     );
-  } else if (new Date(data?.election.startTime) < now) {
+  } else if (new Date(election?.election.startTime) < now) {
     button = (
       <Button
         className="float-right"
@@ -81,7 +98,7 @@ export const Election = (): JSX.Element => {
   return (
     <Container className="mt-3">
       {
-        new Date(data!.election.startTime) > now &&
+        new Date(election!.election.startTime) > now && election!.election.creator.id === me!.me.id &&
           <>
             <Button
               className={`float-right ${styles["candidate-button"]}`}
@@ -96,7 +113,7 @@ export const Election = (): JSX.Element => {
           </>
       }
       {
-        new Date(data!.election.finishTime) < now &&
+        new Date(election!.election.finishTime) < now &&
           <Button
             className={`float-right ${styles["candidate-button"]}`}
             onClick={() => setWinnerModalShow(true)}>
@@ -104,43 +121,44 @@ export const Election = (): JSX.Element => {
           </Button>
       }
       <Jumbotron>
-        <h1>{data?.election.name}</h1>
-        <p className="text-muted">Created by {data?.election.creator.name}</p>
-        <p>{data?.election.description}</p>
+        <h1>{election?.election.name}</h1>
+        <p className="text-muted">Created by {election?.election.creator.name}</p>
+        <p>{election?.election.description}</p>
         {button}
       </Jumbotron>
       <ElectionModal
-        id={data!.election.id}
-        name={data!.election.name}
-        seats={data!.election.seats}
-        startTime={data!.election.startTime}
-        finishTime={data!.election.finishTime}
-        description={data!.election.description}
+        id={election!.election.id}
+        name={election!.election.name}
+        seats={election!.election.seats}
+        startTime={election!.election.startTime}
+        finishTime={election!.election.finishTime}
+        description={election!.election.description}
         show={electionModalShow}
         onHide={() => setElectionModalShow(false)} />
       <CandidateModal
-        electionId={data!.election.id}
+        electionId={election!.election.id}
         electionSlug={slug}
         show={candidateModalShow}
         onHide={() => setCandidateModalShow(false)} />
       <VoteModal
-        electionId={data!.election.id}
-        candidates={data!.election.candidates}
+        electionId={election!.election.id}
+        candidates={election!.election.candidates}
         show={voteModalShow}
         onHide={() => setVoteModalShow(false)} />
       <WinnerModal
         show={winnerModalShow}
         onHide={() => setWinnerModalShow(false)}
-        winners={data!.election.candidates.filter(c => c.elected === true)} />
+        winners={election!.election.candidates.filter(c => c.elected === true)} />
       <EasyGrid>
         {
-          data?.election.candidates.map(candidate => {
+          election?.election.candidates.map(candidate => {
             return <CandidatePanel
               key={candidate.id}
               id={candidate.id}
               name={candidate.name}
               description={candidate.description}
-              electionSlug={slug} />;
+              electionSlug={slug}
+              showButtons={election.election.creator.id === me!.me.id} />;
           })
         }
       </EasyGrid>
