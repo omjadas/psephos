@@ -1,0 +1,5 @@
+psephos.xyz
+
+encode gzip zstd
+
+reverse_proxy server:8080

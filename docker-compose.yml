@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   server:
-    image: psephos:latest
+    image: omjadas/psephos:latest
     depends_on:
       - postgres
     restart: unless-stopped

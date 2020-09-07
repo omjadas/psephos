@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  server:
+    restart: always
+
+  postgres:
+    restart: always
+
+  caddy:
+    image: omjadas/psephos:caddy
+    depends_on:
+      - server
+    volumes:
+      - caddy_config:/config
+      - caddy_data:/data
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
