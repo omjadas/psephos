@@ -43,6 +43,17 @@ const FormSchema = yup.lazy((obj: any) => {
               `preferences must be less than or equal to ${entries.length}`
             )
             .notOneOf(values.slice(0, i), "preferences must be unique")
+            .test(
+              "ordered",
+              "preferences must start at 1 with no gaps",
+              function(pref) {
+                if (typeof pref === "number" && pref !== 1) {
+                  return values.includes(pref - 1);
+                } else {
+                  return true;
+                }
+              }
+            )
             .required("all preferences are required"),
         ];
       })
