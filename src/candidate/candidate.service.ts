@@ -4,6 +4,7 @@ import crypto from "crypto";
 import slugify from "slugify";
 import { DeleteResult, QueryFailedError, Repository } from "typeorm";
 import { ElectionService } from "../election/election.service";
+import { User } from "../user/user.entity";
 import { Candidate } from "./candidate.entity";
 
 @Injectable()
@@ -57,7 +58,8 @@ export class CandidateService {
   public async create(
     name: string,
     description: string,
-    electionId: string
+    electionId: string,
+    user: User
   ): Promise<Candidate> {
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -68,7 +70,7 @@ export class CandidateService {
           throw new NotFoundException();
         }
 
-        if (election.startTime < new Date()) {
+        if (election.startTime < new Date() || election.creatorId !== user.id) {
           throw new ForbiddenException();
         }
 
