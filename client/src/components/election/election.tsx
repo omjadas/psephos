@@ -85,7 +85,10 @@ export const Election = (): JSX.Element => {
         Count Votes
       </Button>
     );
-  } else if (new Date(election?.election.startTime) < now) {
+  } else if (
+    new Date(election?.election.startTime) < now &&
+    !me?.me.votedElections.some(el => el.id === election?.election.id)
+  ) {
     button = (
       <Button
         className="float-right"

@@ -4,7 +4,9 @@ import React from "react";
 import { Button, Col, Form, Modal } from "react-bootstrap";
 import * as yup from "yup";
 import { CreateVoteMutation } from "../../queries/CreateVote";
+import { MeQuery } from "../../queries/Me";
 import { CreateVote, CreateVoteVariables } from "../../queries/types/CreateVote";
+import { Me } from "../../queries/types/Me";
 import styles from "./voteModal.module.scss";
 
 interface Candidate {
@@ -49,7 +51,9 @@ const FormSchema = yup.lazy((obj: any) => {
 });
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
-  const [createVote] = useMutation<CreateVote, CreateVoteVariables>(CreateVoteMutation);
+  const [createVote] = useMutation<CreateVote, CreateVoteVariables>(
+    CreateVoteMutation
+  );
 
   const onSubmit = (values: FormValues): Promise<any> => {
     return createVote({
@@ -58,6 +62,31 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
         preferences: Object
           .entries(values)
           .map(entry => ({ candidateId: entry[0], preference: parseInt(entry[1]) })),
+      },
+      update: cache => {
+        try {
+          const me = cache.readQuery<Me>({ query: MeQuery });
+
+          if (me?.me.votedElections !== undefined) {
+            cache.writeQuery<Me>({
+              query: MeQuery,
+              data: {
+                me: {
+                  ...me.me,
+                  votedElections: [
+                    ...me.me.votedElections,
+                    {
+                      __typename: "Election",
+                      id: props.electionId,
+                    },
+                  ],
+                },
+              },
+            });
+          }
+        } catch (e) {
+          // do nothing
+        }
       },
     }).then(() => {
       props.onHide();
