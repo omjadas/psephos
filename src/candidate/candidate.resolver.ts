@@ -1,4 +1,4 @@
-import { NotFoundException, UseGuards } from "@nestjs/common";
+import { ForbiddenException, NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { CurrentUser } from "../user/decorators/currentUser";
@@ -55,8 +55,15 @@ export class CandidateResolver {
   @Mutation(_returns => Boolean)
   @UseGuards(GqlAuthGuard)
   public async deleteCandidate(
-    @Args("id", { type: () => ID }) id: string
+    @Args("id", { type: () => ID }) id: string,
+      @CurrentUser() user: User
   ): Promise<boolean> {
+    const candidate = await this.candidateService.findById(id, ["election"]);
+
+    if (candidate?.election.creatorId !== user.id) {
+      throw new ForbiddenException();
+    }
+
     await this.candidateService.deleteById(id);
     return true;
   }
@@ -65,13 +72,20 @@ export class CandidateResolver {
   @UseGuards(GqlAuthGuard)
   public async updateCandidate(
     @Args("id", { type: () => ID }) id: string,
+      @CurrentUser() user: User,
       @Args("name", { nullable: true }) name?: string,
       @Args("description", { nullable: true }) description?: string
   ): Promise<Candidate> {
-    const candidate = await this.candidateService.findById(id);
+    const candidate = await this.candidateService.findById(id, ["election"]);
+
     if (candidate === undefined) {
       throw new NotFoundException();
     }
+
+    if (candidate.election.creatorId !== user.id) {
+      throw new ForbiddenException();
+    }
+
     candidate.name = name ?? candidate.name;
     candidate.description = description ?? candidate.description;
     this.candidateService.save(candidate);

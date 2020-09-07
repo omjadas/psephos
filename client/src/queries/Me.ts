@@ -6,6 +6,9 @@ export const MeQuery = gql`
       id
       name
       email
+      votedElections {
+        id
+      }
     }
   }
 `;
