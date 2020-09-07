@@ -9,16 +9,21 @@ import { CreateElectionMutation } from "../../queries/CreateElection";
 import { GetElectionsQuery } from "../../queries/GetElections";
 import { CreateElection, CreateElectionVariables } from "../../queries/types/CreateElection";
 import { GetElections } from "../../queries/types/GetElections";
+import { UpdateElection, UpdateElectionVariables } from "../../queries/types/UpdateElection";
+import { UpdateElectionMutation } from "../../queries/UpdateElection";
 
 export interface ElectionModalProps {
-  id?: string,
-  name?: string,
-  seats?: number,
-  startTime?: string,
-  finishTime?: string,
-  description?: string,
   show: boolean,
   onHide: () => any,
+}
+
+interface UpdateElectionModalProps extends ElectionModalProps {
+  id: string,
+  name: string,
+  seats: number,
+  startTime: string,
+  finishTime: string,
+  description: string,
 }
 
 interface FormValues {
@@ -37,15 +42,33 @@ const FormSchema = yup.object().shape({
   description: yup.string(),
 });
 
-export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
+export const ElectionModal = (
+  props: UpdateElectionModalProps | ElectionModalProps
+): JSX.Element => {
   const history = useHistory();
   const [createElection] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
     { errorPolicy: "all" }
   );
+  const [updateElection] = useMutation<UpdateElection, UpdateElectionVariables>(
+    UpdateElectionMutation,
+    { errorPolicy: "all" }
+  );
 
   const onSubmit = (values: FormValues): Promise<any> => {
-    if (props.id === undefined) {
+    if ("id" in props) {
+      return updateElection({
+        variables: {
+          id: props.id,
+          name: values.name,
+          startTime: new Date(values.startTime).toISOString(),
+          finishTime: new Date(values.finishTime).toISOString(),
+          description: values.description,
+        },
+      }).then(() => {
+        props.onHide();
+      });
+    } else {
       return createElection({
         variables: {
           name: values.name,
@@ -79,24 +102,28 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
         props.onHide();
         history.push(`/elections/${data?.createElection.slug}`);
       });
-    } else {
-      return Promise.resolve();
-      // update
     }
   };
 
   return (
     <Modal show={props.show} onHide={props.onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Create Election</Modal.Title>
+        <Modal.Title>
+          {
+            "id" in props ?
+              "Update Election"
+              :
+              "Create Election"
+          }
+        </Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
-          name: props.name ?? "",
-          seats: props.seats ?? 1,
-          startTime: props.startTime ?? new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
-          finishTime: props.finishTime ?? "",
-          description: props.description ?? "",
+          name: (props as any).name ?? "",
+          seats: (props as any).seats ?? 1,
+          startTime: (props as any).startTime?.slice(0, 16) ?? "",
+          finishTime: (props as any).finishTime?.slice(0, 16) ?? "",
+          description: (props as any).description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}
@@ -132,7 +159,12 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
               </Modal.Body>
               <Modal.Footer>
                 <Button type="submit" variant="success" disabled={isSubmitting}>
-                  Create Election
+                  {
+                    "id" in props ?
+                      "Update Election"
+                      :
+                      "Create Election"
+                  }
                 </Button>
               </Modal.Footer>
             </Form>

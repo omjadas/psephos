@@ -1,4 +1,8 @@
-.candidate-button {
+.election-button {
     margin-top: 26px;
+}
+
+.candidate-button {
+    @extend .election-button;
     margin-right: 32px;
 }

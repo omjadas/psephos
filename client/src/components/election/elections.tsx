@@ -30,7 +30,7 @@ export const Elections = (): JSX.Element => {
       {
         data!.elections.length === 0 ?
           <div className={`d-flex justify-content-center align-items-center ${styles["container-center"]}`}>
-            <p>Nothing here.</p>
+            <p>Nothing to see here.</p>
           </div>
           :
           <EasyGrid>

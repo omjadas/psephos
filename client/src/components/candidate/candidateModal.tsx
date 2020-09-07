@@ -112,7 +112,14 @@ export const CandidateModal = (
   return (
     <Modal show={props.show} onHide={props.onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Create Election</Modal.Title>
+        <Modal.Title>
+          {
+            "id" in props ?
+              "Update Candidate"
+              :
+              "Create Candidate"
+          }
+        </Modal.Title>
       </Modal.Header>
       <Formik
         initialValues={{
@@ -140,7 +147,12 @@ export const CandidateModal = (
               </Modal.Body>
               <Modal.Footer>
                 <Button type="submit" variant="success" disabled={isSubmitting}>
-                  Create Candidate
+                  {
+                    "id" in props ?
+                      "Update Candidate"
+                      :
+                      "Create Candidate"
+                  }
                 </Button>
               </Modal.Footer>
             </Form>
