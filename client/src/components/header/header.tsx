@@ -50,9 +50,9 @@ export const Header = (): JSX.Element => {
         <Link className="navbar-brand" to="/">Psephos</Link>
         {
           loggedIn &&
-          <Nav>
-            <Link className="nav-link" to="/elections">Elections</Link>
-          </Nav>
+            <Nav>
+              <Link className="nav-link" to="/elections">Elections</Link>
+            </Nav>
         }
         <Form className="ml-auto" inline>
           {buttons}

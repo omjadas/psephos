@@ -19,8 +19,8 @@ export class Election {
   @Field()
   public slug!: string;
 
-  @Column({ type: "timestamptz" })
-  @Field(_type => GraphQLISODateTime)
+  @Column({ type: "timestamptz", nullable: true })
+  @Field(_type => GraphQLISODateTime, { nullable: true })
   public startTime!: Date;
 
   @Column({ type: "timestamptz", nullable: true })

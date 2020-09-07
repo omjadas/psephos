@@ -1,4 +1,4 @@
-import { NotFoundException, UseGuards } from "@nestjs/common";
+import { ForbiddenException, NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, GraphQLISODateTime, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { Candidate } from "../candidate/candidate.entity";
@@ -34,7 +34,7 @@ export class ElectionResolver {
   @Query(_returns => [Election], { name: "elections" })
   @UseGuards(GqlAuthGuard)
   public getElections(@CurrentUser() user: User): Promise<Election[]> {
-    return this.electionService.findVisible(user);
+    return this.electionService.findVisible(user, ["creator"]);
   }
 
   @ResolveField()
@@ -71,8 +71,15 @@ export class ElectionResolver {
   @Mutation(_returns => Boolean)
   @UseGuards(GqlAuthGuard)
   public async deleteElection(
-    @Args("id", { type: () => ID }) id: string
+    @Args("id", { type: () => ID }) id: string,
+      @CurrentUser() user: User,
   ): Promise<boolean> {
+    const election = await this.electionService.findById(id);
+
+    if (election?.creatorId !== user.id) {
+      throw new ForbiddenException();
+    }
+
     await this.electionService.deleteById(id);
     return true;
   }
@@ -81,6 +88,7 @@ export class ElectionResolver {
   @UseGuards(GqlAuthGuard)
   public async updateElection(
     @Args("id", { type: () => ID }) id: string,
+      @CurrentUser() user: User,
       @Args("name", { nullable: true }) name?: string,
       @Args("seats", { nullable: true }) seats?: number,
       @Args(
@@ -100,9 +108,15 @@ export class ElectionResolver {
       @Args("description", { nullable: true }) description?: string
   ): Promise<Election> {
     const election = await this.electionService.findById(id);
+
     if (election === undefined) {
       throw new NotFoundException();
     }
+
+    if (election.creatorId !== user.id) {
+      throw new ForbiddenException();
+    }
+
     election.name = name ?? election.name;
     election.seats = seats ?? election.seats;
     election.startTime = startTime ?? election.startTime;

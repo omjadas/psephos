@@ -19,6 +19,9 @@ export const CreateElectionMutation = gql`
       name
       description
       slug
+      creator {
+        id
+      }
     }
   }
 `;

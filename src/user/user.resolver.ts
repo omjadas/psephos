@@ -19,7 +19,7 @@ export class UserResolver {
   public async getUser(
     @Args({ name: "id", type: () => ID }) id: string
   ): Promise<User> {
-    const user = await this.userService.findById(id);
+    const user = await this.userService.findById(id, ["votedElections"]);
     if (user === undefined) {
       throw new NotFoundException();
     }
