@@ -56,7 +56,7 @@ export const Election = (): JSX.Element => {
   if (new Date(data?.election.finishTime) < now) {
     button = (
       <Button
-        className="float-right mr-2"
+        className="float-right"
         onClick={onCountVotes}
         disabled={mutationLoading}>
         Count Votes

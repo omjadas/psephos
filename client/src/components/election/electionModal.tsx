@@ -31,7 +31,7 @@ interface FormValues {
 
 const FormSchema = yup.object().shape({
   name: yup.string().required(),
-  seats: yup.number().required(),
+  seats: yup.number().min(1).required(),
   startTime: yup.date().required(),
   finishTime: yup.date().min(yup.ref("startTime")).required(),
   description: yup.string(),
@@ -115,7 +115,8 @@ export const ElectionModal = (props: ElectionModalProps): JSX.Element => {
                 <FormikControl
                   type="number"
                   label="Seats"
-                  name="seats" />
+                  name="seats"
+                  min="1" />
                 <FormikControl
                   type="datetime-local"
                   label="Start Time"
