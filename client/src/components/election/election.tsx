@@ -74,11 +74,16 @@ export const Election = (): JSX.Element => {
   const now = new Date();
   let state = "new";
 
+  if (new Date(election?.election.finishTime) < now) {
+    state = "closed";
+  } else if (new Date(election?.election.startTime) < now) {
+    state = "open";
+  }
+
   if (
-    new Date(election?.election.finishTime) < now &&
+    state === "closed" &&
     election!.election.creator.id === me!.me.id
   ) {
-    state = "closed";
     button = (
       <Button
         className="float-right"
@@ -88,7 +93,7 @@ export const Election = (): JSX.Element => {
       </Button>
     );
   } else if (
-    new Date(election?.election.startTime) < now &&
+    state === "open" &&
     !me?.me.votedElections.some(el => el.id === election?.election.id)
   ) {
     state = "open";

@@ -121,8 +121,8 @@ export const ElectionModal = (
         initialValues={{
           name: (props as any).name ?? "",
           seats: (props as any).seats ?? 1,
-          startTime: (props as any).startTime?.slice(0, 16) ?? "",
-          finishTime: (props as any).finishTime?.slice(0, 16) ?? "",
+          startTime: (props as any).startTime === undefined ? "" : new Date(new Date((props as any).startTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
+          finishTime: (props as any).finishTime === undefined ? "" : new Date(new Date((props as any).finishTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
           description: (props as any).description ?? "",
         }}
         validationSchema={FormSchema}
