@@ -5,6 +5,7 @@ import { GetElectionsQuery } from "../../queries/GetElections";
 import { GetElections } from "../../queries/types/GetElections";
 import { EasyGrid } from "../cards/easyGrid";
 import { ElectionPanel } from "./electionPanel";
+import styles from "./elections.module.scss";
 
 export const Elections = (): JSX.Element => {
   const { loading, error, data } = useQuery<GetElections>(
@@ -26,18 +27,25 @@ export const Elections = (): JSX.Element => {
 
   return (
     <Container className="mt-2">
-      <EasyGrid>
-        {
-          data?.elections.map(election => {
-            return <ElectionPanel
-              key={election.id}
-              id={election.id}
-              name={election.name}
-              description={election.description}
-              slug={election.slug} />;
-          })
-        }
-      </EasyGrid>
+      {
+        data!.elections.length === 0 ?
+          <div className={`d-flex justify-content-center align-items-center ${styles["container-center"]}`}>
+            <p>Nothing here.</p>
+          </div>
+          :
+          <EasyGrid>
+            {
+              data?.elections.map(election => {
+                return <ElectionPanel
+                  key={election.id}
+                  id={election.id}
+                  name={election.name}
+                  description={election.description}
+                  slug={election.slug} />;
+              })
+            }
+          </EasyGrid>
+      }
     </Container>
   );
 };
