@@ -13,6 +13,7 @@ export const GetElectionQuery = gql`
         id
         name
         description
+        elected
       }
       creator {
         id

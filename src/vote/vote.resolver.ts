@@ -38,8 +38,6 @@ export class VoteResolver {
       throw new NotFoundException();
     }
 
-    console.log(JSON.stringify(user));
-
     for (const e of user.votedElections) {
       if (e.id === electionId) {
         throw new ForbiddenException();

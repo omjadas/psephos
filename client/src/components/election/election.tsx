@@ -8,6 +8,7 @@ import { CountVotes, CountVotesVariables } from "../../queries/types/CountVotes"
 import { GetElection, GetElectionVariables } from "../../queries/types/GetElection";
 import { CandidateModal } from "../candidate/candidateModal";
 import { CandidatePanel } from "../candidate/candidatePanel";
+import { WinnerModal } from "../candidate/winnerModal";
 import { EasyGrid } from "../cards/easyGrid";
 import { VoteModal } from "../vote/voteModal";
 import styles from "./election.module.scss";
@@ -16,6 +17,7 @@ export const Election = (): JSX.Element => {
   const { slug } = useParams<{ slug: string }>();
   const [candidateModalShow, setCandidateModalShow] = useState(false);
   const [voteModalShow, setVoteModalShow] = useState(false);
+  const [winnerModalShow, setWinnerModalShow] = useState(false);
   const { loading, error, data } = useQuery<GetElection, GetElectionVariables>(
     GetElectionQuery,
     {
@@ -85,7 +87,8 @@ export const Election = (): JSX.Element => {
       {
         new Date(data!.election.finishTime) < now &&
           <Button
-            className={`float-right ${styles["candidate-button"]}`}>
+            className={`float-right ${styles["candidate-button"]}`}
+            onClick={() => setWinnerModalShow(true)}>
             View Winners
           </Button>
       }
@@ -105,6 +108,10 @@ export const Election = (): JSX.Element => {
         candidates={data!.election.candidates}
         show={voteModalShow}
         onHide={() => setVoteModalShow(false)} />
+      <WinnerModal
+        show={winnerModalShow}
+        onHide={() => setWinnerModalShow(false)}
+        winners={data!.election.candidates.filter(c => c.elected === true)} />
       <EasyGrid>
         {
           data?.election.candidates.map(candidate => {

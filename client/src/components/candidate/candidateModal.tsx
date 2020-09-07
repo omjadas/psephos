@@ -66,7 +66,10 @@ export const CandidateModal = (props: CandidateModalProps): JSX.Element => {
                     ...election.election,
                     candidates: [
                       ...election.election.candidates,
-                      data.createCandidate,
+                      {
+                        ...data.createCandidate,
+                        elected: null,
+                      },
                     ],
                   },
                 },
