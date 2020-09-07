@@ -143,6 +143,6 @@ export class ElectionResolver {
       throw new NotFoundException();
     }
     await this.electionService.countVotes(election);
-    return election.candidates.filter(candidate => candidate.elected === true);
+    return election.candidates;
   }
 }

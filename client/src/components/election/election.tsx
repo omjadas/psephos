@@ -66,6 +66,36 @@ export const Election = (): JSX.Element => {
       variables: {
         id: election!.election.id,
       },
+      update: (cache, { data }) => {
+        try {
+          const election = cache.readQuery<GetElection, GetElectionVariables>({
+            query: GetElectionQuery,
+            variables: {
+              slug: slug,
+            },
+          });
+
+          if (
+            data?.countVotes !== undefined &&
+            election?.election !== undefined
+          ) {
+            cache.writeQuery<GetElection, GetElectionVariables>({
+              query: GetElectionQuery,
+              variables: {
+                slug: slug,
+              },
+              data: {
+                election: {
+                  ...election.election,
+                  candidates: data.countVotes,
+                },
+              },
+            });
+          }
+        } catch (e) {
+          // d nothing
+        }
+      },
     });
   };
 
