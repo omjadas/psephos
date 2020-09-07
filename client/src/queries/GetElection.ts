@@ -5,11 +5,15 @@ export const GetElectionQuery = gql`
     election(slug: $slug) {
       id
       name
+      seats
+      startTime
+      finishTime
       description
       candidates {
         id
         name
         description
+        elected
       }
       creator {
         id

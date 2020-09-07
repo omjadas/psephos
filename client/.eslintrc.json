@@ -8,8 +8,18 @@
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "graphql"
   ],
+  "rules": {
+    "graphql/template-strings": [
+      "error",
+      {
+        "env": "apollo",
+        "validators": "all"
+      }
+    ]
+  },
   "settings": {
     "react": {
       "version": "detect"

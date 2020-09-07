@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { CandidateModule } from "../candidate/candidate.module";
 import { Election } from "./election.entity";
@@ -8,7 +8,7 @@ import { ElectionService } from "./election.service";
 @Module({
   imports: [
     TypeOrmModule.forFeature([Election]),
-    CandidateModule,
+    forwardRef(() => CandidateModule),
   ],
   providers: [
     ElectionService,

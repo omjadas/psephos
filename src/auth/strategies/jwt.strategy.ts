@@ -12,22 +12,23 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
     private readonly userService: UserService
   ) {
     super({
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      jwtFromRequest: JwtStrategy.cookieExtractor,
+      jwtFromRequest: JwtStrategy.cookieExtractor(),
       ignoreExpiration: false,
       secretOrKey: configService.get<string>("JWT_SECRET"),
     });
   }
 
-  private static cookieExtractor(req: Request): string | null {
-    let token: string | null = null;
-    if (req.cookies) {
-      token = req.cookies["jwt"];
-    }
-    return token;
+  private static cookieExtractor(): (req: Request) => string | null {
+    return (req: Request): string | null => {
+      let token: string | null = null;
+      if (req.cookies) {
+        token = req.cookies["jwt"];
+      }
+      return token;
+    };
   }
 
   public async validate(payload: Record<string, any>): Promise<any> {
-    return this.userService.findById(payload.sub);
+    return this.userService.findById(payload.sub, ["votedElections"]);
   }
 }

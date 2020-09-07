@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Nav, Navbar } from "react-bootstrap";
+import { Button, Container, Form, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { client } from "../../apollo";
 import { useLoginStatus } from "../../hooks/loggedIn";
@@ -46,20 +46,22 @@ export const Header = (): JSX.Element => {
 
   return (
     <Navbar bg="dark" variant="dark">
-      <Link className="navbar-brand" to="/">Psephos</Link>
-      {
-        loggedIn &&
-        <Nav>
-          <Link className="nav-link" to="/elections">Elections</Link>
-        </Nav>
-      }
-      <Form className="ml-auto" inline>
-        {buttons}
-      </Form>
-      <ElectionModal
-        show={electionModalShow}
-        onHide={() => setElectionModalShow(false)} />
-      <Auth show={authModalShow} onHide={() => setAuthModalShow(false)} />
+      <Container>
+        <Link className="navbar-brand" to="/">Psephos</Link>
+        {
+          loggedIn &&
+          <Nav>
+            <Link className="nav-link" to="/elections">Elections</Link>
+          </Nav>
+        }
+        <Form className="ml-auto" inline>
+          {buttons}
+        </Form>
+        <ElectionModal
+          show={electionModalShow}
+          onHide={() => setElectionModalShow(false)} />
+        <Auth show={authModalShow} onHide={() => setAuthModalShow(false)} />
+      </Container>
     </Navbar>
   );
 };
