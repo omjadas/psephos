@@ -52,7 +52,7 @@
     "csurf": "^1.11.0",
     "graphql": "^15.3.0",
     "graphql-tag-pluck": "^0.8.7",
-    "graphql-tools": "^6.2.2",
+    "graphql-tools": "^6.2.3",
     "helmet": "^4.1.1",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
