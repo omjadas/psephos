@@ -18,7 +18,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/yup": "^0.29.7",
-    "apollo": "^2.30.3",
+    "apollo": "^2.31.0",
     "bootstrap": "^4.5.2",
     "cra-build-watch": "github:Nargonath/cra-build-watch#cc18f98f74571d321227c8d8351f3fa37d09362b",
     "eslint-plugin-graphql": "^4.0.0",
