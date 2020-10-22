@@ -1,4 +1,4 @@
-FROM node:12-alpine as build
+FROM node:15-alpine as build
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ RUN npm run build:all
 # Remove dependencies not needed to run the app
 RUN npm prune
 
-FROM node:12-alpine
+FROM node:15-alpine
 
 WORKDIR /app
 
