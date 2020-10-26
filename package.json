@@ -50,7 +50,7 @@
     "class-validator": "^0.12.2",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
-    "graphql": "^15.3.0",
+    "graphql": "^15.4.0",
     "graphql-tag-pluck": "^0.8.7",
     "graphql-tools": "^6.2.5",
     "helmet": "^4.1.1",
