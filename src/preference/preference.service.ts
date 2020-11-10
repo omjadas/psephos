@@ -18,7 +18,7 @@ export class PreferenceService {
 
   public findByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Preference | undefined> {
     return this.preferenceRepository.findOne({
@@ -33,7 +33,7 @@ export class PreferenceService {
 
   public findAllByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Preference[]> {
     return this.preferenceRepository.find({

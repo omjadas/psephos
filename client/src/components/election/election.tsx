@@ -35,7 +35,7 @@ export const Election = (): JSX.Element => {
       variables: {
         slug: slug,
       },
-    }
+    },
   );
   const {
     loading: loadingMe,
@@ -46,7 +46,7 @@ export const Election = (): JSX.Element => {
     countVotes,
     { loading: mutationLoading },
   ] = useMutation<CountVotes, CountVotesVariables>(
-    CountVotesMutation
+    CountVotesMutation,
   );
 
   if (loadingElection || loadingMe) {
@@ -61,8 +61,8 @@ export const Election = (): JSX.Element => {
     return <>Failed to load election.</>;
   }
 
-  const onCountVotes = (): void => {
-    countVotes({
+  const onCountVotes = (): Promise<unknown> => {
+    return countVotes({
       variables: {
         id: election!.election.id,
       },
@@ -93,7 +93,7 @@ export const Election = (): JSX.Element => {
             });
           }
         } catch (e) {
-          // d nothing
+          // do nothing
         }
       },
     });
@@ -171,8 +171,8 @@ export const Election = (): JSX.Element => {
         id={election!.election.id}
         name={election!.election.name}
         seats={election!.election.seats}
-        startTime={election!.election.startTime}
-        finishTime={election!.election.finishTime}
+        startTime={election!.election.startTime as string}
+        finishTime={election!.election.finishTime as string}
         description={election!.election.description}
         show={electionModalShow}
         onHide={() => setElectionModalShow(false)} />

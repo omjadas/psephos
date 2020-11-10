@@ -18,7 +18,7 @@ export class UserService {
 
   public findByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<User | undefined> {
     return this.userRepository.findOne({

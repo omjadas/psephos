@@ -22,7 +22,8 @@
       {
         "name": "typescript-plugin-css-modules"
       }
-    ]
+    ],
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"

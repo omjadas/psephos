@@ -26,8 +26,9 @@ services:
       context: .
       dockerfile: Dockerfile.dev-client
     volumes:
-      - ./client/src:/app/src
-      - client:/app/build
+      - ./client/src:/app/client/src
+      - ./schema.gql:/app/schema.gql
+      - client:/app/client/build
 
   postgres:
     ports:

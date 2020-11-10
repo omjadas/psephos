@@ -21,11 +21,11 @@ export interface CandidatePanelProps {
 export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
   const [candidateModalShow, setCandidateModalShow] = useState(false);
   const [deleteCandidate, { loading }] = useMutation<DeleteCandidate, DeleteCandidateVariables>(
-    DeleteCandidateMutation
+    DeleteCandidateMutation,
   );
 
-  const onClick = (): void => {
-    deleteCandidate({
+  const onClick = (): Promise<unknown> => {
+    return deleteCandidate({
       variables: {
         id: props.id,
       },
