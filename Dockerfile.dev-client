@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-WORKDIR /app
+WORKDIR /app/client
 
 RUN apk --no-cache add --virtual builds-deps build-base python git
 
@@ -8,6 +8,8 @@ COPY /client/package*.json ./
 
 RUN npm ci
 
+COPY ./scripts /app/
+COPY ./.eslintrc.json /app/
 COPY /client .
 
-CMD [ "npm", "run", "watch" ]
+CMD [ "/app/entrypoint-client.sh" ]
