@@ -134,7 +134,7 @@ export const CandidateModal = (
             handleSubmit,
             isSubmitting,
           }) => (
-            <Form id="createElection" onSubmit={handleSubmit as any}>
+            <Form id="createElection" onSubmit={handleSubmit}>
               <Modal.Body>
                 <FormikControl
                   label="Name"

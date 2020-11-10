@@ -171,8 +171,8 @@ export const Election = (): JSX.Element => {
         id={election!.election.id}
         name={election!.election.name}
         seats={election!.election.seats}
-        startTime={election!.election.startTime}
-        finishTime={election!.election.finishTime}
+        startTime={election!.election.startTime as string}
+        finishTime={election!.election.finishTime as string}
         description={election!.election.description}
         show={electionModalShow}
         onHide={() => setElectionModalShow(false)} />

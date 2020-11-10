@@ -34,7 +34,7 @@ export const SignIn = (props: Props): JSX.Element => {
       }),
       headers: {
         "Content-Type": "application/json",
-        "CSRF-TOKEN": cookies["CSRF-TOKEN"],
+        "CSRF-TOKEN": cookies["CSRF-TOKEN"] as string,
       },
     }).then(res => {
       if (res.status === 200) {
@@ -60,7 +60,7 @@ export const SignIn = (props: Props): JSX.Element => {
           }) => (
             <Form
               id="signIn"
-              onSubmit={handleSubmit as any}>
+              onSubmit={handleSubmit}>
               <Modal.Body>
                 <FormikControl
                   label="Email"

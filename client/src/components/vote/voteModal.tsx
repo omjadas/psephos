@@ -131,7 +131,7 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
             isSubmitting,
             handleSubmit,
           }) => (
-            <Form id="vote" onSubmit={handleSubmit as any}>
+            <Form id="vote" onSubmit={handleSubmit}>
               <Modal.Body>
                 {
                   props.candidates.map(candidate => {
