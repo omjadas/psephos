@@ -7,7 +7,7 @@ import { Me } from "../../queries/types/Me";
 export const Profile = (): JSX.Element => {
   const { loading, error, data } = useQuery<Me>(
     MeQuery,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
 
   if (loading) {

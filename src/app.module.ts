@@ -10,7 +10,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AuthModule } from "./auth/auth.module";
 import { CandidateModule } from "./candidate/candidate.module";
-import { NODE_ENV } from "./constants";
+import { NodeEnv } from "./constants";
 import { ElectionModule } from "./election/election.module";
 import { CSRFMiddleware } from "./middleware/csrf.middleware";
 import { PreferenceModule } from "./preference/preference.module";
@@ -23,8 +23,8 @@ import { VoteModule } from "./vote/vote.module";
       isGlobal: true,
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
-          .valid(NODE_ENV.DEVELOPMENT, NODE_ENV.PRODUCTION, NODE_ENV.TEST)
-          .default(NODE_ENV.PRODUCTION),
+          .valid(NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION, NodeEnv.TEST)
+          .default(NodeEnv.PRODUCTION),
         PORT: Joi.number().default(3000),
         DB_HOST: Joi.string().default("localhost"),
         DB_PORT: Joi.number().default(5432),
@@ -55,8 +55,8 @@ import { VoteModule } from "./vote/vote.module";
         return {
           autoSchemaFile: "schema.gql",
           context: ({ req }) => ({ req }),
-          debug: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
-          playground: configService.get<string>("NODE_ENV") === NODE_ENV.DEVELOPMENT,
+          debug: configService.get<string>("NODE_ENV") === NodeEnv.DEVELOPMENT,
+          playground: configService.get<string>("NODE_ENV") === NodeEnv.DEVELOPMENT,
         };
       },
       inject: [ConfigService],

@@ -43,16 +43,16 @@ const FormSchema = yup.object().shape({
 });
 
 export const ElectionModal = (
-  props: UpdateElectionModalProps | ElectionModalProps
+  props: UpdateElectionModalProps | ElectionModalProps,
 ): JSX.Element => {
   const history = useHistory();
   const [createElection] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
   const [updateElection] = useMutation<UpdateElection, UpdateElectionVariables>(
     UpdateElectionMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
 
   const onSubmit = (values: FormValues): Promise<any> => {
@@ -100,7 +100,7 @@ export const ElectionModal = (
         },
       }).then(({ data }) => {
         props.onHide();
-        history.push(`/elections/${data?.createElection.slug}`);
+        history.push(`/elections/${data?.createElection.slug ?? ""}`);
       });
     }
   };
@@ -119,11 +119,15 @@ export const ElectionModal = (
       </Modal.Header>
       <Formik
         initialValues={{
-          name: (props as any).name ?? "",
-          seats: (props as any).seats ?? 1,
-          startTime: (props as any).startTime === undefined ? "" : new Date(new Date((props as any).startTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
-          finishTime: (props as any).finishTime === undefined ? "" : new Date(new Date((props as any).finishTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
-          description: (props as any).description ?? "",
+          name: (props as UpdateElectionModalProps).name ?? "",
+          seats: (props as UpdateElectionModalProps).seats ?? 1,
+          startTime: (props as UpdateElectionModalProps).startTime === undefined
+            ? ""
+            : new Date(new Date((props as UpdateElectionModalProps).startTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
+          finishTime: (props as UpdateElectionModalProps).finishTime === undefined
+            ? ""
+            : new Date(new Date((props as UpdateElectionModalProps).finishTime).getTime() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 16),
+          description: (props as UpdateElectionModalProps).description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}
@@ -133,7 +137,7 @@ export const ElectionModal = (
             handleSubmit,
             isSubmitting,
           }) => (
-            <Form id="createElection" onSubmit={handleSubmit as any}>
+            <Form id="createElection" onSubmit={handleSubmit}>
               <Modal.Body>
                 <FormikControl
                   type="text"

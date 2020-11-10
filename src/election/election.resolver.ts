@@ -1,4 +1,4 @@
-import { ForbiddenException, NotFoundException, UseGuards } from "@nestjs/common";
+import { ForbiddenException, InternalServerErrorException, NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, GraphQLISODateTime, ID, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { Candidate } from "../candidate/candidate.entity";
@@ -122,7 +122,11 @@ export class ElectionResolver {
     election.startTime = startTime ?? election.startTime;
     election.finishTime = finishTime ?? election.finishTime;
     election.description = description ?? election.description;
-    this.electionService.save(election);
+    try {
+      await this.electionService.save(election);
+    } catch (e: unknown) {
+      throw new InternalServerErrorException();
+    }
     return election;
   }
 

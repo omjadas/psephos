@@ -20,11 +20,11 @@ export interface ElectionPanelProps {
 
 export const ElectionPanel = (props: ElectionPanelProps): JSX.Element => {
   const [deleteElection, { loading }] = useMutation<DeleteElection, DeleteElectionVariables>(
-    DeleteElectionMutation
+    DeleteElectionMutation,
   );
 
-  const onClick = (): void => {
-    deleteElection({
+  const onClick = (): Promise<unknown> => {
+    return deleteElection({
       variables: {
         id: props.id,
       },

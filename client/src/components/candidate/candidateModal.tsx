@@ -38,15 +38,15 @@ const FormSchema = yup.object().shape({
 });
 
 export const CandidateModal = (
-  props: CreateCandidateModalProps | UpdateCandidateModalProps
+  props: CreateCandidateModalProps | UpdateCandidateModalProps,
 ): JSX.Element => {
   const [createCandidate] = useMutation<CreateCandidate, CreateCandidateVariables>(
     CreateCandidateMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
   const [updateCandidate] = useMutation<UpdateCandidate, UpdateCandidateVariables>(
     UpdateCandidateMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
 
   const onSubmit = (values: FormValues): Promise<any> => {
@@ -123,8 +123,8 @@ export const CandidateModal = (
       </Modal.Header>
       <Formik
         initialValues={{
-          name: (props as any).name ?? "",
-          description: (props as any).description ?? "",
+          name: (props as UpdateCandidateModalProps).name ?? "",
+          description: (props as UpdateCandidateModalProps).description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}
@@ -134,7 +134,7 @@ export const CandidateModal = (
             handleSubmit,
             isSubmitting,
           }) => (
-            <Form id="createElection" onSubmit={handleSubmit as any}>
+            <Form id="createElection" onSubmit={handleSubmit}>
               <Modal.Body>
                 <FormikControl
                   label="Name"

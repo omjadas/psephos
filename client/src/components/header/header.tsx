@@ -29,8 +29,10 @@ export const Header = (): JSX.Element => {
             fetch("/auth/signout", {
               method: "post",
             }).then(() => {
-              client.resetStore();
-            }).catch();
+              return client.resetStore();
+            }).catch(e => {
+              console.error(e);
+            });
           }}>
           Sign Out
         </Button>

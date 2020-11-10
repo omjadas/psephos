@@ -8,6 +8,6 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
   credentials: "same-origin",
   headers: {
-    "CSRF-TOKEN": cookies.get("CSRF-TOKEN"),
+    "CSRF-TOKEN": cookies.get<string>("CSRF-TOKEN"),
   },
 });

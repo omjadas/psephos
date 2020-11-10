@@ -18,7 +18,7 @@ export class VoteService {
 
   public findByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Vote | undefined> {
     return this.voteRepository.findOne({
@@ -33,7 +33,7 @@ export class VoteService {
 
   public findAllByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Vote[]> {
     return this.voteRepository.find({

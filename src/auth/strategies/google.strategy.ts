@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, InternalServerErrorException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { Profile, Strategy } from "passport-google-oauth20";
@@ -21,7 +21,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
   }
 
   public async validate(
-    _request: any,
+    _request: unknown,
     _accessToken: string,
     _refreshToken: string,
     profile: Profile
@@ -41,7 +41,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
         throw new BadRequestException();
       }
       user.email = email;
-      this.userService.save(user);
+      try {
+        await this.userService.save(user);
+      } catch (e: unknown) {
+        throw new InternalServerErrorException();
+      }
     }
 
     return user;

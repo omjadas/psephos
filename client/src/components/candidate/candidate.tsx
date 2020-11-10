@@ -13,7 +13,7 @@ export const Candidate = (): JSX.Element => {
       variables: {
         slug: slug,
       },
-    }
+    },
   );
 
   if (loading) {
