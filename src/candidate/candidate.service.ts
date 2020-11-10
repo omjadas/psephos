@@ -23,7 +23,7 @@ export class CandidateService {
 
   public findByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Candidate | undefined> {
     return this.candidateRepository.findOne({
@@ -38,7 +38,7 @@ export class CandidateService {
 
   public findAllByProp(
     key: string,
-    value: any,
+    value: unknown,
     relations: string[] = []
   ): Promise<Candidate[]> {
     return this.candidateRepository.find({
