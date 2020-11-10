@@ -1,14 +1,16 @@
 {
+  "root": true,
   "extends": [
     "../.eslintrc.json",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "react-app",
+    "react-app/jest"
   ],
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint",
     "graphql"
   ],
   "rules": {

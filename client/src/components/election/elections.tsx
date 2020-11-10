@@ -16,7 +16,7 @@ export const Elections = (): JSX.Element => {
     data: elections,
   } = useQuery<GetElections>(
     GetElectionsQuery,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
   const {
     loading: loadingMe,

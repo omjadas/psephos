@@ -35,7 +35,7 @@ export const Election = (): JSX.Element => {
       variables: {
         slug: slug,
       },
-    }
+    },
   );
   const {
     loading: loadingMe,
@@ -46,7 +46,7 @@ export const Election = (): JSX.Element => {
     countVotes,
     { loading: mutationLoading },
   ] = useMutation<CountVotes, CountVotesVariables>(
-    CountVotesMutation
+    CountVotesMutation,
   );
 
   if (loadingElection || loadingMe) {

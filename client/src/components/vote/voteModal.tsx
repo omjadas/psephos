@@ -36,11 +36,11 @@ const FormSchema = yup.lazy((obj: any) => {
             .integer("preferences must be integers")
             .min(
               1,
-              "preferences must be greater than or equal to 1"
+              "preferences must be greater than or equal to 1",
             )
             .max(
               entries.length,
-              `preferences must be less than or equal to ${entries.length}`
+              `preferences must be less than or equal to ${entries.length}`,
             )
             .notOneOf(values.slice(0, i), "preferences must be unique")
             .test(
@@ -52,18 +52,18 @@ const FormSchema = yup.lazy((obj: any) => {
                 } else {
                   return true;
                 }
-              }
+              },
             )
             .required("all preferences are required"),
         ];
-      })
-    )
+      }),
+    ),
   );
 });
 
 export const VoteModal = (props: VoteModalProps): JSX.Element => {
   const [createVote] = useMutation<CreateVote, CreateVoteVariables>(
-    CreateVoteMutation
+    CreateVoteMutation,
   );
 
   const onSubmit = (values: FormValues): Promise<any> => {
@@ -117,7 +117,7 @@ export const VoteModal = (props: VoteModalProps): JSX.Element => {
               (obj, val) => {
                 return { ...obj, [val.id]: "" };
               },
-              {}
+              {},
             ) as Record<string, string>}
         onSubmit={onSubmit}
         validationSchema={FormSchema}

@@ -43,16 +43,16 @@ const FormSchema = yup.object().shape({
 });
 
 export const ElectionModal = (
-  props: UpdateElectionModalProps | ElectionModalProps
+  props: UpdateElectionModalProps | ElectionModalProps,
 ): JSX.Element => {
   const history = useHistory();
   const [createElection] = useMutation<CreateElection, CreateElectionVariables>(
     CreateElectionMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
   const [updateElection] = useMutation<UpdateElection, UpdateElectionVariables>(
     UpdateElectionMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
 
   const onSubmit = (values: FormValues): Promise<any> => {

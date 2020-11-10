@@ -38,15 +38,15 @@ const FormSchema = yup.object().shape({
 });
 
 export const CandidateModal = (
-  props: CreateCandidateModalProps | UpdateCandidateModalProps
+  props: CreateCandidateModalProps | UpdateCandidateModalProps,
 ): JSX.Element => {
   const [createCandidate] = useMutation<CreateCandidate, CreateCandidateVariables>(
     CreateCandidateMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
   const [updateCandidate] = useMutation<UpdateCandidate, UpdateCandidateVariables>(
     UpdateCandidateMutation,
-    { errorPolicy: "all" }
+    { errorPolicy: "all" },
   );
 
   const onSubmit = (values: FormValues): Promise<any> => {
