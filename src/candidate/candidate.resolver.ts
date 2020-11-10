@@ -1,4 +1,4 @@
-import { ForbiddenException, NotFoundException, UseGuards } from "@nestjs/common";
+import { ForbiddenException, InternalServerErrorException, NotFoundException, UseGuards } from "@nestjs/common";
 import { Args, ID, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { GqlAuthGuard } from "../auth/strategies/jwt.gql.strategy";
 import { CurrentUser } from "../user/decorators/currentUser";
@@ -88,7 +88,11 @@ export class CandidateResolver {
 
     candidate.name = name ?? candidate.name;
     candidate.description = description ?? candidate.description;
-    this.candidateService.save(candidate);
+    try {
+      await this.candidateService.save(candidate);
+    } catch (e: unknown) {
+      throw new InternalServerErrorException();
+    }
     return candidate;
   }
 }

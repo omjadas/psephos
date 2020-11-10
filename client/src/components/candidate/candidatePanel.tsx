@@ -24,8 +24,8 @@ export const CandidatePanel = (props: CandidatePanelProps): JSX.Element => {
     DeleteCandidateMutation,
   );
 
-  const onClick = (): void => {
-    deleteCandidate({
+  const onClick = (): Promise<unknown> => {
+    return deleteCandidate({
       variables: {
         id: props.id,
       },

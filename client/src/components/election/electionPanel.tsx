@@ -23,8 +23,8 @@ export const ElectionPanel = (props: ElectionPanelProps): JSX.Element => {
     DeleteElectionMutation,
   );
 
-  const onClick = (): void => {
-    deleteElection({
+  const onClick = (): Promise<unknown> => {
+    return deleteElection({
       variables: {
         id: props.id,
       },

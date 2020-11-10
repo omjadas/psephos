@@ -123,8 +123,8 @@ export const CandidateModal = (
       </Modal.Header>
       <Formik
         initialValues={{
-          name: (props as any).name ?? "",
-          description: (props as any).description ?? "",
+          name: (props as UpdateCandidateModalProps).name ?? "",
+          description: (props as UpdateCandidateModalProps).description ?? "",
         }}
         validationSchema={FormSchema}
         onSubmit={onSubmit}

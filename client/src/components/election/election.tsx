@@ -61,8 +61,8 @@ export const Election = (): JSX.Element => {
     return <>Failed to load election.</>;
   }
 
-  const onCountVotes = (): void => {
-    countVotes({
+  const onCountVotes = (): Promise<unknown> => {
+    return countVotes({
       variables: {
         id: election!.election.id,
       },
@@ -93,7 +93,7 @@ export const Election = (): JSX.Element => {
             });
           }
         } catch (e) {
-          // d nothing
+          // do nothing
         }
       },
     });
