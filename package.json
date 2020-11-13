@@ -68,7 +68,7 @@
   "devDependencies": {
     "@nestjs/cli": "^7.5.2",
     "@nestjs/schematics": "^7.2.1",
-    "@nestjs/testing": "^7.5.1",
+    "@nestjs/testing": "^7.5.2",
     "@types/bcrypt": "^3.0.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/csurf": "^1.11.0",
