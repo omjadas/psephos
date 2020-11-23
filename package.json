@@ -38,7 +38,7 @@
     "@nestjs/graphql": "^7.8.2",
     "@nestjs/jwt": "^7.2.0",
     "@nestjs/passport": "^7.1.4",
-    "@nestjs/platform-express": "^7.5.4",
+    "@nestjs/platform-express": "^7.5.5",
     "@nestjs/serve-static": "^2.1.4",
     "@nestjs/typeorm": "^7.1.5",
     "@nestjsplus/cookies": "^1.1.1",
