@@ -25,7 +25,7 @@ type FormValues = Record<string, string>;
 
 const FormSchema = yup.lazy((obj: any) => {
   const entries = Object.entries(obj);
-  const values = entries.map(entry => entry[1]);
+  const values = entries.map(entry => entry[1]) as number[];
   return yup.object(
     Object.fromEntries(
       entries.map(([key], i, entries) => {
