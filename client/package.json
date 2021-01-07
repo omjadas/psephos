@@ -26,7 +26,7 @@
     "formik-react-bootstrap": "^0.2.3",
     "graphql": "^15.4.0",
     "react": "^17.0.1",
-    "react-bootstrap": "^1.4.2",
+    "react-bootstrap": "^1.4.3",
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
