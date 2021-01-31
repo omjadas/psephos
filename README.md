@@ -1,6 +1,6 @@
 # psephos
 
-![Node CI](https://github.com/omjadas/psephos/workflows/Node%20CI/badge.svg?branch=master)
+![Node CI](https://github.com/omjadas/psephos/workflows/Node%20CI/badge.svg)
 [![codecov](https://codecov.io/gh/omjadas/psephos/branch/master/graph/badge.svg?token=QX41XOWBWN)](https://codecov.io/gh/omjadas/psephos)
 
 ## Installation
