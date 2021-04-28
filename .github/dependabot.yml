@@ -1,0 +1,89 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+    timezone: Australia/Sydney
+  open-pull-requests-limit: 99
+  reviewers:
+  - omjadas
+  ignore:
+  - dependency-name: "@types/node"
+    versions:
+    - ">= 13.a, < 14"
+  - dependency-name: "@types/node"
+    versions:
+    - ">= 15.a, < 16"
+  - dependency-name: "@nestjs/graphql"
+    versions:
+    - 7.10.0
+    - 7.10.4
+    - 7.10.5
+  - dependency-name: ts-loader
+    versions:
+    - 9.1.0
+  - dependency-name: eslint-plugin-jest
+    versions:
+    - 24.1.6
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.16.0
+  - dependency-name: rxjs
+    versions:
+    - 6.6.4
+- package-ecosystem: npm
+  directory: "/client"
+  schedule:
+    interval: daily
+    time: "07:00"
+    timezone: Australia/Sydney
+  open-pull-requests-limit: 99
+  reviewers:
+  - omjadas
+  ignore:
+  - dependency-name: "@types/jest"
+    versions:
+    - "> 24.9.1"
+  - dependency-name: "@types/jest"
+    versions:
+    - ">= 25.a, < 26"
+  - dependency-name: "@types/node"
+    versions:
+    - ">= 13.a, < 14"
+  - dependency-name: "@types/node"
+    versions:
+    - ">= 15.a, < 16"
+  - dependency-name: "@testing-library/user-event"
+    versions:
+    - 12.8.2
+    - 13.0.15
+    - 13.0.3
+    - 13.0.4
+    - 13.0.5
+    - 13.0.8
+    - 13.0.9
+  - dependency-name: typescript
+    versions:
+    - 4.1.5
+- package-ecosystem: docker
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+    timezone: Australia/Sydney
+  open-pull-requests-limit: 99
+  reviewers:
+  - omjadas
+  ignore:
+  - dependency-name: node
+    versions:
+    - ">= 15.pre.alpine.a, < 16"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "07:00"
+    timezone: Australia/Sydney
+  open-pull-requests-limit: 99
