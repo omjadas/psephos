@@ -17,7 +17,7 @@
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
     "@types/react-router-dom": "^5.1.7",
-    "@types/yup": "^0.29.11",
+    "@types/yup": "^0.29.12",
     "apollo": "^2.33.4",
     "bootstrap": "^4.6.0",
     "cra-build-watch": "^3.4.0",
