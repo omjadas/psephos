@@ -63,7 +63,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.7",
     "slugify": "^1.6.0",
-    "typeorm": "^0.2.35"
+    "typeorm": "^0.2.36"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
