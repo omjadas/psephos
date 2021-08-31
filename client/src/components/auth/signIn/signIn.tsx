@@ -23,7 +23,7 @@ const FormSchema = yup.object().shape({
 });
 
 export const SignIn = (props: Props): JSX.Element => {
-  const [cookies] = useCookies([]);
+  const [cookies] = useCookies(["CSRF-TOKEN"]);
 
   const onSubmit = (values: FormValues): Promise<any> => {
     return fetch("/auth/local", {
