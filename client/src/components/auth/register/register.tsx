@@ -32,7 +32,7 @@ const FormSchema = yup.object().shape({
 });
 
 export const Register = (props: Props): JSX.Element => {
-  const [cookies] = useCookies([]);
+  const [cookies] = useCookies(["CSRF-TOKEN"]);
 
   const onSubmit = (values: FormValues): Promise<any> => {
     if (values.password1 === values.password2) {
