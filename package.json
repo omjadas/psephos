@@ -42,7 +42,7 @@
     "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^7.1.5",
     "@nestjsplus/cookies": "^1.1.1",
-    "@sendgrid/mail": "^7.5.0",
+    "@sendgrid/mail": "^7.6.0",
     "apollo-server-express": "^3.4.0",
     "bcrypt": "^5.0.1",
     "caritat": "0.0.4",
