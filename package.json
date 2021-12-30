@@ -76,7 +76,7 @@
     "@types/graphql": "^14.5.0",
     "@types/hapi__joi": "^17.1.8",
     "@types/helmet": "4.0.0",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.4.0",
     "@types/node": "^16.11.17",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-jwt": "^3.0.6",
