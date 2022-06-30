@@ -46,7 +46,7 @@
     "apollo-server-express": "^3.9.0",
     "bcrypt": "^5.0.1",
     "caritat": "0.0.4",
-    "class-transformer": "^0.4.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "cookie-parser": "^1.4.6",
     "csurf": "^1.11.0",
