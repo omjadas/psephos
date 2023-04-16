@@ -33,7 +33,7 @@
     "react-scripts": "4.0.3",
     "typescript": "^5.0.4",
     "typescript-plugin-css-modules": "^5.0.1",
-    "yup": "^0.32.11"
+    "yup": "^1.1.1"
   },
   "scripts": {
     "prebuild": "apollo codegen:generate --localSchemaFile=../schema.gql --target=typescript --includes='**/*.ts' --excludes='**/node_modules/**' --tagName=gql --addTypename types",
