@@ -22,7 +22,7 @@
     "bootstrap": "^4.6.2",
     "cra-build-watch": "^3.4.0",
     "eslint-plugin-graphql": "^4.0.0",
-    "formik": "^2.4.1",
+    "formik": "^2.4.2",
     "formik-react-bootstrap": "^0.2.3",
     "graphql": "^15.7.1",
     "react": "^17.0.2",
