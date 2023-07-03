@@ -9,6 +9,13 @@ updates:
   open-pull-requests-limit: 99
   reviewers:
   - omjadas
+  groups:
+    nestjs:
+      patterns:
+        - "@nestjs/*"
+    typescript-eslint:
+      patterns:
+        - "@typescript-eslint/*"
 - package-ecosystem: npm
   directory: "/client"
   schedule:
