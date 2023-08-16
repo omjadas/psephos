@@ -44,7 +44,7 @@
     "@nestjsplus/cookies": "^1.1.1",
     "@sendgrid/mail": "^7.7.0",
     "apollo-server-express": "^3.12.0",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "caritat": "0.0.4",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.14.0",
