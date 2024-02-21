@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@nestjs/common": "^7.6.18",
+    "@nestjs/common": "^10.3.3",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.18",
     "@nestjs/graphql": "^7.11.0",
@@ -42,7 +42,7 @@
     "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^7.1.5",
     "@nestjsplus/cookies": "^1.1.1",
-    "@sendgrid/mail": "^7.7.0",
+    "@sendgrid/mail": "^8.1.1",
     "apollo-server-express": "^3.13.0",
     "bcrypt": "^5.1.1",
     "caritat": "0.0.4",
